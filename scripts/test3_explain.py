@@ -60,7 +60,7 @@ class APIExplainer:
     def __init__(self, model):
         from openai import OpenAI
         self.c = OpenAI(base_url=os.environ["VECTOR_BASE_URL"], api_key=os.environ["VECTOR_API_KEY"], max_retries=6, timeout=180)
-        self.model = model; self.failed = 0
+        self.model = model; self.failed = 0; self.missing = 0
     def _call(self, p, max_tokens):
         for _ in range(4):
             try:
@@ -74,13 +74,14 @@ class APIExplainer:
     def _map(self, ps, max_tokens):
         with cf.ThreadPoolExecutor(int(os.environ.get("API_THREADS", 12))) as ex:
             return list(ex.map(lambda p: self._call(p, max_tokens), ps))
-    def generate(self, ps): return [o.strip().split("\n")[0] for o in self._map(ps, 80)]
+    # max_tokens includes any thinking tokens (claude-opus-5-5 thinks by default; 80 gave empty answers): keep it generous
+    def generate(self, ps): return [o.strip().split("\n")[0] for o in self._map(ps, 2000)]
     def score_batch(self, items):
-        outs = self._map([detect_batch(d, ws) for d, ws in items], 400); res = []
+        outs = self._map([detect_batch(d, ws) for d, ws in items], 4000); res = []
         for (d, ws), o in zip(items, outs):
             sc = {int(a): float(b) for a, b in re.findall(r"^\s*(\d+)\s*[:.)-]\s*(\d+(?:\.\d+)?)", o, re.M)}
             res.append([min(max(sc.get(k + 1, 50.0), 0), 100) / 100 for k in range(len(ws))])
-            if len(sc) < len(ws): print(f"parse: {len(sc)}/{len(ws)} scores", flush=True)
+            if len(sc) < len(ws): print(f"parse: {len(sc)}/{len(ws)} scores (missing -> 0.5)", flush=True); self.missing += len(ws) - len(sc)
         return res
 
 
@@ -156,5 +157,6 @@ for x in out[:12] + [x for x in out if x["is_random"]][:4]:
 tag = name.split("/")[-1] + ("" if SUBSET == "all" else f"_sub{SUBSET}") + f"_{RUNTAG}"
 json.dump(dict(explainer=EXPL, MAXT=MAXT, n_ctx=PR["n_ctx"], split_check=PR["split_check"], exemplar_summary=PR["exemplar_summary"],
                scoring="batched 0-100 scores per (neuron, description)" if kind == "api" else "per-excerpt P(Yes) logprobs",
+               missing_scores=getattr(X, "missing", 0), empty_descriptions=sum(not x["desc"] for x in out),
                summary=S, neurons=out), open(f"{REPO}/notes/test3_autointerp_{MAXT}_{tag}.json", "w"), indent=1)
 print("wrote", f"notes/test3_autointerp_{MAXT}_{tag}.json")

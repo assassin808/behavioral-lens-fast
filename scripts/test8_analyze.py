@@ -68,7 +68,7 @@ def locked(R, field, mtag="m32"):
     xs = []
     for r in R:
         for s in onsets(r[mtag], r["P"]):
-            if s + W1 <= r["T"]: xs.append(r[field][s - W0:s + W1].astype(float))
+            if s - W0 >= 0 and s + W1 <= r["T"]: xs.append(r[field][s - W0:s + W1].astype(float))
     return np.array(xs)
 fig, ax = plt.subplots(1, 3, figsize=(16, 4.2))
 lock = {}
@@ -86,15 +86,25 @@ ax[0].legend(fontsize=7); plt.tight_layout(); plt.savefig(f"{FIG}/test8_onset_lo
 res["onset_locked"] = lock
 
 # ---------------- example time series: p50c own generations with the most loop runs, + base loop texts
-def ts_fig(key, path, k=4):
+def ts_fig(key, path, k=3, zoom=1200):
+    """per text: (left) whole generation, 128-token moving averages; (right) a zoom of `zoom` tokens around the onset with the most loop
+    tokens after it. Grey = verbatim loop (32-gram), blue = P(loop) at hs[15] (input of L15: identical in base and p50c), red = P(loop)
+    at hs[20], green = resid.u19 at hs[20] (right axis)."""
     R = sorted(PS[key], key=lambda r: -len(runs(r["m32"], r["P"])))[:k]
-    fig, ax = plt.subplots(k, 1, figsize=(14, 2.4 * k), squeeze=False)
-    for a, r in zip(ax[:, 0], R):
-        t = np.arange(r["T"]); a.fill_between(t, 0, 1, where=r["m32"], color="0.85", step="mid", label="verbatim loop (32-gram)")
-        a.plot(t, sig(r["logit_15"].astype(float)), lw=.5, color="C0", label="P(loop) hs[15] pre-edit")
-        a.plot(t, sig(r["logit_20"].astype(float)), lw=.5, color="C3", label="P(loop) hs[20]")
-        a2 = a.twinx(); a2.plot(t, r["u_20"].astype(float), lw=.3, color="C2", alpha=.6); a2.set_ylabel("resid·u19 hs[20]", fontsize=7)
-        a.set_xlim(r["P"], r["T"]); a.set_title(f"{key}  {r['id']}  closed={r.get('closed')}", fontsize=8)
+    fig, ax = plt.subplots(k, 2, figsize=(16, 2.6 * k), squeeze=False, gridspec_kw=dict(width_ratios=[1.3, 1]))
+    sm = lambda x, w=128: np.convolve(x, np.ones(w) / w, "same")
+    for row, r in zip(ax, R):
+        t = np.arange(r["T"]); p15, p20, u20 = sig(r["logit_15"].astype(float)), sig(r["logit_20"].astype(float)), r["u_20"].astype(float)
+        on = onsets(r["m32"], r["P"]) or [r["P"]]
+        c = max(on, key=lambda s: r["m32"][s:s + zoom].sum()); lo, hi = max(r["P"], c - zoom // 4), min(r["T"], c - zoom // 4 + zoom)
+        for a, (x0, x1, f) in zip(row, [(r["P"], r["T"], sm), (lo, hi, lambda x: x)]):
+            a.fill_between(t[x0:x1], 0, 1, where=r["m32"][x0:x1], color="0.85", step="mid", label="verbatim loop (32-gram)")
+            a.plot(t[x0:x1], f(p15)[x0:x1] if f is sm else p15[x0:x1], lw=.7, color="C0", label="P(loop) hs[15] (pre-edit)")
+            a.plot(t[x0:x1], f(p20)[x0:x1] if f is sm else p20[x0:x1], lw=.7, color="C3", label="P(loop) hs[20]")
+            a2 = a.twinx(); a2.plot(t[x0:x1], f(u20)[x0:x1] if f is sm else u20[x0:x1], lw=.5, color="C2", alpha=.7); a2.set_ylabel("resid·u19 hs[20]", fontsize=7)
+            a.set_xlim(x0, x1); a.set_ylim(0, 1)
+        row[0].set_title(f"{key}  {r['id']}  whole text (128-token moving avg)  closed={r.get('closed')}", fontsize=8)
+        row[1].set_title(f"zoom {lo}-{hi}", fontsize=8)
     ax[0, 0].legend(fontsize=7, loc="upper left"); plt.tight_layout(); plt.savefig(path, dpi=110); plt.close()
 for key, name in [("p50c|p50c_own", "p50c_own"), ("base|base_loop", "base_loop"), ("base|base_nothink", "base_nothink")]:
     if key in PS: ts_fig(key, f"{FIG}/test8_timeseries_{name}_{RUNTAG}.png")

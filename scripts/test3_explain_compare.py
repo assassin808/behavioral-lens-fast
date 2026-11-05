@@ -15,8 +15,8 @@ c = OpenAI(base_url=os.environ["VECTOR_BASE_URL"], api_key=os.environ["VECTOR_AP
 def same(a, b):
     p = (f"Two descriptions of the same neuron of a language model:\nA: {a}\nB: {b}\nIgnore wording, examples and minor details. "
          "Do both name the same main trigger (same token or pattern, in the same kind of text / situation)? Answer Yes or No.")
-    r = c.chat.completions.create(model=judge, messages=[{"role": "user", "content": p}], max_tokens=5)
-    return (r.choices[0].message.content or "").strip().lower().startswith("yes")
+    r = c.chat.completions.create(model=judge, messages=[{"role": "user", "content": p}], max_tokens=1000)
+    import re; v = re.findall(r"\b(yes|no)\b", (r.choices[0].message.content or "").lower()); return bool(v) and v[-1] == "yes"   # verdict = last Yes/No (the model explains first)
 rows = []
 for a, b in pairs:
     r = dict(layer=a["layer"], unit=a["unit"], is_random=a["is_random"], desc_main=a["desc"], desc_spot=b["desc"], same_trigger=same(a["desc"], b["desc"]))
