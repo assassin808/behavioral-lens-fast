@@ -60,3 +60,9 @@ path patching L15h7 / L19 / L23 copy head; SAE/crosscoder (optional).
 
 Teacher-forced numbers come from 6–8 looping texts × 4096 tokens; one seed; Astra's logs give one sample per problem.
 Screening uses 200 + 200 problems × 2 samples × 16k; only base/p50c are run at the full 32k × 4 protocol.
+
+## 10. Grading caveat found in screening
+
+The lenient rule (last number when no `\boxed{}`) rescues *cut* loop texts: base GSM8K strict 0.15 vs lenient 0.40, because the
+repeated line inside the loop usually contains the right number. Lenient accuracy is therefore only meaningful on completed
+outputs; the screening tables report strict accuracy, and lenient only for the no-box side effect of the edited model.
