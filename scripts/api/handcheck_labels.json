@@ -1,0 +1,5 @@
+{"note": "My (Claude Opus agent) hand labels of main_type for the fixed 20-item hand-check sample (handcheck_show.py order), written after reading head/middle/tail of each raw output and BEFORE looking at the Sonnet labels. 'alt' = a second code I would also accept as defensible.",
+ "labels": [["endless_recheck","over_doubt_wording"],["over_doubt_wording","paraphrase_cycling"],["endless_recheck",null],["over_doubt_wording","reasoning_error"],["over_doubt_wording","endless_recheck"],
+            ["paraphrase_cycling","truncated_progress"],["paraphrase_cycling","reasoning_error"],["paraphrase_cycling","over_doubt_wording"],["reasoning_error",null],["reasoning_error",null],
+            ["reasoning_error",null],["reasoning_error",null],["over_doubt_wording","reasoning_error"],["reasoning_error",null],["reasoning_error",null],
+            ["reasoning_error",null],["verbatim_loop",null],["verbatim_loop",null],["paraphrase_cycling","over_doubt_wording"],["over_doubt_wording","truncated_progress"]]}
