@@ -42,7 +42,9 @@ def trace_text(traces, id_):
     """thinking text of a trace (for the repetition covariate)."""
     if traces not in _TXT:
         from expA_common import astra_rows, DSETS
-        if traces.startswith("astra:"):
+        if traces == "t38nothink":
+            rows = [json.loads(l) for l in open(f"{D}/../t38/gen_base_nothink.jsonl")]
+        elif traces.startswith("astra:"):
             rows = [r for ds in DSETS for r in astra_rows(traces.split(":")[1], ds)]
         else:
             rows = [json.loads(l) for l in open(f"{D}/gen_{traces}.jsonl")]

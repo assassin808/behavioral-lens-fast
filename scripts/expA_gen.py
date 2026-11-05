@@ -9,7 +9,7 @@ os.environ.setdefault("VLLM_USE_FLASHINFER_SAMPLER", "0")
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from expA_common import REPO, astra_rows, user_turn
 
-MAXTOK = 12288
+MAXTOK = int(os.environ.get("EXPA_MAXTOK", 12288))
 
 
 def problems(n_per_set=500):

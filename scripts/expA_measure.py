@@ -12,13 +12,21 @@ from expA_common import REPO, DSETS, astra_rows, questions, user_turn, candidate
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
 DEV = os.environ.get("EXPA_DEV", "cuda")
+# Follow-up (thinking on vs off; not pre-registered): EXPA_NOTHINK=1 -> chat template with enable_thinking=False;
+# EXPA_PAD_END=1 -> if a trace ends right after the candidate, measure the next token after the candidate + "\n\n"
+# (the counterfactual "continue or stop" point) instead of dropping the candidate.
+NOTHINK = os.environ.get("EXPA_NOTHINK") == "1"; PAD_END = os.environ.get("EXPA_PAD_END") == "1"
 model_dir, mtag, ttag = sys.argv[1], sys.argv[2], sys.argv[3]
 MAXN = int(sys.argv[4]) if len(sys.argv) > 4 else 10 ** 9
 D = f"{os.environ.get('BLF_DATA', '/scratch/yang0531/blf_data')}/expA"; os.makedirs(D, exist_ok=True)
 of = f"{D}/meas_{mtag}_on_{ttag.replace(':', '-')}.jsonl"
 assert not os.path.exists(of), f"refusing to overwrite {of}"
 
-if ttag.startswith("astra:"):
+if ttag == "t38nothink":   # base thinking-off generations from test 8 (Astra's 200 GSM8K + 200 MATH-500 ids)
+    Q = questions()
+    rows = [dict(id=r["id"], ds="gsm8k" if r["id"].startswith("gsm8k") else "math500", problem=Q[r["id"]], answer=r["answer"], text=r["text"])
+            for r in map(json.loads, open(f"{os.environ.get('BLF_DATA', '/scratch/yang0531/blf_data')}/t38/gen_base_nothink.jsonl"))]
+elif ttag.startswith("astra:"):
     Q = questions(); rows = []
     for ds in DSETS:
         for r in astra_rows(ttag.split(":")[1], ds): rows.append(dict(id=r["id"], ds=ds, problem=Q[r["id"]], answer=r["answer"], text=r["text"]))
@@ -41,11 +49,13 @@ with open(of, "w") as f, torch.no_grad():
         pts = []
         for ci, c in enumerate(candidates(think, 3)):
             pre = measure_prefix(think, c)
+            if pre is None and PAD_END:            # trace ends on the candidate's line: keep that line, add a blank line
+                think = think.rstrip() + "\n\n"; pts.append((ci, c, len(think))); break
             if pre is None: continue
             pts.append((ci, c, len(pre)))
         if not pts: continue
         prompt = tok.apply_chat_template([{"role": "user", "content": user_turn(r["problem"])}], tokenize=False, add_generation_prompt=True,
-                                         enable_thinking=True)
+                                         enable_thinking=not NOTHINK)
         pid = tok(prompt).input_ids
         enc = tok(think, add_special_tokens=False, return_offsets_mapping=True)
         gid, offs = enc.input_ids, enc.offset_mapping
@@ -53,6 +63,7 @@ with open(of, "w") as f, torch.no_grad():
         js = []
         for ci, c, k in pts:
             j = next((t for t, (a, b) in enumerate(offs) if b > k), None)
+            if j is None and PAD_END and k == len(think): j = len(gid)      # measure after the whole (padded) text
             if j is None or j == 0: continue
             js.append((ci, c, k, j))
         if not js: continue
@@ -72,7 +83,8 @@ with open(of, "w") as f, torch.no_grad():
             top = torch.topk(p, 8)
             rec = dict(id=r["id"], ds=r["ds"], model=mtag, traces=ttag, cand_idx=ci, kind=c["kind"], value=c["value"], gold=r["answer"],
                        correct=grade_value(c["value"], r["answer"]), char_pos=c["start"], tok_pos=j, real_recheck=real_recheck(think, c),
-                       next_tok_real=tok.decode([gid[j]]), p_real_next=float(p[gid[j]]) if gid[j] < len(p) else None,
+                       next_tok_real=tok.decode([gid[j]]) if j < len(gid) else "<END>", p_real_next=float(p[gid[j]]) if j < len(gid) and gid[j] < len(p) else None,
+                       nothink_template=NOTHINK, padded_end=j >= len(gid),
                        p_doubt=pd, p_wrap=pw, p_let=pa, ratio=pd / max(pd + pw, 1e-12),
                        p_doubt_ext=float(p[demask].sum()), p_wrap_ext=float(p[wemask].sum()),
                        top=[(tok.decode([int(i)]), round(float(v), 4)) for v, i in zip(top.values, top.indices)],

@@ -7,6 +7,8 @@ cd /scratch/yang0531/blf_expA
 export BLF_DATA=/scratch/yang0531/blf_data VLLM_USE_FLASHINFER_SAMPLER=0 HF_HUB_OFFLINE=1 TOKENIZERS_PARALLELISM=false OMP_NUM_THREADS=8
 export MATHVERIFY_PKGS=/scratch/yang0531/blf_models/pylib_sidefx
 export EXPA_SET=${EXPA_SET:-}
+export EXPA_MAXTOK=${EXPA_MAXTOK:-12288}
+export EXPA_NOTHINK=${EXPA_NOTHINK:-} EXPA_PAD_END=${EXPA_PAD_END:-}
 PY=/scratch/yang0531/resft/env/bin/python
 nvidia-smi --query-gpu=name,memory.total --format=csv,noheader
 T0=$(date +%s)
