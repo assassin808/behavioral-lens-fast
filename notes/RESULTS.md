@@ -43,7 +43,7 @@ cost: the state overshoots along −u, out of normal reasoning (test 8) → no \
 | p50c, thinking off | 0.522 | 0.487 | 1468 / 5701 |
 | base, thinking budget 4k / 8k (forced `</think>`) | 0.517 / 0.537 | 0.315 / 0.343 | — |
 
-**Accuracy = completion rate × accuracy on completed.** Base with thinking on completes only 12%, but gets 94% of those right. The edit raises completion a lot, while accuracy on completed problems drops to about 0.75. New failure modes on MATH-500 (xuanqi): finishes without `\boxed{}` 21%, whitespace degeneration 5%, long but neither looping nor finishing 12%.
+**Accuracy = completion rate × accuracy on completed.** Base with thinking on completes only 12%, but gets 94% of those right. The edit raises completion a lot, while accuracy on completed problems drops to about 0.75. **This drop is a selection effect, not damage:** on the same problems, paired accuracy is unchanged in every arm (±0.02; see §6). The edit now finishes harder problems that base never finished. New failure modes on MATH-500 (xuanqi): finishes without `\boxed{}` 21%, whitespace degeneration 5%, long but neither looping nor finishing 12%.
 
 ## 4. Corrections to the earlier notes (this section is authoritative)
 
@@ -59,14 +59,34 @@ cost: the state overshoots along −u, out of normal reasoning (test 8) → no \
 - **AtP is only good for screening.** Its rank correlation with exact patching is 0.62–0.67, and it is off by 3–4× on the L15 MLP. Confirm with exact patching.
 - **Measure the right attention offset.** The wrong one gives the opposite conclusion (§4).
 
-## 6. Untested hypotheses
+## 6. Side effects: is the overshoot the cause? (branch `yang/sidefx`, `notes/sidefx.md`)
 
-- Do the "re-reading" neurons cause the side effects (no `\boxed{}`, lost re-checks)? Running now on branch `yang/sidefx`.
+All arms run on one harness: thinking on, 16k cap, 200 GSM8K + 200 MATH-500, k=0. Variants are hooks on base weights; `p50chook` is the hook version of p50c and serves as the control.
+
+| arm | completion × acc-on-completed = acc | loop_end | whitespace |
+|---|---|---|---|
+| base | 0.095 × 0.947 = 0.100 | 0.890 | 0 |
+| p50c (real weights) | 0.578 × 0.835 = 0.482 | 0.052 | 4.0% |
+| p50chook (control) | 0.560 × 0.817 = 0.460 | 0.077 | 3.3% |
+| clamp at normal 5th pct (cut deepest overshoot) | 0.532 × 0.845 = 0.453 | 0.075 | 1.5% |
+| loop-selective neurons only (matched loop push) | 0.422 × 0.852 = 0.375 | 0.393 | 0.8% |
+| clamp at normal mean | 0.410 × 0.921 = 0.385 | 0.285 | 0 |
+| α = 3 | 0.415 × 0.910 = 0.385 | 0.345 | 0.8% |
+
+- **The side effects and the loop fix are mostly the same knob.** Every weaker push that removes whitespace degeneration also stops fixing loops (loop_end 0.29–0.39).
+- **Only the deepest tail of the overshoot is removable.** Clamping it keeps the fix and halves whitespace (weak evidence, p = 0.045 pooled).
+- **Neurons that fire on normal re-reading are part of the fix.** Editing only the loop-selective neurons, with the same push at loop positions, does not fix loops.
+  - Hypothesis: these neurons fire at loop onset, before verbatim repetition starts.
+- **No `\boxed{}` shows up as a different failure at 16k.** It is ~1% per arm (it was 21% at 32k). Instead, 8% of p50c samples write `</think>` and then keep re-checking the problem wording until the cap, and this rate does not depend on the overshoot.
+- **Compute:** ~4.5 L40S-h. One deviation: hook vs real-weight equivalence missed its gate (0.111 vs 0.1, bf16 noise), so the p50chook control was added.
+
+## 6b. Untested hypotheses
+
 - Why do the late MLPs counteract the edit?
 
 ## 7. Compute and reproduction
 
-- **GPU:** about 3.2 L40S-h (Killarney) + 0.75 H100-h (RunPod).
+- **GPU:** about 7.7 L40S-h (Killarney) + 0.75 H100-h (RunPod).
 - **Pre-registered predictions:** each test file lists them with pass / fail. Failures are reported as they are; predictions were not edited afterwards.
 - **Reproduce on other clusters:** `alliance/setup.sh` + `alliance/job.sh <branch> scripts/portable_*.sh`.
 - **Large outputs:** per-sample outputs are not in git; they are on Killarney in `/scratch/yang0531/blf_data/`.
