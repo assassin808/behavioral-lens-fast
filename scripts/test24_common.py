@@ -2,17 +2,20 @@
 
 Corpus / prompt / loop-mask logic follows scripts/q2_neuron_activations.py and yang/t3-t8's test3_common.py (same rules,
 so results are comparable across tests).
-Model dirs: /scratch/yang0531/blf_models/{base,p50c}
+Model dirs: $BLF_MODEL_BASE / $BLF_MODEL_P50C (Killarney default /scratch/yang0531/blf_models/{base,p50c})
   base = Qwen/Qwen3.5-0.8B @ 2fc06364715b967f1860aea9cf38778875588b17
   p50c = base + astra_logs/exp8_math/runs/p50c/edit via astra_logs/exp8_math/code/apply_edit.py (sha256-checked)
 """
 import glob, gzip, json, os, random
 import numpy as np
 
-MODELS = os.environ.get("BLF_MODELS", "/scratch/yang0531/blf_models")
-EXT = f"{MODELS}/extdata"
-DATA = os.environ.get("BLF_DATA", "/scratch/yang0531/blf_data")
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+MODELS = os.environ.get("BLF_MODELS", "/scratch/yang0531/blf_models")          # Killarney default
+MODEL_BASE = os.environ.get("BLF_MODEL_BASE", f"{MODELS}/base")              # portable runs set these
+MODEL_P50C = os.environ.get("BLF_MODEL_P50C", f"{MODELS}/p50c")
+EXT = os.environ.get("BLF_EXT", f"{REPO}/data/t24_ext")   # IFEval prompts + MMLU-Pro questions used in the Astra logs (subset of google/IFEval, TIGER-Lab/MMLU-Pro)
+DATA = os.environ.get("BLF_DATA", "/scratch/yang0531/blf_data")
+TAG = os.environ.get("BLF_TAG", "killarney")   # output suffix (cluster name) so runs on different clusters never overwrite
 INSTR = "Please reason step by step, and put your final answer within \\boxed{}."
 DSETS = ["gsm8k", "math500", "ifeval", "mmlupro1k"]
 
@@ -67,8 +70,20 @@ def split_of(id_):
     return "test" if int(hashlib.md5(id_.encode()).hexdigest(), 16) % 100 < 15 else "train"
 
 
-def chat_items(tok, maxt=16384, tags=("unedited", "p50c"), dsets=DSETS):
-    """all Astra generations with known prompt: dicts id, ds, gen_by, ids (np.int32), P, loop (bool mask, prompt excluded), split."""
+def chat_items(tok, maxt=16384, tags=("unedited", "p50c"), dsets=DSETS, _nocache=False):
+    """all Astra generations with known prompt: dicts id, ds, gen_by, ids (np.int32), P, loop (bool mask, prompt excluded), split.
+    Tokenisation of the full corpus is cached under DATA/cache (tokens at maxt=16384; shorter maxt is a truncation)."""
+    import pickle
+    cp = f"{DATA}/cache/chat_items_16384.pkl"
+    if not _nocache and maxt <= 16384 and tuple(tags) == ("unedited", "p50c") and tuple(dsets) == tuple(DSETS):
+        if not os.path.exists(cp):
+            full = chat_items(tok, 16384, tags=tags, dsets=dsets, _nocache=True)
+            os.makedirs(os.path.dirname(cp), exist_ok=True); tmp = cp + f".{os.getpid()}"
+            pickle.dump(full, open(tmp, "wb")); os.replace(tmp, cp)
+        full = pickle.load(open(cp, "rb"))
+        for x in full:
+            x["ids"], x["loop"] = x["ids"][:maxt], x["loop"][:maxt]
+        return full
     out = []
     for tag in tags:
         for ds in dsets:
@@ -103,8 +118,8 @@ def wiki_docs(n_tokens, tok, seq=1024, seed=0, skip_docs=0):
 def load_model(tag, device="cuda"):
     import torch
     from transformers import AutoModelForCausalLM, AutoTokenizer
-    p = f"{MODELS}/{ 'base' if tag in ('base', 'unedited') else tag}"
-    tok = AutoTokenizer.from_pretrained(f"{MODELS}/base")
+    p = MODEL_BASE if tag in ("base", "unedited") else MODEL_P50C
+    tok = AutoTokenizer.from_pretrained(MODEL_BASE)
     m = AutoModelForCausalLM.from_pretrained(p, dtype=torch.bfloat16).to(device).eval()
     for q in m.parameters(): q.requires_grad_(False)
     return m, tok

@@ -14,10 +14,12 @@ print("contexts", len(ctx), {k: sum(c[2] == k for c in ctx) for k in ["loop", "m
 H = {L: [] for L in LAY}; F = []; kinds = []; ci = []
 with torch.no_grad():
     for k, (ids, pos, kind, lp) in enumerate(ctx):
-        o = m.model(torch.tensor(ids[None].astype(np.int64)).cuda(), output_hidden_states=True)
+        cap = {}
+        hk = layers[23].register_forward_hook(lambda mod, inp, out: cap.__setitem__("f", (out[0] if isinstance(out, tuple) else out)[0]))
+        o = m.model(torch.tensor(ids[None].astype(np.int64)).cuda(), output_hidden_states=True); hk.remove()
         p = torch.tensor(pos).cuda()
         for L in LAY: H[L].append(o.hidden_states[L][0, p].half().cpu())
-        F.append(o.hidden_states[24][0, p].half().cpu())   # final residual, BEFORE norm (checked in pilot)
+        F.append(cap["f"][p].half().cpu())   # output of block 23 = final residual BEFORE the final norm
         kinds += [kind] * len(pos); ci += [k] * len(pos)
         if k % 100 == 0: print(k, flush=True)
 H = {L: torch.cat(v) for L, v in H.items()}; F = torch.cat(F); ci = np.array(ci)

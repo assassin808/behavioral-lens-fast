@@ -6,7 +6,8 @@ lm, layers, norm, head = lm_parts(m)
 print(type(m).__name__, len(layers), [type(l.linear_attn if hasattr(l,'linear_attn') else l.self_attn).__name__ for l in layers][:4])
 print("layer types", [getattr(l, "layer_type", "?") for l in layers])
 from safetensors.torch import load_file
-b = load_file(f"{MODELS}/base/model.safetensors-00001-of-00001.safetensors"); e = load_file(f"{MODELS}/p50c/model.safetensors-00001-of-00001.safetensors")
+import glob
+b = load_file(sorted(glob.glob(f"{MODEL_BASE}/*.safetensors"))[0]); e = load_file(sorted(glob.glob(f"{MODEL_P50C}/*.safetensors"))[0])
 U = get_u()
 for L in [15, 19]:
     n = f"model.language_model.layers.{L}.mlp.down_proj.weight"; D = e[n].float() - b[n].float()
