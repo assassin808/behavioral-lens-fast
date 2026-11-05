@@ -1,0 +1,19 @@
+{
+ "tag": "base_nothink",
+ "backend": "vllm",
+ "sec": 562,
+ "gsm8k": {
+  "n": 200,
+  "cut": 0.02,
+  "loop_frac_gt_5pct": 0.03,
+  "mean_tokens": 1583.315,
+  "acc": 0.0
+ },
+ "math": {
+  "n": 200,
+  "cut": 0.165,
+  "loop_frac_gt_5pct": 0.125,
+  "mean_tokens": 5812.815,
+  "acc": 0.0
+ }
+}
