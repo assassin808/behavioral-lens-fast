@@ -7,10 +7,11 @@ import json, os, sys
 import numpy as np
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 D = f"{os.environ.get('BLF_DATA', '/scratch/yang0531/blf_data')}/expA"
-tag, arms = sys.argv[1], sys.argv[2:]
+tag, arms = sys.argv[1], [a for a in sys.argv[2:] if "/" not in a]
+pairs = [a.split("/") for a in sys.argv[2:] if "/" in a]   # "armA/armB": same traces, two models -> paired shift by correctness
 oj, of = f"{REPO}/notes/expA_results_{tag}.json", f"{REPO}/notes/fig/expA_pdoubt_{tag}.png"
 assert not os.path.exists(oj) and not os.path.exists(of), "refusing to overwrite"
-SIG = ["p_doubt", "ratio", "p_doubt_plus_let", "u15_hs16", "u15_hs20", "u19_hs20", "real_recheck"]
+SIG = ["p_doubt", "ratio", "p_doubt_plus_let", "p_doubt_ext", "ratio_ext", "u15_hs16", "u15_hs20", "u19_hs20", "real_recheck"]
 rng = np.random.default_rng(0)
 
 
@@ -35,7 +36,9 @@ def boot(x, y, B=2000):
 
 def load(arm):
     R = [json.loads(l) for l in open(f"{D}/meas_{arm}.jsonl")]
-    for r in R: r["p_doubt_plus_let"] = r["p_doubt"] + r["p_let"]; r["real_recheck"] = float(r["real_recheck"])
+    for r in R:
+        r["p_doubt_plus_let"] = r["p_doubt"] + r["p_let"]; r["real_recheck"] = float(r["real_recheck"])
+        r["ratio_ext"] = r["p_doubt_ext"] / max(r["p_doubt_ext"] + r["p_wrap_ext"], 1e-12)
     return R
 
 
@@ -57,6 +60,20 @@ for arm in arms:
                         mean_incorrect=float(x[y == 1].mean()) if y.any() else None)
         res[f"{arm}|{sub}"] = d
         print(arm, sub, d["n"], d["n_correct"], d["n_incorrect"], " ".join(f"{s}={d[s]['auc']}{d[s]['ci']}" for s in SIG if s in d))
+for a, b in pairs:   # P3: p50c vs base on the same points
+    A = {(r["id"], r["cand_idx"]): r for r in load(a)}; B = {(r["id"], r["cand_idx"]): r for r in load(b)}
+    keys = [k for k in A if k in B and k[1] == 0]
+    d = {}
+    for ok in (True, False):
+        K = [k for k in keys if A[k]["correct"] == ok]
+        for s_ in ("p_doubt", "p_doubt_ext", "ratio", "u15_hs16", "u15_hs20", "u19_hs20"):
+            if s_ not in A[K[0]]: continue
+            xa = np.array([A[k][s_] for k in K]); xb = np.array([B[k][s_] for k in K])
+            d[f"{'correct' if ok else 'incorrect'}|{s_}"] = dict(n=len(K), median_a=float(np.median(xa)), median_b=float(np.median(xb)),
+                median_ratio_b_over_a=float(np.median(xb) / max(np.median(xa), 1e-12)), median_paired_diff=float(np.median(xb - xa)),
+                median_paired_logratio=float(np.median(np.log(np.clip(xb, 1e-6, None) / np.clip(xa, 1e-6, None)))) if s_.startswith("p_") or s_.startswith("ratio") else None)
+    res[f"pair|{a}|{b}"] = d
+    print("PAIR", a, "->", b, json.dumps(d, indent=0)[:3000])
 json.dump(res, open(oj, "w"), indent=1)
 
 import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt

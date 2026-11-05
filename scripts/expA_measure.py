@@ -28,7 +28,7 @@ rows = rows[:MAXN]
 
 tok = AutoTokenizer.from_pretrained(model_dir)
 model = AutoModelForCausalLM.from_pretrained(model_dir, dtype=torch.bfloat16).to(DEV).eval()
-dmask, wmask, amask = (torch.tensor(m, device=DEV) for m in token_sets(tok))
+dmask, wmask, amask, demask, wemask = (torch.tensor(m, device=DEV) for m in token_sets(tok))
 small = model.config.get_text_config().hidden_size == 1024
 U = {L: torch.tensor(np.load(f"{REPO}/shared/u_L{L}.npy"), dtype=torch.float32, device=DEV) for L in (15, 19)} if small else None
 print("model", model_dir, "hidden", model.config.get_text_config().hidden_size, "u-readout", small,
