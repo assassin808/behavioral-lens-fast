@@ -13,6 +13,8 @@ MAXTOK = 12288
 
 
 def problems(n_per_set=500):
+    if os.environ.get("EXPA_SET") == "mathhard":   # amendment 5
+        return [dict(json.loads(l), ds="mathhard") for l in open(f"{REPO}/data/expA_mathhard.jsonl")][:n_per_set]
     astra = {r["id"] for ds in ("gsm8k",) for r in astra_rows("unedited", ds)}
     g = [json.loads(l) for l in open(f"{REPO}/data/gsm8k_test.jsonl")]
     gold = lambda a: a.split("####")[-1].strip().replace(",", "")

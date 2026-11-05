@@ -76,8 +76,16 @@ def candidates(think, max_n=3):
     return res
 
 def grade_value(v, gold):
-    if is_correct(v, gold): return True
-    nums = re.findall(r"-?\d[\d,]*(?:\.\d+)?", v)
+    """Amendment 4: hedge words ('seems to be', 'just') and '$' are stripped before grading; for 'x = 5' the right-hand side is
+    tried; then the last number. (The first version graded 'seems to be $-3/8' and 'just $\\sqrt{53}' as wrong.)"""
+    tries = [v]
+    w = _HEDGE.sub("", re.sub(r"^[A-Za-z ]{1,20}:\s*", "", v.strip()))
+    w = w.replace("$", "").strip().rstrip(".").strip()
+    tries += [w]
+    if "=" in w: tries.append(w.split("=")[-1].strip())
+    for t in tries:
+        if t and is_correct(t, gold): return True
+    nums = re.findall(r"-?\d[\d,]*(?:\.\d+)?", w)
     return bool(nums and is_correct(nums[-1].replace(",", ""), gold))
 
 _MARKUP = re.compile(r"[ \t]*(?:(?:[*\-+•]|\d+\.|\*\*|#+|>)[ \t]*)*")
@@ -128,6 +136,7 @@ def token_sets(tok):
 # points ... such that ...") is not a candidate answer. Hedge words in front of the value are stripped first.
 _HEDGE = re.compile(r"^(?:(?:seems|seem|to|be|is|definitely|clearly|just|simply|probably|likely|indeed|still|consistently|now)\s+)+", re.I)
 def answer_like(value):
-    v = _HEDGE.sub("", value.strip())
+    if not re.search(r"[0-9\\]", value): return False      # amendment 4: '\boxed{answer}' placeholders etc.
+    v = _HEDGE.sub("", re.sub(r"^[A-Za-z ]{1,20}:\s*", "", value.strip()))
     words = re.findall(r"[A-Za-z]{2,}", re.sub(r"\$[^$]*\$?|\\[a-zA-Z]+(\{[^}]*\})?", " ", v))
     return len(words) <= 2

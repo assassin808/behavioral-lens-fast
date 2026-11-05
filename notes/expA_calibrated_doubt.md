@@ -104,3 +104,16 @@ inflate the incorrect class with non-answers. Rule added (`answer_like` in `expA
 the first candidate of a trace is then the earliest answer-like one. This was decided before any AUC on the fresh data was computed.
 (Honest note: AUCs on Astra's traces had already been computed with the old rule — they are kept as
 `notes/expA_results_astra_preA3.json` and reported next to the post-amendment numbers.)
+
+### Amendment 4 (grading bug found by reading 4B "incorrect" points; applied to every arm by re-grading the stored values)
+The first grader called "seems to be $-3/8$" vs gold `-\frac{3}{8}` and "just $\sqrt{53}$" wrong (the hedge words and the `$` stayed in
+the string passed to math-verify), and `\boxed{answer}` format placeholders counted as candidates. Fix (`expA_common.py`):
+strip hedge words, a short "label:" prefix and `$` before grading, try the right-hand side of "x = 5", then the last number; a candidate
+must contain a digit or a LaTeX command. This was found after the first AUCs on the fresh data had been printed (base 0.8B and 4B);
+the predictions are not changed, and the pre-fix numbers are listed in the results for transparency.
+
+### Amendment 5 (power for the larger model; before any hard-set data existed)
+With the fixed grader the 4B has only ~20 wrong first candidates in GSM8K + MATH-500 (it is right ~96 % of the time), so its AUC CI
+is ±0.12. Added a harder held-out set: 400 MATH test problems at Level 5, not in MATH-500 (`scripts/expA_make_mathhard.py` →
+`data/expA_mathhard.jsonl`, seed 0), generated with the same harness for base 0.8B and 4B (p50c teacher-forced on the base traces).
+Results are reported per set and pooled; the pooled analysis controls for set (dataset dummies), log position and repetition.
