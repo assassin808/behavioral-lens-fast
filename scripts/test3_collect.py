@@ -157,6 +157,6 @@ with torch.no_grad():
 os.makedirs(DATA_OUT, exist_ok=True)
 outp = f"{DATA_OUT}/t3_collect_{MAXT}{'_pilot' if os.environ.get('PILOT') else ''}.pt"
 torch.save(dict(meta=meta, ids=[c["ids"] for c in ctxs], stats={L: {k: torch.stack(v) for k, v in stats[L].items()} for L in LAYERS},
-                P={L: P[L].cpu() for L in LAYERS}, cols=COLS, rand=RAND, track=TRACK, windows=windows, rwindows=rwindows,
+                P={L: P[L].detach().cpu() for L in LAYERS}, cols=COLS, rand=RAND, track=TRACK, windows=windows, rwindows=rwindows,
                 states=states, series=series, MAXT=MAXT), outp)
 print("saved", outp, f"{time.time() - t0:.0f}s", flush=True)

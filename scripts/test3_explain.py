@@ -60,14 +60,16 @@ class APIExplainer:
     def __init__(self, model):
         from openai import OpenAI
         self.c = OpenAI(base_url=os.environ["VECTOR_BASE_URL"], api_key=os.environ["VECTOR_API_KEY"], max_retries=6, timeout=180)
-        self.model = model
+        self.model = model; self.failed = 0
     def _call(self, p, max_tokens):
         for _ in range(4):
             try:
-                r = self.c.chat.completions.create(model=self.model, messages=[{"role": "user", "content": p}], max_tokens=max_tokens, temperature=0)
+                r = self.c.chat.completions.create(model=self.model, messages=[{"role": "user", "content": p}], max_tokens=max_tokens)
                 return r.choices[0].message.content or ""
             except Exception as e:
                 print("api error", type(e).__name__, str(e)[:200], flush=True)
+        self.failed += 1
+        if self.failed > 20: raise RuntimeError("too many API failures; not writing results")
         return ""
     def _map(self, ps, max_tokens):
         with cf.ThreadPoolExecutor(int(os.environ.get("API_THREADS", 12))) as ex:

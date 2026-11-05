@@ -158,9 +158,9 @@ fig, ax = plt.subplots(1, 2, figsize=(13, 5.5))
 for X, lab, c in [(Hn, "base, normal texts", "0.6"), (Hbl, "base, loop positions", "C0"), (Hel, "p50c on the same base loop texts (edited loop states)", "C3"),
                   (Hpn, "p50c own gens, non-loop", "C2"), (Hpl, "p50c own gens, verbatim-loop positions", "C1")]:
     if not len(X): continue
-    Z = (X - mu) @ V.T; ax[0].scatter(Z[:, 0], Z[:, 1], s=2, alpha=.35, color=c, label=f"{lab} (n={len(X)})")
+    Z = (X - mu) @ V.T; ax[0].scatter(Z[:, 0], Z[:, 1], s=2 if len(X) > 500 else 6, alpha=.35, color=c, label=f"{lab} (n={len(X)})")
     ax[1].scatter((X - mu) @ u, (X - mu) @ vo, s=2, alpha=.35, color=c, label=lab)
 ax[0].set_title("PCA (fit on base normal + base loop states), hidden_states[20]", fontsize=9); ax[0].set_xlabel("PC1"); ax[0].set_ylabel("PC2")
-ax[1].set_title("x = resid·u19 (centred), y = top PC orthogonal to u", fontsize=9); ax[1].set_xlabel("u"); ax[1].set_ylabel("PC1 ⟂ u")
+ax[1].set_title("x = resid·u19 (centred), y = top PC orthogonal to u", fontsize=9); ax[1].set_xlabel("u"); ax[1].set_ylabel("PC1 orthogonal to u")
 lg = ax[0].legend(fontsize=7, markerscale=4); plt.tight_layout(); plt.savefig(f"{FIG}/test8_state_pca_{RUNTAG}.png", dpi=130); plt.close()
 json.dump(res, open(OUT, "w"), indent=1); print("wrote", OUT)

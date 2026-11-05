@@ -25,7 +25,7 @@ def rank_of(score, cols):
 
 for L in [15, 19]:
     S = {k: v.double().numpy() for k, v in D["stats"][L].items()}
-    cols = np.asarray(D["cols"][L]); P = D["P"][L].double().numpy()
+    cols = np.asarray(D["cols"][L]); P = D["P"][L].detach().double().numpy()
     with np.errstate(invalid="ignore", divide="ignore"):
         m_loop = S["sum_loop"] / nl[:, None]; m_non = S["sum_non"] / nn[:, None]
         a_loop = S["abs_loop"] / nl[:, None]; a_non = S["abs_non"] / nn[:, None]

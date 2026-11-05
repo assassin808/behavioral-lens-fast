@@ -94,6 +94,7 @@ for tag in ["base", "p50c"]:
         if mtag != tag: continue
         T0 = fn()
         if PILOT: T0 = T0[:6]
+        if os.environ.get("SMOKE_N"): T0 = T0[:int(os.environ["SMOKE_N"])]
         if not T0: print(f"pass {mtag}|{name}: no texts, skipped", flush=True); continue
         recs = []; t0 = time.time()
         with torch.no_grad():
