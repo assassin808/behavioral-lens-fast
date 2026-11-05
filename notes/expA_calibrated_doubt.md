@@ -67,3 +67,14 @@ P(doubt)/(P(doubt)+P(wrapup)); cross-model teacher forcing (0.8B on the 4B's pre
 - **AUC.** Positive class = incorrect candidate; AUC of the signal (higher = more doubt). 95 % CI by 2,000-sample bootstrap over
   points. Same extraction, prompt, tokenisation and scoring code for every arm/model.
 
+### Amendment 1 (2026-11-05, before any signal was computed; changes data and detector only, not predictions)
+- On Astra's logs the first-candidate labels are too unbalanced for an AUC: base 0.8B has a candidate in 123 of 400 traces, of which
+  only 18 are incorrect. **Primary data is therefore a fresh generation with one harness for every model** (`scripts/expA_gen.py`):
+  GSM8K = Astra's 200 ids + the next 300 unused test ids (500), MATH-500 all 500; vLLM 0.31, THINK35 sampling, cap 12,288 tokens,
+  one sample. Models: base 0.8B, p50c, Qwen3.5-2B, Qwen3.5-4B. Astra's own logs (base, p50c) are measured too, as a secondary replication.
+- Detector refinement from eyeballing 24 base detections (labels only, no signal): phrase matches are dropped when the same line,
+  before the phrase, contains if / whether / scenario / assume / suppose / unless / could / would / might / maybe / recall / similar /
+  typical / usually / expected or a "?", or when the value contains "?" ("is there a scenario where the answer is 30 miles?",
+  "if the answer is 7, let's see"). One candidate per line.
+- Measurement position made exact at the token level: the real trace is tokenised and the next-token distribution is read at the
+  token that covers the first content character of the next line (so the prefix ends at a real token boundary).
