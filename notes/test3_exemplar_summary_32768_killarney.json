@@ -1,0 +1,34 @@
+{
+ "exemplar_summary": {
+  "astra_L15": {
+   "n": 64,
+   "top16_loop_share": 0.208984375,
+   "top16_src": {
+    "gsm8k": 321,
+    "ifeval": 224,
+    "math": 214,
+    "mmlupro": 265
+   }
+  },
+  "astra_L19": {
+   "n": 64,
+   "top16_loop_share": 0.05078125,
+   "top16_src": {
+    "gsm8k": 257,
+    "math": 343,
+    "mmlupro": 243,
+    "ifeval": 181
+   }
+  },
+  "random": {
+   "n": 32,
+   "top16_loop_share": 0.021484375,
+   "top16_src": {
+    "ifeval": 68,
+    "mmlupro": 107,
+    "math": 225,
+    "gsm8k": 112
+   }
+  }
+ }
+}
