@@ -63,7 +63,10 @@ def load(arm):   # arm may join several files with '+', e.g. base_on_base_p0+bas
     for r in R:
         r["p_doubt_plus_let"] = r["p_doubt"] + r["p_let"]; r["real_recheck"] = float(r["real_recheck"])
         r["ratio_ext"] = r["p_doubt_ext"] / max(r["p_doubt_ext"] + r["p_wrap_ext"], 1e-12)
-        r["rep_frac"] = rep_frac(trace_text(r["traces"], r["id"])[: r["char_pos"]])
+        tt = trace_text(r["traces"], r["id"])
+        r["rep_frac"] = rep_frac(tt[: r["char_pos"]])
+        cands = [c for c in __import__("expA_common").candidates(tt, 3) if c["start"] == r["char_pos"]]
+        r["recheck_type"] = __import__("expA_common").recheck_type(tt, cands[0]) if cands else "na"
     R = [r for r in R if answer_like(r["value"])]          # amendment 3
     for r in R: r["correct_v1"] = r["correct"]; r["correct"] = grade_value(r["value"], r["gold"])   # amendment 4 (re-grade)
     first = {}
@@ -104,8 +107,11 @@ for arm in arms:
             for ds in DS:
                 m = np.array([r["ds"] == ds for r in S])
                 d[s_][f"auc_{ds}"] = round(float(auc(x[m], y[m])), 3); d[s_][f"n_inc_{ds}"] = int(y[m].sum()); d[s_][f"n_{ds}"] = int(m.sum())
+        from collections import Counter
+        d["recheck_type"] = {lab: dict(Counter(r["recheck_type"] for r, yy in zip(S, y) if yy == (lab == "incorrect"))) for lab in ("correct", "incorrect")}
         res[f"{arm}|{sub}"] = d
         print(arm, sub, d["n"], d["n_correct"], d["n_incorrect"], " ".join(f"{s}={d[s]['auc']}{d[s]['ci']}" for s in SIG if s in d))
+        print("    recheck_type", d["recheck_type"])
         print("    pos", d["log_tok_pos"], "rep", d["rep_frac"]["auc"], "| resid(pos,ds,rep):", " ".join(f"{s}={d[s]['auc_resid_pos_ds']}{d[s]['ci_resid_pos_ds']} " + " ".join(f"{x}={d[s].get('auc_' + x)}" for x in ("gsm8k", "math500", "mathhard") if 'auc_' + x in d[s]) + f"" for s in ("p_doubt", "u15_hs16", "u15_hs20") if s in d))
 for a, b in pairs:   # P3: p50c vs base on the same points
     A = {(r["id"], r["cand_idx"]): r for r in load(a)}; B = {(r["id"], r["cand_idx"]): r for r in load(b)}

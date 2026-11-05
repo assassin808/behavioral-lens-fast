@@ -140,3 +140,15 @@ def answer_like(value):
     v = _HEDGE.sub("", re.sub(r"^[A-Za-z ]{1,20}:\s*", "", value.strip()))
     words = re.findall(r"[A-Za-z]{2,}", re.sub(r"\$[^$]*\$?|\\[a-zA-Z]+(\{[^}]*\})?", " ", v))
     return len(words) <= 2
+
+# Exploratory (added after the coordinator's side-effect result, not pre-registered): what the real continuation re-checks.
+_WORDING = re.compile(r"wording|phras|interpret|re-?read|\bmean(s|t|ing)?\b|what if|(question|problem|prompt|text) (says|asks|states)|ambigu|trick|\"[^\"]{8,}\"", re.I)
+_ARITH = re.compile(r"calculat|arithmetic|recalc|comput|math check|\d\s*[-+*/×÷x]\s*\d|\d\s*=\s*\d", re.I)
+def recheck_type(think, cand, span=300):
+    le = think.find("\n", cand["end"]); le = cand["end"] if le < 0 else le
+    t = think[le:le + span]
+    if not _RECHECK.search(t): return "none"
+    w, a = _WORDING.search(t), _ARITH.search(t)
+    if w and (not a or w.start() <= a.start()): return "wording"
+    if a: return "arithmetic"
+    return "other"
