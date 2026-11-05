@@ -165,13 +165,13 @@ def lens_contexts(tok, split="train", seed=0, n_loop=350, n_math=350, n_wiki=200
         p = np.concatenate([take(x["ids"], np.flatnonzero(x["loop"]), 100), take(x["ids"], gen[~x["loop"][gen]], 100)])
         out.append((x["ids"], np.sort(p), "loop", x["loop"]))
     def short(x, mx=4096): return x["ids"][:mx], x["loop"][:mx]
-    mathi = [x for x in items if x["ds"] in ("gsm8k", "math500") and x["finished"] and x["loop"].mean() < 0.01]
+    mathi = [x for x in items if x["ds"] in ("gsm8k", "math500") and x["loop"][:4096].mean() < 0.01]   # first 4096 tokens loop-free
     for x in [mathi[i] for i in rng.permutation(len(mathi))[:n_math]]:
         ids, lp = short(x); out.append((ids, take(ids, np.arange(x["P"], len(ids)), 200), "math", lp))
     nm = [x for x in items if x["ds"] in ("ifeval", "mmlupro1k") and x["finished"] and x["loop"].mean() < 0.01]
     for x in [nm[i] for i in rng.permutation(len(nm))[:n_nonmath]]:
         ids, lp = short(x); out.append((ids, take(ids, np.arange(x["P"], len(ids)), 200), "nonmath", lp))
-    wk = wiki_docs(1024 * (n_wiki + 50), tok, seq=1024, skip_docs=20000 if split == "train" else 25000)
+    wk = wiki_docs(1024 * (n_wiki + 50), tok, seq=1024, skip_docs=3000 if split == "train" else 8000)   # shard 0 has 14 488 articles > 2000 chars; SAE corpus uses the first ~1 400
     for w in wk[:n_wiki]:
         out.append((w, take(w, np.arange(16, len(w)), 200), "wiki", np.zeros(len(w), bool)))
     return out

@@ -25,7 +25,7 @@ loopi = [loopi[i] for i in rng.permutation(len(loopi))[:NL]]
 prodi = [x for x in items if x["ds"] in ("gsm8k", "math500") and x["finished"] and x["loop"].mean() < 0.01]
 prodi = [prodi[i] for i in rng.permutation(len(prodi))[:NP]]
 for x in prodi: x["ids"], x["loop"] = x["ids"][:4096], x["loop"][:4096]
-wk = wiki_docs(1024 * (NW + 5), tok, seq=1024, skip_docs=25000)[:NW]
+wk = wiki_docs(1024 * (NW + 5), tok, seq=1024, skip_docs=8000)[:NW]
 wikii = [dict(ids=w, P=16, loop=np.zeros(len(w), bool), id=f"wiki{i}") for i, w in enumerate(wk)]
 print("n loop/prod/wiki items", len(loopi), len(prodi), len(wikii), "loop tok", sum(int(x["loop"].sum()) for x in loopi), flush=True)
 

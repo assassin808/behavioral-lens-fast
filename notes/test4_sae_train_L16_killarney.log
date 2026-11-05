@@ -1,0 +1,16 @@
+NVIDIA L40S, 46068 MiB
+loading (20376209, 1024)
+loaded 0.0017943382263183594
+train 17400499 test 2947470 excluded 28240
+scale c 0.10762589424848557 median norm 4.040006160736084
+steps 4248
+step 0/4248 fvu 0.896 aux 0.0000 dead 0 theta 2.712
+step 500/4248 fvu 0.250 aux 0.0000 dead 0 theta 2.272
+step 1000/4248 fvu 0.193 aux 0.0000 dead 0 theta 1.826
+step 1500/4248 fvu 0.165 aux 0.0000 dead 0 theta 1.501
+step 2000/4248 fvu 0.147 aux 0.0000 dead 0 theta 1.277
+step 2500/4248 fvu 0.138 aux 0.0000 dead 0 theta 1.123
+step 3000/4248 fvu 0.127 aux 0.0000 dead 0 theta 1.018
+step 3500/4248 fvu 0.122 aux 0.0000 dead 0 theta 0.944
+step 4000/4248 fvu 0.120 aux 0.0000 dead 0 theta 0.894
+{"layer": 16, "d_sae": 16384, "k": 64, "fvu": 0.13639040929165777, "l0": 58.62402666831503, "dead_frac": 0.0, "n_train_tokens": 17400499, "steps": 4248, "n_eval": 400000, "scale": 0.10762589424848557}
