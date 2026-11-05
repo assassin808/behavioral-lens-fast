@@ -23,7 +23,7 @@ def main():
     ap.add_argument("--max-tokens", type=int, default=16384); ap.add_argument("--no-think", action="store_true"); ap.add_argument("--rep-penalty", type=float, default=1.0)
     ap.add_argument("--think-budget", type=int, default=0); ap.add_argument("--mem", type=float, default=float(os.environ.get("EVAL_GPU_MEM", 0.85))); ap.add_argument("--max-seqs", type=int, default=int(os.environ.get("EVAL_MAX_SEQS", 256))); ap.add_argument("--eager", action="store_true"); ap.add_argument("--seed", type=int, default=0)
     a = ap.parse_args()
-    from astra_eval import build_prompt, grade, loop_signals, SAMPLING_THINK35
+    from astra_eval import build_prompt, grade, grade_lenient, loop_signals, SAMPLING_THINK35
     from vllm import LLM, SamplingParams
     llm = LLM(model=a.model, gpu_memory_utilization=a.mem, max_model_len=32768, enforce_eager=a.eager, dtype="bfloat16", max_num_seqs=a.max_seqs)
     tok = llm.get_tokenizer()
@@ -54,8 +54,8 @@ def main():
             groups = [[(s.text, len(s.token_ids), s.finish_reason == "length") for s in o.outputs] for o in outs]
         for r, g in zip(rows, groups):
             for k, (text, n, cut) in enumerate(g):
-                ok, pred = grade(text, r["answer"]); ls = loop_signals(text); ntok += n
-                allrecs.append(dict(set=name, id=r["id"], k=k, gold=r["answer"], pred=pred, correct=ok, n_tokens=n, cut=cut,
+                ok, pred = grade(text, r["answer"]); ls = loop_signals(text); ntok += n; okl = grade_lenient(text, r["answer"])
+                allrecs.append(dict(set=name, id=r["id"], k=k, gold=r["answer"], pred=pred, correct=ok, correct_lenient=okl, n_tokens=n, cut=cut,
                                     closed=("</think>" in text) or a.no_think, loop_end=bool(ls["verbatim_loop_end"] or ls["repetitive_end"]), text=text))
     dt = time.time() - t0
     with open(f"notes/screen/{a.tag}.jsonl", "w") as f:
@@ -63,7 +63,7 @@ def main():
     summ = dict(tag=a.tag, args=vars(a), sec=round(dt), tok_per_s=round(ntok / dt))
     for name in sets:
         R = [x for x in allrecs if x["set"] == name]; done = [x for x in R if not x["cut"]]
-        summ[name] = dict(n=len(R), completion=len(done)/len(R), acc_all=sum(x["correct"] for x in R)/len(R), acc_on_completed=sum(x["correct"] for x in done)/max(1,len(done)),
+        summ[name] = dict(n=len(R), completion=len(done)/len(R), acc_all=sum(x["correct"] for x in R)/len(R), acc_on_completed=sum(x["correct"] for x in done)/max(1,len(done)), acc_lenient=sum(x["correct_lenient"] for x in R)/len(R), no_box_finished=sum(1 for x in done if x["pred"] is None)/len(R),
                           loop_end=sum(x["loop_end"] for x in R)/len(R), mean_tokens=sum(x["n_tokens"] for x in R)/len(R))
     print("SUMMARY", json.dumps(summ))
     with open("notes/screen/summary.jsonl", "a") as f: f.write(json.dumps(summ) + "\n")
