@@ -66,3 +66,15 @@ Caveats on the design:
 
 ## Outcome
 (to be filled after the runs; predictions above stay unedited)
+
+### K0 (harness check), log of what happened
+- **Run 1** (hook from the formula, fp32). mean |Δlogprob| hook − p50c = 0.0101 vs base − p50c = 0.0911, ratio **0.111**.
+  This **fails** the pre-registered ≤ 0.1 by a hair. Median |Δ| 0.0005, max 0.21 nats. Summed log-prob over 24k tokens: hook
+  −15,906.4, p50c −15,908.2, base −16,063.5.
+- **Fix attempt** (the hook now uses the exact bf16-rounded edited columns, dW = bf16(w − 6uuᵀw) − w). Ratio **0.112**, unchanged.
+  So the residual is not a weight mismatch. It comes from the computation path: the base layer output is rounded to bf16, then the
+  delta is added, whereas p50c does a single bf16 matmul with the edited weights.
+- **Deviation from the pre-registered plan.** I added a **p50chook** generation arm (α = 6, all columns, through the same hook path).
+  It is the primary comparator for the hook arms (clampp5, loopsel, clampmean, a3). Those comparisons then share the numerical
+  path exactly. Real-weight p50c is still reported. The predictions above are unchanged; "p50c" in P1–P5 is read as p50chook for
+  the hook arms, and p50chook vs p50c is reported as a harness check.

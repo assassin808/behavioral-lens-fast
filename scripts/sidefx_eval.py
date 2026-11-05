@@ -7,6 +7,7 @@ may carry an edit spec that is applied as a hook on the BASE weights.
 Edit spec (JSON): {"layers": {"15": {"cols": [...], "alpha": float | [per-col floats], "floor": null | float}, "19": {...}}}
   At decoder layer L the hook adds  d(t) * u_L  to the layer output, where
       d(t) = - sum_j alpha_j * act_j(t) * (u_L^T w_j)          (exactly the rank-1 edit w_j' = w_j - alpha_j u u^T w_j)
+  (implemented with the bf16-rounded edited columns, dW = bf16(w - alpha u u^T w) - w, so alpha = 6 matches the real p50c weights)
   With a floor F, the residual-stream projection after layer L is not pushed below F by the edit:
       p = (resid after L) . u_L  (base weights);   p_new = max(p + d, min(p, F));   add (p_new - p) * u_L
   (positions whose base projection is already below F are left as they are; the edit never pushes anything up).
@@ -70,22 +71,27 @@ def install_hooks(llm, spec):
             cols = torch.tensor(cfg["cols"], device=dev, dtype=torch.long)
             a = cfg["alpha"]
             alpha = torch.tensor(a if isinstance(a, list) else [a] * len(cfg["cols"]), device=dev, dtype=torch.float32)
-            coef = alpha * (u @ W.float()[:, cols])                     # alpha_j * u^T w_j
+            Wc = W[:, cols].double()                                     # base columns (bf16 values)
+            ud = u.double()
+            Wn = (Wc - ud[:, None] * (alpha.double()[None, :] * (ud @ Wc)[None, :])).float().to(torch.bfloat16)
+            dW = (Wn.float() - Wc.float())                               # exact bf16 weight change, as a real weight edit would make
+            coef = u @ dW                                                # its u-projection per column, [ncols]
             floor = cfg.get("floor")
             store = {}
 
             def pre(mod, inp, store=store):
                 store["act"] = inp[0]
 
-            def post(mod, inp, out, u=u, cols=cols, coef=coef, floor=floor, store=store):
+            def post(mod, inp, out, u=u, cols=cols, dW=dW, floor=floor, store=store):
                 hs, res = out
-                act = store.pop("act")
-                d = -(act.index_select(-1, cols).float() @ coef)          # [T]
+                act = store.pop("act").index_select(-1, cols).float()   # [T, ncols]
+                delta = act @ dW.T                                       # [T, 1024]
                 if floor is not None:
+                    d = delta @ u
                     p = (hs.float() + res.float()) @ u
                     pn = torch.maximum(p + d, torch.minimum(p, torch.full_like(p, floor)))
-                    d = pn - p
-                return (hs + (d[:, None] * u[None, :]).to(hs.dtype), res)
+                    delta = delta + (pn - p - d)[:, None] * u[None, :]
+                return ((hs.float() + delta).to(hs.dtype), res)
 
             down.register_forward_pre_hook(pre)
             layer.register_forward_hook(post)
