@@ -1,0 +1,192 @@
+160 neurons with enough windows (of 160); explainer api:claude-sonnet-5-5
+parse: 20/24 scores
+{
+ "astra_L15": {
+  "n": 64,
+  "ap_desc_negm": 0.81243941063277,
+  "bacc_desc_negm": 0.6787109375,
+  "ap_desc_negn": 0.8362249295843045,
+  "bacc_desc_negn": 0.7001953125,
+  "ap_desc_shuf_negm": 0.6069644873355811,
+  "bacc_desc_shuf_negm": 0.5205078125,
+  "ap_desc_shuf_negn": 0.6278862793022949,
+  "bacc_desc_shuf_negn": 0.521484375,
+  "ap_desc_seg_negm": 0.6254777232316295,
+  "bacc_desc_seg_negm": 0.54296875,
+  "ap_desc_seg_negn": 0.659697133378774,
+  "bacc_desc_seg_negn": 0.5732421875,
+  "ap_desc_loop_negm": 0.6304427939681846,
+  "bacc_desc_loop_negm": 0.5,
+  "ap_desc_loop_negn": 0.7453656152874903,
+  "bacc_desc_loop_negn": 0.603515625,
+  "mean_ap_desc_minus_loop_negn": 0.0908593142968143
+ },
+ "astra_L19": {
+  "n": 64,
+  "ap_desc_negm": 0.888504019851676,
+  "bacc_desc_negm": 0.728515625,
+  "ap_desc_negn": 0.8975307841030498,
+  "bacc_desc_negn": 0.748046875,
+  "ap_desc_shuf_negm": 0.6361405792558137,
+  "bacc_desc_shuf_negm": 0.5048828125,
+  "ap_desc_shuf_negn": 0.622858304889555,
+  "bacc_desc_shuf_negn": 0.498046875,
+  "ap_desc_seg_negm": 0.6614203288031413,
+  "bacc_desc_seg_negm": 0.5673828125,
+  "ap_desc_seg_negn": 0.6626566792582418,
+  "bacc_desc_seg_negn": 0.5703125,
+  "ap_desc_loop_negm": 0.598361252462815,
+  "bacc_desc_loop_negm": 0.5,
+  "ap_desc_loop_negn": 0.6080539902805528,
+  "bacc_desc_loop_negn": 0.5234375,
+  "mean_ap_desc_minus_loop_negn": 0.28947679382249697
+ },
+ "random": {
+  "n": 32,
+  "ap_desc_negm": 0.8976957937895438,
+  "bacc_desc_negm": 0.767578125,
+  "ap_desc_negn": 0.9117191293949107,
+  "bacc_desc_negn": 0.771484375,
+  "ap_desc_shuf_negm": 0.5795593403991841,
+  "bacc_desc_shuf_negm": 0.50390625,
+  "ap_desc_shuf_negn": 0.6192811962343212,
+  "bacc_desc_shuf_negn": 0.515625,
+  "ap_desc_seg_negm": 0.680274651563714,
+  "bacc_desc_seg_negm": 0.599609375,
+  "ap_desc_seg_negn": 0.681353759088134,
+  "bacc_desc_seg_negn": 0.60546875,
+  "ap_desc_loop_negm": 0.5865564990564991,
+  "bacc_desc_loop_negm": 0.49609375,
+  "ap_desc_loop_negn": 0.6143560866217116,
+  "bacc_desc_loop_negn": 0.51171875,
+  "mean_ap_desc_minus_loop_negn": 0.297363042773199
+ }
+}
+L15.0 rand=False ap_m=0.5324404761904762 ap_nl=1.0 loop_nl=1.0 | Fires on tokens inside verbatim-repeated passages during generation loops, especially in math reasoning, where the model is copying earlier text such as "Wait," restatements.
+L15.2 rand=False ap_m=0.7013888888888888 ap_nl=0.6583333333333333 loop_nl=0.6490384615384616 | Fires on self-correction or re-checking pivot points in reasoning (e.g., "Actually", "Re-", "Now"), outside repeated text, where the model is about to revise its approach.
+L15.11 rand=False ap_m=0.7179487179487178 ap_nl=0.5929487179487178 loop_nl=0.75 | This neuron fires on scattered function words and mid-phrase tokens, often inside quoted or restated text, where the model is about to continue copying or re-reading earlier wording.
+L15.25 rand=False ap_m=0.8929924242424243 ap_nl=0.9131944444444444 loop_nl=0.9362980769230769 | Fires on tokens inside quoted or restated problem-statement phrases the model is re-reading or paraphrasing, often during repetitive loops, where copying the earlier text verbatim is likely.
+L15.34 rand=False ap_m=0.639575702075702 ap_nl=0.5555555555555556 loop_nl=0.6170634920634921 | Fires on the token right after a repeated template's anchor, such as names, "Bullet point", or list labels, where the model tracks a near-repeat pattern but isn't yet in a verbatim loop.
+L15.35 rand=False ap_m=0.6162472943722943 ap_nl=0.6298076923076923 loop_nl=0.6979166666666666 | Fires on tokens inside indented bullet-list reasoning (whitespace, list markers, numbers) where the model is restating or enumerating structured items, likely preceding repetition, though not yet in a verbatim loop.
+L15.38 rand=False ap_m=0.95 ap_nl=0.8988095238095237 loop_nl=0.7541666666666667 | Fires on tokens inside quoted or restated prompt text the model is re-reading or re-quoting verbatim, where the next token must be copied exactly.
+L15.39 rand=False ap_m=0.9543650793650793 ap_nl=0.9722222222222222 loop_nl=0.728021978021978 | Fires on closing tokens of identifier-like or quoted names (JSON keys, subscripts, variable names), where a closing quote, bracket or parenthesis is expected next.
+L15.46 rand=False ap_m=1.0 ap_nl=1.0 loop_nl=0.6803571428571429 | Fires on the first sub-word fragment of a rare or split word or name (e.g. "Bur"|j, "Mor"|isette, "Share"|holders), where the next token continues the word.
+L15.50 rand=False ap_m=0.7604978354978356 ap_nl=0.8427579365079365 loop_nl=0.6814903846153846 | Fires on mid-phrase tokens (often "the" or a noun/verb right after it) in long reasoning or narrative text, where the next word is predictable, especially during repetition loops.
+L15.53 rand=False ap_m=0.8576388888888888 ap_nl=0.8831845238095238 loop_nl=0.9375 | Fires on tokens inside or just before a quoted re-reading of the problem statement, as the model re-quotes the prompt's wording while second-guessing its interpretation ("Wait, the prompt says: "...").
+L15.56 rand=False ap_m=0.7101190476190476 ap_nl=0.8988095238095238 loop_nl=0.8928571428571428 | Fires on structural tokens in indented step-by-step math reasoning (bullet " *", newlines, " then", " so") right before a LaTeX expression begins.
+L15.76 rand=True ap_m=0.7178571428571429 ap_nl=0.8333333333333333 loop_nl=0.8333333333333333 | Fires on mid-clause content words (verbs, nouns) in running prose, where the next token is a predictable continuation, mostly outside verbatim-repeated passages.
+L15.166 rand=True ap_m=0.9861111111111112 ap_nl=0.9861111111111112 loop_nl=0.5 | Fires on "the" (or "'s") right after "first X and/into/in", where the next word is predicted to be "second" or "other", marking the second item in an enumerated pair.
+L15.292 rand=True ap_m=0.8166666666666667 ap_nl=0.7714285714285715 loop_nl=0.59375 | Fires on tokens in non-repeated text where a variable, operator, or word follows a previously stated pattern and the model must produce a novel continuation, not a copy of earlier text.
+L15.660 rand=True ap_m=0.6305555555555555 ap_nl=0.6867715617715617 loop_nl=0.5714285714285714 | Fires on tokens in reasoning text right before the model might refer back to earlier content (e.g., "The question says…", "previous check"), promoting words like "previously" and "earlier".
+wrote notes/test3_autointerp_32768_claude-sonnet-5-5_killarney.json
+24 neurons with enough windows (of 24); explainer api:claude-opus-5-5
+parse: 23/24 scores
+parse: 22/24 scores
+parse: 23/24 scores
+parse: 1/24 scores
+parse: 4/24 scores
+{
+ "astra_L15": {
+  "n": 8,
+  "ap_desc_negm": 0.661176974067599,
+  "bacc_desc_negm": 0.5625,
+  "ap_desc_negn": 0.6910252074314573,
+  "bacc_desc_negn": 0.59375,
+  "ap_desc_shuf_negm": 0.5412698412698413,
+  "bacc_desc_shuf_negm": 0.53125,
+  "ap_desc_shuf_negn": 0.6516168727106226,
+  "bacc_desc_shuf_negn": 0.5703125,
+  "ap_desc_seg_negm": 0.6069235018453768,
+  "bacc_desc_seg_negm": 0.4921875,
+  "ap_desc_seg_negn": 0.6843345023032523,
+  "bacc_desc_seg_negn": 0.578125,
+  "ap_desc_loop_negm": 0.6835742816211566,
+  "bacc_desc_loop_negm": 0.5,
+  "ap_desc_loop_negn": 0.7659987148268399,
+  "bacc_desc_loop_negn": 0.6171875,
+  "mean_ap_desc_minus_loop_negn": -0.07497350739538239
+ },
+ "astra_L19": {
+  "n": 8,
+  "ap_desc_negm": 0.7590955051892552,
+  "bacc_desc_negm": 0.6796875,
+  "ap_desc_negn": 0.7389948593073593,
+  "bacc_desc_negn": 0.71875,
+  "ap_desc_shuf_negm": 0.7504611707736708,
+  "bacc_desc_shuf_negm": 0.625,
+  "ap_desc_shuf_negn": 0.7491178526334776,
+  "bacc_desc_shuf_negn": 0.6640625,
+  "ap_desc_seg_negm": 0.6294858787046287,
+  "bacc_desc_seg_negm": 0.546875,
+  "ap_desc_seg_negn": 0.6489705173298923,
+  "bacc_desc_seg_negn": 0.5859375,
+  "ap_desc_loop_negm": 0.6775449810606061,
+  "bacc_desc_loop_negm": 0.5390625,
+  "ap_desc_loop_negn": 0.7339028592934842,
+  "bacc_desc_loop_negn": 0.59375,
+  "mean_ap_desc_minus_loop_negn": 0.005092000013875053
+ },
+ "random": {
+  "n": 8,
+  "ap_desc_negm": 0.7978608630952381,
+  "bacc_desc_negm": 0.7265625,
+  "ap_desc_negn": 0.8196924603174602,
+  "bacc_desc_negn": 0.734375,
+  "ap_desc_shuf_negm": 0.7783854166666666,
+  "bacc_desc_shuf_negm": 0.7265625,
+  "ap_desc_shuf_negn": 0.8014306006493507,
+  "bacc_desc_shuf_negn": 0.734375,
+  "ap_desc_seg_negm": 0.6331659226190476,
+  "bacc_desc_seg_negm": 0.5546875,
+  "ap_desc_seg_negn": 0.6504007711038962,
+  "bacc_desc_seg_negn": 0.578125,
+  "ap_desc_loop_negm": 0.7442916458541459,
+  "bacc_desc_loop_negm": 0.546875,
+  "ap_desc_loop_negn": 0.7550571824009323,
+  "bacc_desc_loop_negn": 0.546875,
+  "mean_ap_desc_minus_loop_negn": 0.06463527791652794
+ }
+}
+L15.0 rand=False ap_m=0.6422275641025641 ap_nl=1.0 loop_nl=1.0 | Fires on tokens inside verbatim-repeated passages during generation loops, marking content the model is copying from earlier text.
+L15.2 rand=False ap_m=0.7013888888888888 ap_nl=0.6586538461538461 loop_nl=0.7840909090909091 | 
+L15.11 rand=False ap_m=0.5 ap_nl=0.5 loop_nl=0.5729166666666666 | 
+L15.25 rand=False ap_m=0.6890151515151515 ap_nl=0.6555215617715617 loop_nl=0.9375 | 
+L15.34 rand=False ap_m=0.9305555555555556 ap_nl=0.876984126984127 loop_nl=0.6839285714285713 | 
+L15.35 rand=False ap_m=0.5 ap_nl=0.5 loop_nl=0.8392857142857143 | 
+L15.38 rand=False ap_m=0.4791666666666667 ap_nl=0.625 loop_nl=0.7674107142857143 | 
+L15.39 rand=False ap_m=0.8470619658119658 ap_nl=0.7120421245421246 loop_nl=0.5428571428571429 | 
+L15.76 rand=True ap_m=0.75 ap_nl=0.75 loop_nl=0.5625 | 
+L15.166 rand=True ap_m=1.0 ap_nl=1.0 loop_nl=0.5041666666666667 | Fires on "the" (or "'s") right before "second" or "other," after "first" was mentioned, anticipating the second item of a pair.
+L15.292 rand=True ap_m=0.5 ap_nl=0.5 loop_nl=0.8740079365079365 | 
+L15.660 rand=True ap_m=0.581845238095238 ap_nl=0.6964285714285714 loop_nl=0.7041208791208791 | 
+L15.76 rand=True ap_m=0.75 ap_nl=0.75 loop_nl=0.5625 | 
+L15.166 rand=True ap_m=1.0 ap_nl=1.0 loop_nl=0.5041666666666667 | Fires on "the" (or "'s") right before "second" or "other," after "first" was mentioned, anticipating the second item of a pair.
+L15.292 rand=True ap_m=0.5 ap_nl=0.5 loop_nl=0.8740079365079365 | 
+L15.660 rand=True ap_m=0.581845238095238 ap_nl=0.6964285714285714 loop_nl=0.7041208791208791 | 
+wrote notes/test3_autointerp_32768_claude-opus-5-5_sub8_killarney.json
+{
+ "astra": {
+  "n": 16,
+  "same_trigger_frac": 0.0,
+  "ap_desc_negm_main": 0.781671518585581,
+  "ap_desc_negm_spot": 0.7101362396284271,
+  "ap_desc_negn_main": 0.8266054258241758,
+  "ap_desc_negn_spot": 0.7150100333694084,
+  "ap_desc_loop_negn_main": 0.7318263984279609,
+  "ap_desc_loop_negn_spot": 0.749950787060162,
+  "ap_desc_shuf_negn_main": 0.5931619812479187,
+  "ap_desc_shuf_negn_spot": 0.7003673626720501
+ },
+ "random": {
+  "n": 8,
+  "same_trigger_frac": 0.0,
+  "ap_desc_negm_main": 0.8670882936507937,
+  "ap_desc_negm_spot": 0.7978608630952381,
+  "ap_desc_negn_main": 0.8910423777611278,
+  "ap_desc_negn_spot": 0.8196924603174602,
+  "ap_desc_loop_negn_main": 0.7227306547619048,
+  "ap_desc_loop_negn_spot": 0.7550571824009323,
+  "ap_desc_shuf_negn_main": 0.7336581387362637,
+  "ap_desc_shuf_negn_spot": 0.8014306006493507
+ }
+}
