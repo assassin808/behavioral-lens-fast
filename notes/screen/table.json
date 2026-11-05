@@ -1,0 +1,74 @@
+[
+ {
+  "tag": "base",
+  "set": "gsm8k",
+  "n": 400,
+  "completion": 0.125,
+  "acc": 0.1475,
+  "acc_lenient": 0.4025,
+  "acc_on_completed": 0.94,
+  "loop_end": 0.8625,
+  "no_box": 0.0,
+  "mean_tokens": 14982.55
+ },
+ {
+  "tag": "base",
+  "set": "math500",
+  "n": 400,
+  "completion": 0.07,
+  "acc": 0.0725,
+  "acc_lenient": 0.2575,
+  "acc_on_completed": 0.9642857142857143,
+  "loop_end": 0.8625,
+  "no_box": 0.0025,
+  "mean_tokens": 15630.0825
+ },
+ {
+  "tag": "base_nothink",
+  "set": "gsm8k",
+  "n": 400,
+  "completion": 0.99,
+  "acc": 0.555,
+  "acc_lenient": 0.555,
+  "acc_on_completed": 0.5606060606060606,
+  "loop_end": 0.0025,
+  "no_box": 0.0,
+  "mean_tokens": 1512.8125
+ },
+ {
+  "tag": "base_nothink",
+  "set": "math500",
+  "n": 400,
+  "completion": 0.8275,
+  "acc": 0.5125,
+  "acc_lenient": 0.515,
+  "acc_on_completed": 0.6193353474320241,
+  "loop_end": 0.0525,
+  "no_box": 0.0,
+  "mean_tokens": 5994.535
+ },
+ {
+  "tag": "p50c",
+  "set": "gsm8k",
+  "n": 400,
+  "completion": 0.7575,
+  "acc": 0.57,
+  "acc_lenient": 0.6125,
+  "acc_on_completed": 0.7524752475247525,
+  "loop_end": 0.065,
+  "no_box": 0.0175,
+  "mean_tokens": 9964.4075
+ },
+ {
+  "tag": "p50c",
+  "set": "math500",
+  "n": 400,
+  "completion": 0.34,
+  "acc": 0.3125,
+  "acc_lenient": 0.4625,
+  "acc_on_completed": 0.9044117647058824,
+  "loop_end": 0.09,
+  "no_box": 0.0075,
+  "mean_tokens": 13759.315
+ }
+]
