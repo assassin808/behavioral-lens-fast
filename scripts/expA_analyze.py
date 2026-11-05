@@ -70,6 +70,7 @@ def load(arm):   # arm may join several files with '+', e.g. base_on_base_p0+bas
         cands = [c for c in __import__("expA_common").candidates(tt, 3) if c["start"] == r["char_pos"]]
         r["recheck_type"] = __import__("expA_common").recheck_type(tt, cands[0]) if cands else "na"
     R = [r for r in R if answer_like(r["value"])]          # amendment 3
+    if os.environ.get("EXPA_NOPAD") == "1": R = [r for r in R if not r.get("padded_end")]   # follow-up: only real continuations
     for r in R: r["correct_v1"] = r["correct"]; r["correct"] = grade_value(r["value"], r["gold"])   # amendment 4 (re-grade)
     first = {}
     for r in sorted(R, key=lambda r: r["cand_idx"]): first.setdefault((r["traces"], r["id"]), r["cand_idx"])
