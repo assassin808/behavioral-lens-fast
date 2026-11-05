@@ -27,7 +27,7 @@ ax.scatter([100 * C[n].get("ctrl_perm", np.nan) / S["total"] for n in names], y 
 ax.set_yticks(y); ax.set_yticklabels(names); ax.axvline(0, color=GRAY, lw=0.8); ax.axvline(100, color=GRAY, lw=0.8, ls=":")
 ax.set_xlabel("% of the edit's loop-NLL effect"); ax.grid(axis="x", color="#e6e5e0", lw=0.6); ax.set_axisbelow(True)
 ax.set_title("Which components carry the p50c edit to the loop logits\n" + sub, fontsize=9, loc="left", color=INK)
-ax.legend(frameon=False, fontsize=8, loc="lower right")
+ax.legend(frameon=False, fontsize=8, loc="upper center", bbox_to_anchor=(0.4, -0.06), ncol=2)
 fig.tight_layout(); fig.savefig(f"{REPO}/notes/fig/test5_mediators_{TAG}.png", dpi=160); plt.close(fig)
 
 # 2. per-head block fraction heatmap (L16-23)
