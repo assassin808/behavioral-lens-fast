@@ -1,0 +1,35 @@
+[transformers] The fast path is not available because one of the required library is not installed. Falling back to torch implementation. To install follow https://github.com/fla-org/flash-linear-attention#installation and https://github.com/Dao-AILab/causal-conv1d
+
+Loading weights:   0%|          | 0/320 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 320/320 [00:00<00:00, 13295.07it/s]
+[transformers] Setting `pad_token_id` to `eos_token_id`:248044 for open-end generation.
+[transformers] Setting `pad_token_id` to `eos_token_id`:248044 for open-end generation.
+[transformers] Setting `pad_token_id` to `eos_token_id`:248044 for open-end generation.
+
+Loading weights:   0%|          | 0/320 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 320/320 [00:00<00:00, 12949.13it/s]
+[transformers] Setting `pad_token_id` to `eos_token_id`:248044 for open-end generation.
+[transformers] Setting `pad_token_id` to `eos_token_id`:248044 for open-end generation.
+[transformers] Setting `pad_token_id` to `eos_token_id`:248044 for open-end generation.
+
+===== base  (Qwen3_5ForCausalLM) =====
+--- Natalia sold clips to 48 of her friends in April, ...  len=251 closed_think=False boxed=True rep20=0.00  6s
+   HEAD: 'To find the total number of clips Natalia sold, we need to calculate the number of clips sold in April and the number of clips sold in May, and then add them together.\n\n**Step 1: Calculate the number '
+   TAIL: 'mount in May} = \\frac{48}{2} = 24$$\n\n**Step 3: Calculate the total number of clips sold.**\nNow, add the number of clips sold in April and the number of clips sold in May:\n$$\\text{Total} = \\text{April} + \\text{May}$$\n$$\\text{Total} = 48 + 24$$\n$$\\text{Total} = 72$$\n\n\\boxed{72}<|im_end|>\n<|endoftext|>'
+--- Weng earns $12 an hour for babysitting. Yesterday,...  len=345 closed_think=False boxed=True rep20=0.00  7s
+   HEAD: 'To find out how much Weng earned, we need to follow these steps:\n\n1.  **Identify the hourly wage**: The problem states that Weng earns $\\$12$ an hour.\n2.  **Determine the total number of hours worked*'
+   TAIL: ': $\\$25$.\n\nAlternatively, you can think of it as finding the fraction of an hour she worked:\n*   $\\$12 \\times \\frac{1}{6}$ hours = $\\$2$.\n*   Since she worked $\\frac{5}{6}$ of an hour, we multiply that by the hourly rate:\n    *   $\\$2 \\times \\frac{5}{6}$ = $\\$25$.\n\n\\boxed{25}<|im_end|>\n<|endoftext|>'
+--- Betty is saving money for a new wallet which costs...  len=471 closed_think=False boxed=True rep20=0.00  9s
+   HEAD: "To find out how much more money Betty needs, let's break down the spending plan step by step.\n\n**1. Calculate the total cost of the wallet:**\nThe problem states that the wallet costs **$100**.\n\n**2. C"
+   TAIL: "{Difference} = 100 - 45 = 55 $$\n\nAlternatively, we can calculate the shortfall directly:\n$$ \\text{Shortfall} = \\text{Total Cost} - (\\text{Parents' Gift} + \\text{Grandparents' Gift}) $$\n$$ \\text{Shortfall} = 100 - (15 + 30) $$\n$$ \\text{Shortfall} = 100 - 45 = 55 $$\n\n\\boxed{55}<|im_end|>\n<|endoftext|>"
+
+===== p50c  (Qwen3_5ForCausalLM) =====
+--- Natalia sold clips to 48 of her friends in April, ...  len=284 closed_think=False boxed=True rep20=0.00  5s
+   HEAD: 'To find the total number of clips Natalia sold, we need to calculate the number of clips sold in each month separately and then sum them up.\n\n**Step 1: Calculate the number of clips sold in April.**\nT'
+   TAIL: ' the number of clips from both months together:\n$$ \\text{Total} = \\text{April} + \\text{May} $$\n$$ \\text{Total} = 48 + 24 $$\n$$ \\text{Total} = 72 $$\n\nAlternatively, you can think of the total as being 48 plus half of 48, which is equivalent to $48 \\times 1.5 = 72$.\n\n\\boxed{72}<|im_end|>\n<|endoftext|>'
+--- Weng earns $12 an hour for babysitting. Yesterday,...  len=298 closed_think=False boxed=True rep20=0.00  6s
+   HEAD: 'To find out how much Weng earned, we need to determine the total number of hours she worked and then multiply that by her hourly wage.\n\n**Step 1: Convert the time worked into hours.**\nThe problem stat'
+   TAIL: 'imes 12 $$\n\nWe can simplify this calculation:\n$$ \\frac{5}{6} \\times 12 = 5 \\times \\frac{12}{6} = 5 \\times 2 = 10 $$\n\nAlternatively, you can multiply the numerator by the denominator:\n$$ \\frac{5 \\times 12}{6} = \\frac{60}{6} = 10 $$\n\n**Conclusion:**\nWeng earned $10.\n\n\\boxed{10}<|im_end|>\n<|endoftext|>'
+--- Betty is saving money for a new wallet which costs...  len=509 closed_think=False boxed=True rep20=0.00  10s
+   HEAD: 'To find out how much more money Betty needs, we need to calculate the total cost of the wallet and subtract the amounts Betty currently has and her parents have.\n\n**Step 1: Identify the cost of the wa'
+   TAIL: 'ing Needed} = \\$100 - \\$95 = \\$5 $$\n\nAlternatively, you can think of it this way:\nThe parents give her $\\$15$. The grandparents give her an additional $\\$30$.\nBetty has $\\$50$.\nSo, her total possession is $\\$50 + \\$15 + \\$30 = \\$95$.\nShe needs $\\$100 - \\$95 = \\$5$.\n\n\\boxed{5}<|im_end|>\n<|endoftext|>'

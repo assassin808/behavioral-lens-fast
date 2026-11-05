@@ -1,0 +1,35 @@
+[transformers] The fast path is not available because one of the required library is not installed. Falling back to torch implementation. To install follow https://github.com/fla-org/flash-linear-attention#installation and https://github.com/Dao-AILab/causal-conv1d
+
+Loading weights:   0%|          | 0/320 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 320/320 [00:00<00:00, 12681.19it/s]
+[transformers] Setting `pad_token_id` to `eos_token_id`:248044 for open-end generation.
+[transformers] Setting `pad_token_id` to `eos_token_id`:248044 for open-end generation.
+[transformers] Setting `pad_token_id` to `eos_token_id`:248044 for open-end generation.
+
+Loading weights:   0%|          | 0/320 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 320/320 [00:00<00:00, 11491.34it/s]
+[transformers] Setting `pad_token_id` to `eos_token_id`:248044 for open-end generation.
+[transformers] Setting `pad_token_id` to `eos_token_id`:248044 for open-end generation.
+[transformers] Setting `pad_token_id` to `eos_token_id`:248044 for open-end generation.
+
+===== base  (Qwen3_5ForCausalLM) =====
+--- Natalia sold clips to 48 of her friends in April, ...  len=1448 closed_think=True boxed=True rep20=0.00  27s
+   HEAD: "Here's my thought process for solving this problem:\n\n1.  **Analyze the Request:**\n    *   **Given:** Natalia sold clips to 48 friends in April.\n    *   **Given:** She sold half as many clips in May.\n "
+   TAIL: 'by 2.\n    $48 \\div 2 = 24$.\n    So, she sold **24** clips in May.\n\n3.  **Calculate the total number of clips sold:**\n    To find the total, add the number of clips sold in April and the number of clips sold in May.\n    $48 \\text{ (April)} + 24 \\text{ (May)} = 72$.\n\n\\boxed{72}<|im_end|>\n<|endoftext|>'
+--- Weng earns $12 an hour for babysitting. Yesterday,...  len=4096 closed_think=False boxed=True rep20=0.16  77s
+   HEAD: "Here's my thought process for solving this problem:\n\n1.  **Analyze the Request:**\n    *   **Given:**\n        *   Weng's hourly rate: $12/hour.\n        *   Hours worked: 50 minutes.\n    *   **Goal:** C"
+   TAIL: '0$.\n    Wait, $12 \\times 50 = 600$.\n    $600 / 60 = 10$.\n    Wait, $12 \\times 50 / 60 = 10$.\n    Wait, $12 \\times 50 = 600$.\n    $600 / 60 = 10$.\n    Wait, $12 \\times 50 / 60 = 10$.\n    Wait, $12 \\times 50 = 600$.\n    $600 / 60 = 10$.\n    Wait, $12 \\times 50 / 60 = 10$.\n    Wait, $12 \\times 50 = 600'
+--- Betty is saving money for a new wallet which costs...  len=4096 closed_think=False boxed=False rep20=0.63  78s
+   HEAD: "Here's a thinking process that leads to the solution:\n\n1.  **Analyze the Request:**\n    *   **Goal:** Calculate the amount Betty needs to spend.\n    *   **Cost of wallet:** $100.\n    *   **Betty's cur"
+   TAIL: 's?\n        *   No, the parents give $15.\n        *   Wait, does she have $50?\n        *   "Betty has only half of the money she needs."\n        *   This means she has $50.\n        *   She needs $100.\n        *   She needs $50 more.\n        *   Wait, the grandparents give $30.\n        *   Total money'
+
+===== p50c  (Qwen3_5ForCausalLM) =====
+--- Natalia sold clips to 48 of her friends in April, ...  len=4096 closed_think=False boxed=True rep20=0.01  78s
+   HEAD: "Here's my thought process for solving this problem:\n\n1.  **Analyze the Request:**\n    *   **Given:** Natalia sold clips to 48 friends in April.\n    *   **Given:** She sold half as many clips in May.\n "
+   TAIL: 'sold clips to 48 friends".\n    This implies the number of friends is 48.\n    If the number of friends is 48, then the number of clips sold is 48.\n    Then the answer is 72.\n\n    Let\'s assume the question is asking for the number of friends.\n    No, it asks "How many clips did Natalia sell altogether'
+--- Weng earns $12 an hour for babysitting. Yesterday,...  len=4096 closed_think=True boxed=False rep20=0.01  76s
+   HEAD: "Here's my thought process for solving this problem:\n\n1.  **Analyze the Request:**\n    *   **Given:**\n        *   Weng's hourly rate: $12/hour.\n        *   Hours worked: $50$ minutes.\n    *   **Goal:**"
+   TAIL: ' calculate the total amount of money she received based on the number of hours she worked.\n\n**Step 1: Convert the time worked into hours.**\nThe problem states that Weng worked for 50 minutes. Since there are 60 minutes in one hour, we divide the minutes by 60 to find the equivalent hours.\n\n$$ \\text{'
+--- Betty is saving money for a new wallet which costs...  len=4096 closed_think=False boxed=False rep20=0.04  76s
+   HEAD: "Here's a thinking process that leads to the solution:\n\n1.  **Analyze the Problem:**\n    *   **Goal:** Calculate the difference between the money Betty has and the cost of the wallet.\n    *   **Given:*"
+   TAIL: '      *   So the answer is $50$.\n\n    *   *Wait, let me check the math again.*\n        *   Betty has $50$.\n        *   Parents give $15$.\n        *   Grandparents give $30$.\n        *   Total received: $45$.\n        *   Total money in possession: $95$.\n        *   Cost: $100$.\n        *   Difference'

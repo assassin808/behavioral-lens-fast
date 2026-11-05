@@ -1,0 +1,37 @@
+[transformers] The fast path is not available because one of the required library is not installed. Falling back to torch implementation. To install follow https://github.com/fla-org/flash-linear-attention#installation and https://github.com/Dao-AILab/causal-conv1d
+
+Loading weights:   0%|          | 0/320 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 320/320 [00:00<00:00, 10999.11it/s]
+
+Loading weights:   0%|          | 0/320 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 320/320 [00:00<00:00, 11808.39it/s]
+4 looping texts, loop_frac=[0.083, 0.438, 0.088, 0.043]
+
+### (a) per-layer relative change of component outputs at loop positions, ‖edited − base‖ / ‖base‖ (mean over texts)
+   attn15*=0.000  mlp15=0.977
+   attn16=0.516  mlp16=0.562
+   attn17=0.447  mlp17=0.579
+   attn18=0.454  mlp18=0.614
+   attn19*=0.462  mlp19=0.684
+   attn20=0.544  mlp20=0.572
+   attn21=0.474  mlp21=0.552
+   attn22=0.516  mlp22=0.526
+   attn23*=0.500  mlp23=0.540
+
+### (b) copy attention (mass on the token being copied), per head, base → edited
+  L19 exact: base [0.004, 0.003, 0.004, 0.003, 0.002, 0.006, 0.002, 0.002]
+           edit [0.004, 0.003, 0.004, 0.004, 0.003, 0.005, 0.002, 0.002]   (sum over heads 0.028 → 0.028)
+  L19 win3: base [0.039, 0.03, 0.041, 0.035, 0.014, 0.058, 0.049, 0.048]
+           edit [0.035, 0.025, 0.032, 0.029, 0.02, 0.042, 0.05, 0.037]   (sum over heads 0.314 → 0.269)
+  L23 exact: base [0.005, 0.003, 0.029, 0.002, 0.004, 0.007, 0.071, 0.004]
+           edit [0.004, 0.003, 0.041, 0.002, 0.004, 0.007, 0.06, 0.004]   (sum over heads 0.125 → 0.125)
+  L23 win3: base [0.065, 0.042, 0.03, 0.035, 0.046, 0.086, 0.072, 0.051]
+           edit [0.042, 0.037, 0.043, 0.033, 0.032, 0.046, 0.061, 0.034]   (sum over heads 0.427 → 0.328)
+
+### (c) residual-stream change at loop positions: ‖Δ‖/‖base‖ and cos(Δ, direction of the edit's direct write)
+  after layer 14 (hidden_states[15]): 0.000
+  after layer 15 (hidden_states[16]): 0.425
+  after layer 18 (hidden_states[19]): 0.393
+  after layer 19 (hidden_states[20]): 0.447
+  after layer 22 (hidden_states[23]): 0.475
+  after layer 23 (hidden_states[24]): 0.563
