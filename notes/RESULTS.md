@@ -124,7 +124,7 @@ We measured P(next token starts a doubt / re-check) right after the model's firs
 
 ## 7. Compute and reproduction
 
-- **GPU:** about 7.7 L40S-h (Killarney) + 0.75 H100-h (RunPod).
+- **GPU:** about 10.7 L40S/H100-h on Killarney (incl. Exp A 3.0) + 0.75 H100-h (RunPod).
 - **Pre-registered predictions:** each test file lists them with pass / fail. Failures are reported as they are; predictions were not edited afterwards.
 - **Reproduce on other clusters:** `alliance/setup.sh` + `alliance/job.sh <branch> scripts/portable_*.sh`.
 - **Large outputs:** per-sample outputs are not in git; they are on Killarney in `/scratch/yang0531/blf_data/`.
