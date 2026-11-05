@@ -96,6 +96,28 @@ Only Claude and open-weight models were reachable on the gateway. The non-Anthro
   **The edit removes the copying, not the doubting.** p50c's failures are still doubt: re-interpreting the question, or re-checking an answer that is already right. It is just no longer verbatim. Paraphrase cycling is present in 90% of capped non-looping outputs, but it is the form; the content is doubt. Thinking-off failures are ordinary reasoning errors.
 - **Doubt vs correctness (label view).** With thinking off, base doubts its first answer 15% of the time when it is right and 52% when it is wrong, so doubt is tied to correctness. With thinking on, doubt happens 95–100% of the time whatever the first answer. So the 0.8B model *can* calibrate doubt; thinking mode makes it doubt always. (Exp A gives the logprob view.)
 
+
+## 6d. Exp A: is the doubt calibrated? (branch `yang/expA`, `notes/expA_calibrated_doubt.md`)
+
+We measured P(next token starts a doubt / re-check) right after the model's first stated answer, together with resid·u at hs16, on fresh thinking-on traces (500 GSM8K + 500 MATH-500). The predictions were pre-registered; 3 of 4 failed. The kill rule was not triggered. GPU: about 3.0 h.
+
+| arm | n correct / wrong | AUC of P(doubt) for wrong vs right | AUC of resid·u | median P(doubt) after correct / wrong |
+|---|---|---|---|---|
+| base 0.8B, thinking on | 246 / 45 | 0.65 [0.55, 0.74] (0.56 after controls) | **0.80** (0.72 after controls) | 0.47 / 0.60 |
+| p50c on the same prefixes | 246 / 45 | 0.66 | 0.60 | 0.44 / 0.58 |
+| Qwen3.5-4B, own traces | 631 / 20 | 0.52 [0.39, 0.66] | — | 0.15 / 0.16 |
+| 0.8B, thinking-off text, no-think template | 210 / 161 | 0.72 | — | 0.005 / 0.023 |
+| same text inside `<think>` | 210 / 161 | 0.59 | — | 0.38 / 0.42 |
+
+- **The model knows when it is wrong, but its decision to doubt barely uses this.** resid·u separates wrong from right first answers (AUC 0.80), but correlates only weakly with the next-token doubt (Spearman 0.42).
+- **Thinking mode makes it doubt almost always.** The same text gets about 70× more doubt after a correct answer inside `<think>` than outside it. This agrees with the API labels in §6c.
+- **The edit pushes hardest where doubt was warranted.** Its push along −u is larger at wrong answers (−0.37 vs −0.13), which erases u's correctness signal (AUC 0.80 → 0.60). Doubt probability itself changes little at answer points (×0.92–0.94).
+- **The 4B is not better calibrated; it doubts less** (median 0.15 vs 0.47 after correct answers). It has only 20 wrong answers, so its CI is wide.
+- **Caveats:**
+  - Two detector/grader amendments were made after some AUCs had been seen; they apply to all arms, and the pre-fix numbers are kept.
+  - Wrong answers come later in the trace. The result survives a linear control, but a nonlinear confound is not ruled out.
+  - Astra's own logs show a weaker u signal (0.64, only 11 wrong answers).
+
 ## 6b. Untested hypotheses
 
 - Why do the late MLPs counteract the edit?
