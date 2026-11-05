@@ -1,0 +1,14 @@
+[queue] start Thu Nov  5 03:17:18 UTC 2026
+built /data2/ec2-user/models/qwen3.5-0.8b-astra/variants/top64_dprime_alpha6
+built /data2/ec2-user/models/qwen3.5-0.8b-astra/variants/top64_uproj_alpha6
+built /data2/ec2-user/models/qwen3.5-0.8b-astra/variants/rand_dir00
+built /data2/ec2-user/models/qwen3.5-0.8b-astra/variants/rand_dir01
+built /data2/ec2-user/models/qwen3.5-0.8b-astra/variants/rand_dir02
+built /data2/ec2-user/models/qwen3.5-0.8b-astra/variants/rand_dir03
+built /data2/ec2-user/models/qwen3.5-0.8b-astra/variants/rand_dir04
+SUMMARY {"tag": "p50c", "args": {"model": "/data2/ec2-user/models/qwen3.5-0.8b-astra/p50c", "tag": "p50c", "sets": "gsm8k,math500", "n": 200, "samples": 2, "max_tokens": 16384, "no_think": false, "rep_penalty": 1.0, "think_budget": 0, "mem": 0.85, "max_seqs": 256, "eager": false, "seed": 0}, "sec": 1893, "tok_per_s": 5013, "gsm8k": {"n": 400, "completion": 0.7575, "acc_all": 0.57, "acc_on_completed": 0.7524752475247525, "loop_end": 0.065, "mean_tokens": 9964.4075}, "math500": {"n": 400, "completion": 0.34, "acc_all": 0.3125, "acc_on_completed": 0.9044117647058824, "loop_end": 0.09, "mean_tokens": 13759.315}}
+[queue] p50c done Thu Nov  5 03:50:58 UTC 2026
+SUMMARY {"tag": "base", "args": {"model": "/data2/ec2-user/models/qwen3.5-0.8b-astra/base", "tag": "base", "sets": "gsm8k,math500", "n": 200, "samples": 2, "max_tokens": 16384, "no_think": false, "rep_penalty": 1.0, "think_budget": 0, "mem": 0.85, "max_seqs": 256, "eager": false, "seed": 0}, "sec": 2632, "tok_per_s": 4652, "gsm8k": {"n": 400, "completion": 0.125, "acc_all": 0.1475, "acc_on_completed": 0.94, "acc_lenient": 0.4025, "no_box_finished": 0.0, "loop_end": 0.8625, "mean_tokens": 14982.55}, "math500": {"n": 400, "completion": 0.07, "acc_all": 0.0725, "acc_on_completed": 0.9642857142857143, "acc_lenient": 0.2575, "no_box_finished": 0.0025, "loop_end": 0.8625, "mean_tokens": 15630.0825}}
+[queue] base done Thu Nov  5 04:36:31 UTC 2026
+SUMMARY {"tag": "base_nothink", "args": {"model": "/data2/ec2-user/models/qwen3.5-0.8b-astra/base", "tag": "base_nothink", "sets": "gsm8k,math500", "n": 200, "samples": 2, "max_tokens": 16384, "no_think": true, "rep_penalty": 1.0, "think_budget": 0, "mem": 0.85, "max_seqs": 256, "eager": false, "seed": 0}, "sec": 550, "tok_per_s": 5459, "gsm8k": {"n": 400, "completion": 0.99, "acc_all": 0.555, "acc_on_completed": 0.5606060606060606, "acc_lenient": 0.555, "no_box_finished": 0.0, "loop_end": 0.0025, "mean_tokens": 1512.8125}, "math500": {"n": 400, "completion": 0.8275, "acc_all": 0.5125, "acc_on_completed": 0.6193353474320241, "acc_lenient": 0.515, "no_box_finished": 0.0, "loop_end": 0.0525, "mean_tokens": 5994.535}}
+[queue] base_nothink done Thu Nov  5 04:46:14 UTC 2026

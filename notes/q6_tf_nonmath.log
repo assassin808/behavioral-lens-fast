@@ -1,0 +1,19 @@
+[transformers] The fast path is not available because one of the required library is not installed. Falling back to torch implementation. To install follow https://github.com/fla-org/flash-linear-attention#installation and https://github.com/Dao-AILab/causal-conv1d
+
+Loading weights:   0%|          | 0/320 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 320/320 [00:00<00:00, 41605.00it/s]
+
+Loading weights:   0%|          | 0/320 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 320/320 [00:00<00:00, 12240.00it/s]
+ifeval: 80 samples, 65 with loops (>3%), 19 closed </think>
+mmlupro1k: 80 samples, 17 with loops (>3%), 61 closed </think>
+gpqa: 0 samples, 0 with loops (>3%), 0 closed </think>
+math500: 80 samples, 20 with loops (>3%), 3 closed </think>
+
+dataset | texts | NLL loop-pos base→p50c | NLL prod-pos base→p50c
+ifeval loop-texts | 8 | 0.027 → 0.112 | 0.707 → 0.740
+ifeval prod-texts | 8 | — | 0.705 → 0.731
+mmlupro1k loop-texts | 8 | 0.099 → 0.141 | 0.533 → 0.560
+mmlupro1k prod-texts | 8 | 0.166 → 0.187 | 0.691 → 0.716
+math500 loop-texts | 8 | 0.120 → 0.162 | 0.401 → 0.421
+math500 prod-texts | 8 | 0.338 → 0.386 | 0.488 → 0.511

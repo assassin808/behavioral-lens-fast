@@ -1,0 +1,1429 @@
+{
+ "model": "claude-sonnet-5-5",
+ "n": 119,
+ "labels": {
+  "ours16:13": {
+   "label": "Newline before another \"Wait,\" re-check line",
+   "description": "Fires at the end-of-line newline (or a closing \"$\") after a computed or stated result inside a bulleted chain of thought, where the model is about to begin another \"Wait, ...\" line that re-checks or restates the same calculation.",
+   "repetition_related": true,
+   "raw": "LABEL: Newline before another \"Wait,\" re-check line\n\nDESCRIPTION: Fires at the end-of-line newline (or a closing \"$\") after a computed or stated result inside a bulleted chain of thought, where the model is about to begin another \"Wait, ...\" line that re-checks or restates the same calculation.\n\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.8333333333333333,
+    "tpr": 0.6666666666666666,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 2, 9, 10, 11"
+   }
+  },
+  "ours16:149": {
+   "label": "Newline before repeating \"Wait,\" line again",
+   "description": "Fires on the newline or indentation token that ends a repeated \"Wait, ...\" sentence in a loop, where the model is about to restate the same \"Wait, ...\" line verbatim.",
+   "repetition_related": true,
+   "raw": "LABEL: Newline before repeating \"Wait,\" line again\nDESCRIPTION: Fires on the newline or indentation token that ends a repeated \"Wait, ...\" sentence in a loop, where the model is about to restate the same \"Wait, ...\" line verbatim.\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.5,
+    "tpr": 0.3333333333333333,
+    "tnr": 0.6666666666666666,
+    "raw": "ACTIVE: 2, 4, 6, 12"
+   }
+  },
+  "ours16:1011": {
+   "label": "Final summation step after listed computations",
+   "description": "Fires at the start of a new bullet or line in a worked arithmetic solution, usually where the model is about to write the \"Total/Sum\" line that combines the previously computed values, often during a final-check recap.",
+   "repetition_related": true,
+   "raw": "LABEL: Final summation step after listed computations\nDESCRIPTION: Fires at the start of a new bullet or line in a worked arithmetic solution, usually where the model is about to write the \"Total/Sum\" line that combines the previously computed values, often during a final-check recap.\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.9166666666666667,
+    "tpr": 0.8333333333333334,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 4,5,7,8,12"
+   }
+  },
+  "ours16:1375": {
+   "label": "Newline after a stuck or contradictory reasoning step",
+   "description": "It fires on the newline token that ends a sentence where the chain-of-thought hits a dead end, contradiction, or circular conclusion, just before the model starts a new line such as \"Wait\", \"Okay, let's\", or \"Let's try\".",
+   "repetition_related": true,
+   "raw": "LABEL: Newline after a stuck or contradictory reasoning step\n\nDESCRIPTION: It fires on the newline token that ends a sentence where the chain-of-thought hits a dead end, contradiction, or circular conclusion, just before the model starts a new line such as \"Wait\", \"Okay, let's\", or \"Let's try\".\n\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 1.0,
+    "tpr": 1.0,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 1, 3, 5, 10, 11, 12"
+   }
+  },
+  "ours16:1444": {
+   "label": "Closing math \"$\" before repeated \"Wait,\" line",
+   "description": "Fires on the closing \"$\" (or newline) at the end of a restated or tautological equation, where the model is about to start a new \"Wait, ...\" line that re-checks or repeats the previous statement.",
+   "repetition_related": true,
+   "raw": "LABEL: Closing math \"$\" before repeated \"Wait,\" line\n\nDESCRIPTION: Fires on the closing \"$\" (or newline) at the end of a restated or tautological equation, where the model is about to start a new \"Wait, ...\" line that re-checks or repeats the previous statement.\n\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.8333333333333333,
+    "tpr": 0.6666666666666666,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 2,5,9,12"
+   }
+  },
+  "ours16:1729": {
+   "label": "Abstract noun completing generic formal phrase",
+   "description": "Fires on the final abstract noun or adverb (e.g., \"decision making\", \"sustainable practices\", \"social dynamics\") in generic, filler-like expository prose, where a sentence is close to ending.",
+   "repetition_related": false,
+   "raw": "LABEL: Abstract noun completing generic formal phrase\nDESCRIPTION: Fires on the final abstract noun or adverb (e.g., \"decision making\", \"sustainable practices\", \"social dynamics\") in generic, filler-like expository prose, where a sentence is close to ending.\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.75,
+    "tpr": 0.6666666666666666,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 2, 4, 5, 7, 11"
+   }
+  },
+  "ours16:2293": {
+   "label": "Subject token right before stating a computed value",
+   "description": "It fires on the subject or verb of a short bullet-point statement in math chain-of-thought (e.g. \"The distance\", \"he spends\", \"Bobby\", \"M_3 is\"), where the next token is a numeric result to be filled in, usually after a parallel preceding bullet.",
+   "repetition_related": false,
+   "raw": "LABEL: Subject token right before stating a computed value\nDESCRIPTION: It fires on the subject or verb of a short bullet-point statement in math chain-of-thought (e.g. \"The distance\", \"he spends\", \"Bobby\", \"M_3 is\"), where the next token is a numeric result to be filled in, usually after a parallel preceding bullet.\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.75,
+    "tpr": 0.5,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 4,9,11"
+   }
+  },
+  "ours16:2562": {
+   "label": "Indentation whitespace before repeated \"Wait,\" line",
+   "description": "It fires on the indentation whitespace token at the start of a new line inside a verbatim repetition loop of \"Wait, ...\" lines, where the model predicts \"Wait\" and then a copy of the previous line.",
+   "repetition_related": true,
+   "raw": "LABEL: Indentation whitespace before repeated \"Wait,\" line\n\nDESCRIPTION: It fires on the indentation whitespace token at the start of a new line inside a verbatim repetition loop of \"Wait, ...\" lines, where the model predicts \"Wait\" and then a copy of the previous line.\n\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.8333333333333333,
+    "tpr": 0.6666666666666666,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 2, 4, 7, 8"
+   }
+  },
+  "ours16:2657": {
+   "label": "Second member of a contrasted pair",
+   "description": "Fires at the point in a parallel construction (\"one X ... and the [other/latter/second/right]\") where the second of two contrasted items is being introduced or named, typically after the first item was already given.",
+   "repetition_related": false,
+   "raw": "LABEL: Second member of a contrasted pair\nDESCRIPTION: Fires at the point in a parallel construction (\"one X ... and the [other/latter/second/right]\") where the second of two contrasted items is being introduced or named, typically after the first item was already given.\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.75,
+    "tpr": 0.6666666666666666,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 1, 2, 3, 9, 12"
+   }
+  },
+  "ours16:2996": {
+   "label": "Sentence-ending period in Wikipedia prose",
+   "description": "Fires on the period (or newline) that ends a factual encyclopedic sentence, typically after a date, number, or unit, at the point where a new sentence or paragraph begins.",
+   "repetition_related": false,
+   "raw": "LABEL: Sentence-ending period in Wikipedia prose\nDESCRIPTION: Fires on the period (or newline) that ends a factual encyclopedic sentence, typically after a date, number, or unit, at the point where a new sentence or paragraph begins.\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.5,
+    "tpr": 0.3333333333333333,
+    "tnr": 0.6666666666666666,
+    "raw": "ACTIVE: 2, 7, 9, 11"
+   }
+  },
+  "ours16:3673": {
+   "label": "Mid-phrase token while restating earlier text",
+   "description": "It fires on a content token partway through a clause the model is re-stating or re-checking after a \"Wait,\" in its chain-of-thought, usually where the next tokens are a near-verbatim copy of an earlier phrase.",
+   "repetition_related": true,
+   "raw": "LABEL: Mid-phrase token while restating earlier text\n\nDESCRIPTION: It fires on a content token partway through a clause the model is re-stating or re-checking after a \"Wait,\" in its chain-of-thought, usually where the next tokens are a near-verbatim copy of an earlier phrase.\n\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.9166666666666667,
+    "tpr": 0.8333333333333334,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 2,4,6,8,11"
+   }
+  },
+  "ours16:3792": {
+   "label": "Number followed by parenthetical annotation or label",
+   "description": "Fires on the token right after a number or item (often \" (\" or \":\") in a running sum or list, where an annotation or source label is about to be given, as in \"2 (Pam) + 4\" or \"4 (first) + 2\".",
+   "repetition_related": false,
+   "raw": "LABEL: Number followed by parenthetical annotation or label\nDESCRIPTION: Fires on the token right after a number or item (often \" (\" or \":\") in a running sum or list, where an annotation or source label is about to be given, as in \"2 (Pam) + 4\" or \"4 (first) + 2\".\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.8333333333333333,
+    "tpr": 0.6666666666666666,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 4, 5, 8, 11"
+   }
+  },
+  "ours16:4365": {
+   "label": "End of final computed answer, before verification",
+   "description": "Fires on the punctuation (period or $$) that closes a step's final numeric result in a chain-of-thought, where the model is about to begin a \"Wait/Double check/Looks correct\" verification.",
+   "repetition_related": true,
+   "raw": "LABEL: End of final computed answer, before verification\nDESCRIPTION: Fires on the punctuation (period or $$) that closes a step's final numeric result in a chain-of-thought, where the model is about to begin a \"Wait/Double check/Looks correct\" verification.\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.9166666666666667,
+    "tpr": 0.8333333333333334,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 6, 7, 8, 10, 12"
+   }
+  },
+  "ours16:4371": {
+   "label": "Early sentence-start tokens after paragraph break",
+   "description": "Fires on the first few tokens of a new sentence or paragraph (often a determiner, pronoun, or subject word) at the start of a fresh topic, mostly in Wikipedia text or question openings, where the sentence subject is about to be established.",
+   "repetition_related": false,
+   "raw": "LABEL: Early sentence-start tokens after paragraph break\nDESCRIPTION: Fires on the first few tokens of a new sentence or paragraph (often a determiner, pronoun, or subject word) at the start of a fresh topic, mostly in Wikipedia text or question openings, where the sentence subject is about to be established.\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.5,
+    "tpr": 0.5,
+    "tnr": 0.5,
+    "raw": "ACTIVE: 1, 4, 7, 9, 10, 12"
+   }
+  },
+  "ours16:5526": {
+   "label": "Final token of a restated, copied phrase",
+   "description": "It fires on the last token of a clause or number that the model is re-stating nearly verbatim from the immediately preceding line, typically in \"Wait, if...\" or \"This implies that...\" re-checking bullets, just before the line ends and a new bullet begins.",
+   "repetition_related": true,
+   "raw": "LABEL: Final token of a restated, copied phrase\nDESCRIPTION: It fires on the last token of a clause or number that the model is re-stating nearly verbatim from the immediately preceding line, typically in \"Wait, if...\" or \"This implies that...\" re-checking bullets, just before the line ends and a new bullet begins.\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.75,
+    "tpr": 0.6666666666666666,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 2, 4, 5, 8, 11"
+   }
+  },
+  "ours16:5917": {
+   "label": "Period ending problem-statement sentence in analysis",
+   "description": "Fires on the sentence-ending period (or the closing \"$\" before the period) that finishes a restatement of the given problem or fact, in the model's structured \"Analyze the Request\" chain-of-thought, just before it moves on to the goal or next step.",
+   "repetition_related": false,
+   "raw": "LABEL: Period ending problem-statement sentence in analysis\nDESCRIPTION: Fires on the sentence-ending period (or the closing \"$\" before the period) that finishes a restatement of the given problem or fact, in the model's structured \"Analyze the Request\" chain-of-thought, just before it moves on to the goal or next step.\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.75,
+    "tpr": 0.5,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 3,10,12"
+   }
+  },
+  "ours16:6592": {
+   "label": "Noun in self-correction constraint-checking sentences",
+   "description": "It fires on the head noun or key word completing a noun phrase (e.g. \"clown\", \"lists\", \"ticks\", \"count\") inside the model's \"Wait, I need to check/make sure...\" self-verification reasoning about formatting or constraints, where the sentence is about to continue with a clause like \"unless\", \"or\", or \"around\".",
+   "repetition_related": false,
+   "raw": "LABEL: Noun in self-correction constraint-checking sentences\n\nDESCRIPTION: It fires on the head noun or key word completing a noun phrase (e.g. \"clown\", \"lists\", \"ticks\", \"count\") inside the model's \"Wait, I need to check/make sure...\" self-verification reasoning about formatting or constraints, where the sentence is about to continue with a clause like \"unless\", \"or\", or \"around\".\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.5833333333333333,
+    "tpr": 0.5,
+    "tnr": 0.6666666666666666,
+    "raw": "ACTIVE: 4, 7, 8, 10, 12"
+   }
+  },
+  "ours16:7142": {
+   "label": "Noun completing a modified noun phrase",
+   "description": "Fires on a head noun (press, files, flag, traffic, maps, debts) that ends a short noun phrase right after a modifier or possessive, typically in Wikipedia text, where a punctuation mark or preposition is expected next.",
+   "repetition_related": false,
+   "raw": "LABEL: Noun completing a modified noun phrase\nDESCRIPTION: Fires on a head noun (press, files, flag, traffic, maps, debts) that ends a short noun phrase right after a modifier or possessive, typically in Wikipedia text, where a punctuation mark or preposition is expected next.\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.75,
+    "tpr": 0.5,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 1, 8, 11"
+   }
+  },
+  "ours16:7236": {
+   "label": "Copying next number during repeated calculation",
+   "description": "Fires on the token just before a number (e.g. \"1\" of 162, a space before 90 or 35) when the model is restating an earlier equation or expression verbatim, so the next token is a predictable copy of a number seen earlier.",
+   "repetition_related": true,
+   "raw": "LABEL: Copying next number during repeated calculation\nDESCRIPTION: Fires on the token just before a number (e.g. \"1\" of 162, a space before 90 or 35) when the model is restating an earlier equation or expression verbatim, so the next token is a predictable copy of a number seen earlier.\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.8333333333333334,
+    "tpr": 0.8333333333333334,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 1,3,4,5,8,10"
+   }
+  },
+  "ours16:7614": {
+   "label": "Clause-boundary comma after complete main clause",
+   "description": "Fires on a comma (or semicolon) that follows a complete clause or noun phrase in encyclopedic prose, where a continuation such as a relative clause, participial phrase, or coordinated clause is expected next.",
+   "repetition_related": false,
+   "raw": "LABEL: Clause-boundary comma after complete main clause\n\nDESCRIPTION: Fires on a comma (or semicolon) that follows a complete clause or noun phrase in encyclopedic prose, where a continuation such as a relative clause, participial phrase, or coordinated clause is expected next.\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.9166666666666667,
+    "tpr": 0.8333333333333334,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 1, 9, 12, 6, 8\n\nWait, need to be one line only.\n\nACTIVE: 1, 6, 8, 9, 12"
+   }
+  },
+  "ours16:7770": {
+   "label": "\"Wait\" tokens in repeated self-correction loops",
+   "description": "It fires on \"Wait\" (or \"Wait, no/but\") in degenerate loops where the model keeps restating the same math claim after each \"Wait,\" and the next tokens are predicted to repeat the earlier statement verbatim.",
+   "repetition_related": true,
+   "raw": "LABEL: \"Wait\" tokens in repeated self-correction loops\n\nDESCRIPTION: It fires on \"Wait\" (or \"Wait, no/but\") in degenerate loops where the model keeps restating the same math claim after each \"Wait,\" and the next tokens are predicted to repeat the earlier statement verbatim.\n\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.8333333333333334,
+    "tpr": 0.8333333333333334,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 1, 4, 5, 9, 11, 12"
+   }
+  },
+  "ours16:8156": {
+   "label": "Content word completing a clause (noun/verb)",
+   "description": "It fires on a content word (often a noun like \"suburbs\" or \"franchise\", or a verb like \"provided\" or \"resigned\") that is the subject or predicate of a Wikipedia-style narrative clause, and where the next token is typically a new object, a continuation, or the end of the clause.",
+   "repetition_related": false,
+   "raw": "LABEL: Content word completing a clause (noun/verb)\n\nDESCRIPTION: It fires on a content word (often a noun like \"suburbs\" or \"franchise\", or a verb like \"provided\" or \"resigned\") that is the subject or predicate of a Wikipedia-style narrative clause, and where the next token is typically a new object, a continuation, or the end of the clause.\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.75,
+    "tpr": 0.6666666666666666,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 6,9,10,11,12"
+   }
+  },
+  "ours16:8733": {
+   "label": "Noun after \"imply/part of a\" hedging",
+   "description": "Fires on the word right after an article or verb like \"a\", \"imply\", or \"is\" (e.g. \"specific\", \"sequence\", \"larger\", \"defined\") in the model's self-doubting speculation about whether a problem's wording hides a trick or hidden structure.",
+   "repetition_related": false,
+   "raw": "LABEL: Noun after \"imply/part of a\" hedging\nDESCRIPTION: Fires on the word right after an article or verb like \"a\", \"imply\", or \"is\" (e.g. \"specific\", \"sequence\", \"larger\", \"defined\") in the model's self-doubting speculation about whether a problem's wording hides a trick or hidden structure.\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.8333333333333334,
+    "tpr": 0.8333333333333334,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 1, 2, 5, 6, 7, 11"
+   }
+  },
+  "ours16:9008": {
+   "label": "Content word completing a short simple sentence",
+   "description": "Fires on the final content word (often a noun, verb, or adjective) of a short, simple, declarative sentence being drafted, typically just before the period, usually in lists of example sentences or generic filler prose.",
+   "repetition_related": false,
+   "raw": "LABEL: Content word completing a short simple sentence\n\nDESCRIPTION: Fires on the final content word (often a noun, verb, or adjective) of a short, simple, declarative sentence being drafted, typically just before the period, usually in lists of example sentences or generic filler prose.\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.8333333333333333,
+    "tpr": 0.6666666666666666,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 3, 4, 9, 11"
+   }
+  },
+  "ours16:9112": {
+   "label": "Verb/noun in conditional \"if subject X\" restatement",
+   "description": "Fires on the verb or unit right after \"if/wait, if [subject]\" in the model's self-questioning about a word problem, where it is about to restate the literal meaning or consequence of that action (e.g. \"if she places, they are placed\").",
+   "repetition_related": true,
+   "raw": "LABEL: Verb/noun in conditional \"if subject X\" restatement\n\nDESCRIPTION: Fires on the verb or unit right after \"if/wait, if [subject]\" in the model's self-questioning about a word problem, where it is about to restate the literal meaning or consequence of that action (e.g. \"if she places, they are placed\").\n\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.5833333333333333,
+    "tpr": 0.5,
+    "tnr": 0.6666666666666666,
+    "raw": "ACTIVE: 1, 3, 6, 9, 12"
+   }
+  },
+  "ours16:9790": {
+   "label": "Mid-phrase token in memorized fixed phrase",
+   "description": "Fires on a token inside a well-known or formulaic multi-word sequence (a boilerplate HTML tag, a Bible verse, a formula definition, an official organization name) where the next token is highly predictable from memory.",
+   "repetition_related": false,
+   "raw": "LABEL: Mid-phrase token in memorized fixed phrase\nDESCRIPTION: Fires on a token inside a well-known or formulaic multi-word sequence (a boilerplate HTML tag, a Bible verse, a formula definition, an official organization name) where the next token is highly predictable from memory.\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.75,
+    "tpr": 0.6666666666666666,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 4,5,8,11,12"
+   }
+  },
+  "ours16:10080": {
+   "label": "Mental-math decomposition: next number to split",
+   "description": "Fires on the operator or space after \"a \u00d7 \" (or \"a \u00d7 (\") in an arithmetic double-check, where the model is about to rewrite one factor as a round number or a difference (e.g. 4\u00d740, 50\u22121) to compute the product by distribution.",
+   "repetition_related": false,
+   "raw": "LABEL: Mental-math decomposition: next number to split\nDESCRIPTION: Fires on the operator or space after \"a \u00d7 \" (or \"a \u00d7 (\") in an arithmetic double-check, where the model is about to rewrite one factor as a round number or a difference (e.g. 4\u00d740, 50\u22121) to compute the product by distribution.\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.8333333333333333,
+    "tpr": 0.6666666666666666,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 3, 4, 6, 10"
+   }
+  },
+  "ours16:10763": {
+   "label": "Binary operator/equals before next operand number",
+   "description": "Fires on an arithmetic operator (-, +, =, sqrt) in a math expression, right after the left operand, where the next token is a number or operand to be computed.",
+   "repetition_related": false,
+   "raw": "LABEL: Binary operator/equals before next operand number\nDESCRIPTION: Fires on an arithmetic operator (-, +, =, sqrt) in a math expression, right after the left operand, where the next token is a number or operand to be computed.\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.9166666666666667,
+    "tpr": 0.8333333333333334,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 1, 3, 4, 8, 10"
+   }
+  },
+  "ours16:11102": {
+   "label": "Token right after \"Wait,\" restating prior content",
+   "description": "Fires on the first few tokens after a \"Wait,\" self-correction where the model begins re-copying or re-deriving an expression or phrase it just wrote, as it predicts the next token of that repeated content.",
+   "repetition_related": true,
+   "raw": "LABEL: Token right after \"Wait,\" restating prior content\n\nDESCRIPTION: Fires on the first few tokens after a \"Wait,\" self-correction where the model begins re-copying or re-deriving an expression or phrase it just wrote, as it predicts the next token of that repeated content.\n\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.8333333333333334,
+    "tpr": 0.8333333333333334,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 1, 2, 3, 8, 10, 12"
+   }
+  },
+  "ours16:11268": {
+   "label": "Plural subject just before predicate verb",
+   "description": "Fires on a plural subject (or plural pronoun/list item such as \"These\", \"they\", \"them\", \"are\") at the point where the model predicts a plural predicate, often after a list of several entities or numbers.",
+   "repetition_related": false,
+   "raw": "LABEL: Plural subject just before predicate verb\n\nDESCRIPTION: Fires on a plural subject (or plural pronoun/list item such as \"These\", \"they\", \"them\", \"are\") at the point where the model predicts a plural predicate, often after a list of several entities or numbers.\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 1.0,
+    "tpr": 1.0,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 1,2,4,7,8,11"
+   }
+  },
+  "ours16:12009": {
+   "label": "Single-digit numeral token in reasoning",
+   "description": "Fires on a single-digit number (e.g., 3, 5, 7, 8) that is being stated, restated, or checked from the problem or earlier steps, often inside a deeply indented bullet list in chain-of-thought.",
+   "repetition_related": true,
+   "raw": "LABEL: Single-digit numeral token in reasoning\nDESCRIPTION: Fires on a single-digit number (e.g., 3, 5, 7, 8) that is being stated, restated, or checked from the problem or earlier steps, often inside a deeply indented bullet list in chain-of-thought.\n\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 1.0,
+    "tpr": 1.0,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 4,5,6,8,9,10"
+   }
+  },
+  "ours16:12061": {
+   "label": "First digit of multiplication result",
+   "description": "Fires on the leading (or an early) digit of a product being written out during step-by-step arithmetic, where the model is mentally computing the result of a multiplication and emitting it digit by digit.",
+   "repetition_related": false,
+   "raw": "LABEL: First digit of multiplication result\nDESCRIPTION: Fires on the leading (or an early) digit of a product being written out during step-by-step arithmetic, where the model is mentally computing the result of a multiplication and emitting it digit by digit.\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.8333333333333333,
+    "tpr": 0.6666666666666666,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 1, 3, 6, 11"
+   }
+  },
+  "ours16:13144": {
+   "label": "Final digit of a computed arithmetic result",
+   "description": "Fires on the last digit token of a numeric answer to an arithmetic calculation (e.g., \"94[[0]]\", \"22[[1]]\"), right where the result is complete and the model is about to close the expression or start a check.",
+   "repetition_related": false,
+   "raw": "LABEL: Final digit of a computed arithmetic result\n\nDESCRIPTION: Fires on the last digit token of a numeric answer to an arithmetic calculation (e.g., \"94[[0]]\", \"22[[1]]\"), right where the result is complete and the model is about to close the expression or start a check.\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.75,
+    "tpr": 0.6666666666666666,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 2,4,6,7,9"
+   }
+  },
+  "ours16:13840": {
+   "label": "Digit copying inside repeated number restatement",
+   "description": "Fires on a digit within a multi-digit number that the model is re-typing from earlier context (e.g., re-quoting \"13\", \"27\", \"28\"), where the next digit is predictable by copying the earlier occurrence.",
+   "repetition_related": true,
+   "raw": "LABEL: Digit copying inside repeated number restatement\n\nDESCRIPTION: Fires on a digit within a multi-digit number that the model is re-typing from earlier context (e.g., re-quoting \"13\", \"27\", \"28\"), where the next digit is predictable by copying the earlier occurrence.\n\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.6666666666666667,
+    "tpr": 0.5,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 2, 3, 8, 12"
+   }
+  },
+  "ours16:14311": {
+   "label": "Proposed alternative interpretation before \"? No\"",
+   "description": "Fires on the final token of a hypothetical alternative reading or entity (e.g., \"Type Y\", \"simple interest\", \"red ties\") inside a self-doubt question like \"Could it be X?\" or \"Maybe it's X?\", where the model expects to dismiss it next.",
+   "repetition_related": true,
+   "raw": "LABEL: Proposed alternative interpretation before \"? No\"\nDESCRIPTION: Fires on the final token of a hypothetical alternative reading or entity (e.g., \"Type Y\", \"simple interest\", \"red ties\") inside a self-doubt question like \"Could it be X?\" or \"Maybe it's X?\", where the model expects to dismiss it next.\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.8333333333333333,
+    "tpr": 0.6666666666666666,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 1, 3, 6, 8"
+   }
+  },
+  "ours16:14622": {
+   "label": "Verification/review step heading after calculation",
+   "description": "Fires on the first word (e.g. \"Verify\", \"Review\", \"Double\", \"Structure\") of a bolded numbered step heading near the end of a worked solution, where the model is about to check or review its result.",
+   "repetition_related": false,
+   "raw": "LABEL: Verification/review step heading after calculation\n\nDESCRIPTION: Fires on the first word (e.g. \"Verify\", \"Review\", \"Double\", \"Structure\") of a bolded numbered step heading near the end of a worked solution, where the model is about to check or review its result.\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.6666666666666666,
+    "tpr": 0.3333333333333333,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 4, 10"
+   }
+  },
+  "ours16:15688": {
+   "label": "Wikitext numeric separator \"@.@\" / \"@,@\" tokens",
+   "description": "Fires on the \"@\" or \".@\"/\",@\" pieces of WikiText-style number formatting (decimal points and thousands separators inside measurements), where the next token is a digit.",
+   "repetition_related": false,
+   "raw": "LABEL: Wikitext numeric separator \"@.@\" / \"@,@\" tokens\n\nDESCRIPTION: Fires on the \"@\" or \".@\"/\",@\" pieces of WikiText-style number formatting (decimal points and thousands separators inside measurements), where the next token is a digit.\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.6666666666666666,
+    "tpr": 0.3333333333333333,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 3, 11"
+   }
+  },
+  "ours16:16107": {
+   "label": "Quantity noun before colon/equals in calculation",
+   "description": "Fires on the final token of a quantity label (e.g. \"Powers of [2]\", \"Length in [feet]\", \"per [year]\") in a step-by-step math line, right before the colon or equals sign and the computed value.",
+   "repetition_related": false,
+   "raw": "LABEL: Quantity noun before colon/equals in calculation\nDESCRIPTION: Fires on the final token of a quantity label (e.g. \"Powers of [2]\", \"Length in [feet]\", \"per [year]\") in a step-by-step math line, right before the colon or equals sign and the computed value.\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.6666666666666666,
+    "tpr": 0.3333333333333333,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 4, 11"
+   }
+  },
+  "pub18:323": {
+   "label": "Function words preceding mathematical domain/structure",
+   "description": "Fires on function words (and, an, over, of, is, a) in abstract-algebra or analysis discussions, where the next token is likely a mathematical structure, set, or domain such as a ring, field, \u2124[x], \u211d, or \"defined on\".",
+   "repetition_related": false,
+   "raw": "LABEL: Function words preceding mathematical domain/structure\nDESCRIPTION: Fires on function words (and, an, over, of, is, a) in abstract-algebra or analysis discussions, where the next token is likely a mathematical structure, set, or domain such as a ring, field, \u2124[x], \u211d, or \"defined on\".\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.8333333333333334,
+    "tpr": 0.8333333333333334,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 9, 3, 4, 2, 12, 7"
+   }
+  },
+  "pub18:373": {
+   "label": "Early tokens of a question's first sentence",
+   "description": "Fires on function words or subject nouns near the start of a question or sentence (e.g., \"If [the]\", \"A [defendant]\", \"Question: [On]\"), mostly in multiple-choice prompts about business or law, where the next tokens begin the problem's main subject.",
+   "repetition_related": false,
+   "raw": "LABEL: Early tokens of a question's first sentence\n\nDESCRIPTION: Fires on function words or subject nouns near the start of a question or sentence (e.g., \"If [the]\", \"A [defendant]\", \"Question: [On]\"), mostly in multiple-choice prompts about business or law, where the next tokens begin the problem's main subject.\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.5833333333333334,
+    "tpr": 0.16666666666666666,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 3"
+   }
+  },
+  "pub18:551": {
+   "label": "Start of a restated or alternative problem quote",
+   "description": "It fires at the first token of a new quoted question or statement, such as an opening quote mark or \"How\"/\"What\"/\"The\". This usually happens in lists of alternative problem phrasings or variants that the model brainstorms and re-enumerates, where the next tokens are likely to echo an earlier phrase.",
+   "repetition_related": true,
+   "raw": "LABEL: Start of a restated or alternative problem quote\nDESCRIPTION: It fires at the first token of a new quoted question or statement, such as an opening quote mark or \"How\"/\"What\"/\"The\". This usually happens in lists of alternative problem phrasings or variants that the model brainstorms and re-enumerates, where the next tokens are likely to echo an earlier phrase.\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.8333333333333334,
+    "tpr": 0.8333333333333334,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 3, 7, 9, 11, 10, 6"
+   }
+  },
+  "pub18:563": {
+   "label": "Restating the problem's topic or text",
+   "description": "Fires at the token where the model begins to restate or paraphrase content from the prompt (the topic, the question, option labels, or what the problem states), often just after a preposition, article, or option letter.",
+   "repetition_related": true,
+   "raw": "LABEL: Restating the problem's topic or text\nDESCRIPTION: Fires at the token where the model begins to restate or paraphrase content from the prompt (the topic, the question, option labels, or what the problem states), often just after a preposition, article, or option letter.\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.5,
+    "tpr": 0.3333333333333333,
+    "tnr": 0.6666666666666666,
+    "raw": "ACTIVE: 6,9,11,12"
+   }
+  },
+  "pub18:591": {
+   "label": "Number-expected token during self-doubt rechecking",
+   "description": "Fires on tokens in \"Wait, let me recheck\" reasoning, where the model re-examines or re-states a problem's setup and the next token is likely a number or math expression (e.g., the base in log_2 64, \"the first 180 days\", \"= 10%\").",
+   "repetition_related": true,
+   "raw": "LABEL: Number-expected token during self-doubt rechecking\n\nDESCRIPTION: Fires on tokens in \"Wait, let me recheck\" reasoning, where the model re-examines or re-states a problem's setup and the next token is likely a number or math expression (e.g., the base in log_2 64, \"the first 180 days\", \"= 10%\").\n\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.8333333333333334,
+    "tpr": 0.8333333333333334,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 1, 2, 4, 9, 11, 12"
+   }
+  },
+  "pub18:723": {
+   "label": "First token of new topic sentence",
+   "description": "Fires on the capitalized first word (often a split subword of a rare noun) that begins a new sentence or paragraph right after a full stop, where the text shifts to a new subject or subtopic in Wikipedia-style prose.",
+   "repetition_related": false,
+   "raw": "LABEL: First token of new topic sentence\n\nDESCRIPTION: Fires on the capitalized first word (often a split subword of a rare noun) that begins a new sentence or paragraph right after a full stop, where the text shifts to a new subject or subtopic in Wikipedia-style prose.\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.5,
+    "tpr": 0.3333333333333333,
+    "tnr": 0.6666666666666666,
+    "raw": "ACTIVE: 3, 6, 10, 12"
+   }
+  },
+  "pub18:761": {
+   "label": "Analytic commentary on a problem's phrasing or wording",
+   "description": "Fires mid-sentence in the model's reasoning when it comments on the wording or interpretation of a question, as in \"This phrasing...\", \"The calculation...\", or \"implies a portion...\", usually just before it explains what the phrasing means or confirms the approach.",
+   "repetition_related": false,
+   "raw": "LABEL: Analytic commentary on a problem's phrasing or wording\n\nDESCRIPTION: Fires mid-sentence in the model's reasoning when it comments on the wording or interpretation of a question, as in \"This phrasing...\", \"The calculation...\", or \"implies a portion...\", usually just before it explains what the phrasing means or confirms the approach.\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.8333333333333334,
+    "tpr": 0.8333333333333334,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 5, 9, 10, 11, 12, 6"
+   }
+  },
+  "pub18:770": {
+   "label": "Mid-phrase token before a short commentary continuation",
+   "description": "It fires on a token ending a quoted or drafted fragment, often a dash, arrow, or mid-phrase word, where the model is about to continue the phrase or add a brief remark such as \"no, that makes no sense\" or \"yes, that's what I mean\".",
+   "repetition_related": false,
+   "raw": "LABEL: Mid-phrase token before a short commentary continuation\n\nDESCRIPTION: It fires on a token ending a quoted or drafted fragment, often a dash, arrow, or mid-phrase word, where the model is about to continue the phrase or add a brief remark such as \"no, that makes no sense\" or \"yes, that's what I mean\".\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.6666666666666666,
+    "tpr": 0.6666666666666666,
+    "tnr": 0.6666666666666666,
+    "raw": "ACTIVE: 1, 3, 6, 7, 10, 12"
+   }
+  },
+  "pub18:820": {
+   "label": "Mid-sentence content word before a continuing phrase",
+   "description": "Fires on a noun, verb, or adverb in Wikipedia-style prose, mid-clause, where the sentence is about to continue with a prepositional, relative, or participial phrase (e.g., \"of\", \"with\", \"as\", \"to\"). It fires on varied tokens in descriptive encyclopedic text, with no single topic.",
+   "repetition_related": false,
+   "raw": "LABEL: Mid-sentence content word before a continuing phrase\n\nDESCRIPTION: Fires on a noun, verb, or adverb in Wikipedia-style prose, mid-clause, where the sentence is about to continue with a prepositional, relative, or participial phrase (e.g., \"of\", \"with\", \"as\", \"to\"). It fires on varied tokens in descriptive encyclopedic text, with no single topic.\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.75,
+    "tpr": 0.6666666666666666,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 2,5,7,9,3"
+   }
+  },
+  "pub18:937": {
+   "label": "Mid-clause verb/auxiliary in restated question",
+   "description": "Fires on a verb, auxiliary or participle in the middle of a clause (e.g. \"had\", \"constant\", \"taken on\", \"decide\") in the model's \"Wait, let's re-read the question\" passages, where it paraphrases or quotes the problem or constraint and the next token continues that clause.",
+   "repetition_related": true,
+   "raw": "LABEL: Mid-clause verb/auxiliary in restated question\nDESCRIPTION: Fires on a verb, auxiliary or participle in the middle of a clause (e.g. \"had\", \"constant\", \"taken on\", \"decide\") in the model's \"Wait, let's re-read the question\" passages, where it paraphrases or quotes the problem or constraint and the next token continues that clause.\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.6666666666666666,
+    "tpr": 0.6666666666666666,
+    "tnr": 0.6666666666666666,
+    "raw": "ACTIVE: 2, 3, 4, 9, 10, 11"
+   }
+  },
+  "pub18:941": {
+   "label": "Subject noun right before main verb",
+   "description": "Fires on the subject of a sentence (often \"This [noun]\", \"we\", or a short noun phrase) in formal or summary prose, where the model is about to produce the main verb, typically \"outlines\", \"involves\", \"highlights\" or \"have completed\".",
+   "repetition_related": false,
+   "raw": "LABEL: Subject noun right before main verb\nDESCRIPTION: Fires on the subject of a sentence (often \"This [noun]\", \"we\", or a short noun phrase) in formal or summary prose, where the model is about to produce the main verb, typically \"outlines\", \"involves\", \"highlights\" or \"have completed\".\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.75,
+    "tpr": 0.6666666666666666,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 1, 2, 6, 9, 10"
+   }
+  },
+  "pub18:983": {
+   "label": "Space before next numbered list item",
+   "description": "Fires on a whitespace token (usually a space after a newline's indentation, or after \"Step\") right before the next list number, such as \"2.\" or \"3.\", in an enumerated plan or step list. It predicts the next item's number.",
+   "repetition_related": false,
+   "raw": "LABEL: Space before next numbered list item\nDESCRIPTION: Fires on a whitespace token (usually a space after a newline's indentation, or after \"Step\") right before the next list number, such as \"2.\" or \"3.\", in an enumerated plan or step list. It predicts the next item's number.\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.9166666666666667,
+    "tpr": 0.8333333333333334,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 3, 4, 8, 9, 10"
+   }
+  },
+  "pub18:1034": {
+   "label": "Subject noun after determiner, predicate next",
+   "description": "It fires on a noun or word that serves as the grammatical subject (e.g. \"the prosecution\", \"my brother\", \"the government\") or a mid-phrase conjunction or modifier, where the next token is expected to be a verb or the continuation of a noun phrase.",
+   "repetition_related": false,
+   "raw": "LABEL: Subject noun after determiner, predicate next\n\nDESCRIPTION: It fires on a noun or word that serves as the grammatical subject (e.g. \"the prosecution\", \"my brother\", \"the government\") or a mid-phrase conjunction or modifier, where the next token is expected to be a verb or the continuation of a noun phrase.\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.41666666666666663,
+    "tpr": 0.5,
+    "tnr": 0.3333333333333333,
+    "raw": "ACTIVE: 1,3,5,6,8,10,11"
+   }
+  },
+  "pub18:1095": {
+   "label": "Demonstrative/determiner starting a generalization about problems",
+   "description": "Fires on \"these\" or \"two\" (and occasionally \"are\") after \"Usually,\"/\"However, sometimes\", where the model reflects on how this type of problem is typically interpreted and the next token will be \"problems\"/\"terms\"/\"times\".",
+   "repetition_related": false,
+   "raw": "LABEL: Demonstrative/determiner starting a generalization about problems\nDESCRIPTION: Fires on \"these\" or \"two\" (and occasionally \"are\") after \"Usually,\"/\"However, sometimes\", where the model reflects on how this type of problem is typically interpreted and the next token will be \"problems\"/\"terms\"/\"times\".\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.5,
+    "tpr": 0.5,
+    "tnr": 0.5,
+    "raw": "ACTIVE: 3, 11, 1, 9, 12, 6"
+   }
+  },
+  "pub18:1418": {
+   "label": "Index/exponent separator in structured math sequences",
+   "description": "Fires on punctuation or subscript tokens (comma, \"_\", \"^\", \"&\") inside coordinate lists, matrix entries, and polynomial or exponent terms, where the model is mid-way through a patterned enumeration and can predict the next index or exponent from the pattern.",
+   "repetition_related": true,
+   "raw": "LABEL: Index/exponent separator in structured math sequences\n\nDESCRIPTION: Fires on punctuation or subscript tokens (comma, \"_\", \"^\", \"&\") inside coordinate lists, matrix entries, and polynomial or exponent terms, where the model is mid-way through a patterned enumeration and can predict the next index or exponent from the pattern.\n\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.5833333333333333,
+    "tpr": 0.5,
+    "tnr": 0.6666666666666666,
+    "raw": "ACTIVE: 1, 5, 7, 8, 10"
+   }
+  },
+  "pub18:1461": {
+   "label": "Verb/connective right after subject, predicting \"to\"",
+   "description": "Fires on a verb, adverb, or connective that directly follows a subject noun phrase or clause (e.g. \"intended\", \"planned\", \"demands\", \"because\", \"also\"), where the next token is likely an infinitive \"to\" or a verb complement.",
+   "repetition_related": false,
+   "raw": "LABEL: Verb/connective right after subject, predicting \"to\"\nDESCRIPTION: Fires on a verb, adverb, or connective that directly follows a subject noun phrase or clause (e.g. \"intended\", \"planned\", \"demands\", \"because\", \"also\"), where the next token is likely an infinitive \"to\" or a verb complement.\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.75,
+    "tpr": 0.6666666666666666,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 1, 4, 5, 9, 10"
+   }
+  },
+  "pub18:1470": {
+   "label": "Hyphen \"@-@\" token in Wikipedia compounds",
+   "description": "Fires mostly on the second \"@\" of the \"@-@\" hyphen marker in Wikipedia-style compound words (e.g. \"time @-@ travel\", \"dual @-@ monitor\"), and occasionally on the next token of a multi-word name or phrase, such as \"Wolf\" or \"Hop\" or on the closing \")\" of a list marker, where the continuation is highly predictable from the preceding context.",
+   "repetition_related": false,
+   "raw": "LABEL: Hyphen \"@-@\" token in Wikipedia compounds\n\nDESCRIPTION: Fires mostly on the second \"@\" of the \"@-@\" hyphen marker in Wikipedia-style compound words (e.g. \"time @-@ travel\", \"dual @-@ monitor\"), and occasionally on the next token of a multi-word name or phrase, such as \"Wolf\" or \"Hop\" or on the closing \")\" of a list marker, where the continuation is highly predictable from the preceding context.\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.6666666666666666,
+    "tpr": 0.6666666666666666,
+    "tnr": 0.6666666666666666,
+    "raw": "ACTIVE: 5, 8, 12, 2, 6, 9"
+   }
+  },
+  "pub18:1477": {
+   "label": "Word-initial fragments awaiting suffix completion",
+   "description": "Fires on incomplete first-subword tokens like \"bec\" (became/become), \"progen\" (progenitor), \"na\u00ef\" (na\u00efve), and \"portion\", where the next token is a predictable continuation that completes the word.",
+   "repetition_related": false,
+   "raw": "LABEL: Word-initial fragments awaiting suffix completion\n\nDESCRIPTION: Fires on incomplete first-subword tokens like \"bec\" (became/become), \"progen\" (progenitor), \"na\u00ef\" (na\u00efve), and \"portion\", where the next token is a predictable continuation that completes the word.\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.5833333333333333,
+    "tpr": 0.5,
+    "tnr": 0.6666666666666666,
+    "raw": "ACTIVE: 4, 7, 11, 2, 10"
+   }
+  },
+  "pub18:1498": {
+   "label": "Inside conditional clause in reasoning bullets",
+   "description": "Fires on the subject or verb of a short conditional or scenario clause (\"If she quits\", \"If I peel\", \"does the time\") in a bullet-point math chain-of-thought, just before the clause's consequence is stated (e.g., \"...after 30 years,\" or \"...it takes 1\").",
+   "repetition_related": false,
+   "raw": "LABEL: Inside conditional clause in reasoning bullets\n\nDESCRIPTION: Fires on the subject or verb of a short conditional or scenario clause (\"If she quits\", \"If I peel\", \"does the time\") in a bullet-point math chain-of-thought, just before the clause's consequence is stated (e.g., \"...after 30 years,\" or \"...it takes 1\").\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.5,
+    "tpr": 0.3333333333333333,
+    "tnr": 0.6666666666666666,
+    "raw": "ACTIVE: 7, 8, 9, 12"
+   }
+  },
+  "pub18:1539": {
+   "label": "Final token before repeated phrase restarts",
+   "description": "Fires at the last token of a repeated unit inside a verbatim loop (e.g., \"life\", closing quote/bracket, \"$.\"), where the model predicts the loop will restart with the same sequence again.",
+   "repetition_related": true,
+   "raw": "LABEL: Final token before repeated phrase restarts\nDESCRIPTION: Fires at the last token of a repeated unit inside a verbatim loop (e.g., \"life\", closing quote/bracket, \"$.\"), where the model predicts the loop will restart with the same sequence again.\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.9166666666666667,
+    "tpr": 0.8333333333333334,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 2,5,6,7,11"
+   }
+  },
+  "pub18:1699": {
+   "label": "Function word mid-phrase when restating earlier text",
+   "description": "It fires on a function word or modifier (e.g. \"white\", \"an\", \"per\", \"are\", \"blue\", \"'s\") in the middle of a phrase the model is paraphrasing or re-quoting from earlier in the problem, where the next token is a predictable noun that was already given.",
+   "repetition_related": true,
+   "raw": "LABEL: Function word mid-phrase when restating earlier text\n\nDESCRIPTION: It fires on a function word or modifier (e.g. \"white\", \"an\", \"per\", \"are\", \"blue\", \"'s\") in the middle of a phrase the model is paraphrasing or re-quoting from earlier in the problem, where the next token is a predictable noun that was already given.\n\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.5,
+    "tpr": 0.5,
+    "tnr": 0.5,
+    "raw": "ACTIVE: 1, 3, 5, 8, 10, 11"
+   }
+  },
+  "pub18:1813": {
+   "label": "Terse noun in bulleted planning/checklist items",
+   "description": "Fires on a content word or comma inside a short, telegraphic list item in the model's chain-of-thought (e.g. a draft outline, an option-elimination note, or a parenthetical check), usually mid-phrase where the item is a compressed fragment about to end or continue with a short reason.",
+   "repetition_related": false,
+   "raw": "LABEL: Terse noun in bulleted planning/checklist items\n\nDESCRIPTION: Fires on a content word or comma inside a short, telegraphic list item in the model's chain-of-thought (e.g. a draft outline, an option-elimination note, or a parenthetical check), usually mid-phrase where the item is a compressed fragment about to end or continue with a short reason.\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.6666666666666666,
+    "tpr": 0.6666666666666666,
+    "tnr": 0.6666666666666666,
+    "raw": "ACTIVE: 1, 2, 4, 7, 10, 12"
+   }
+  },
+  "pub18:1885": {
+   "label": "Predicting \"number/count of\" next",
+   "description": "Fires on function words or modifiers (the, total, specific, actual, by) right before the word \"number\" or \"count,\" mostly in counting or combinatorics math reasoning.",
+   "repetition_related": false,
+   "raw": "LABEL: Predicting \"number/count of\" next\nDESCRIPTION: Fires on function words or modifiers (the, total, specific, actual, by) right before the word \"number\" or \"count,\" mostly in counting or combinatorics math reasoning.\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.6666666666666666,
+    "tpr": 0.3333333333333333,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 1, 9"
+   }
+  },
+  "pub18:1944": {
+   "label": "Auxiliary/\"already\" signaling completed state",
+   "description": "Fires on \"was/is/already\" right after a subject when the following word is expected to be a completion-state predicate (done, completed, finished, paid, checked), i.e. something already having been completed.",
+   "repetition_related": false,
+   "raw": "LABEL: Auxiliary/\"already\" signaling completed state\nDESCRIPTION: Fires on \"was/is/already\" right after a subject when the following word is expected to be a completion-state predicate (done, completed, finished, paid, checked), i.e. something already having been completed.\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.75,
+    "tpr": 0.6666666666666666,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 1, 4, 5, 9, 12"
+   }
+  },
+  "pub18:1969": {
+   "label": "Informal quoted speech or lyrics, mid-utterance",
+   "description": "Fires at sentence or clause boundaries and subject tokens (e.g. \"cops\", \"brother\", \"they\", \"it\") inside colloquial, first-person quoted speech, drafted jokes, or song lyrics, where a casual clause is about to continue.",
+   "repetition_related": false,
+   "raw": "LABEL: Informal quoted speech or lyrics, mid-utterance\nDESCRIPTION: Fires at sentence or clause boundaries and subject tokens (e.g. \"cops\", \"brother\", \"they\", \"it\") inside colloquial, first-person quoted speech, drafted jokes, or song lyrics, where a casual clause is about to continue.\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.8333333333333334,
+    "tpr": 0.8333333333333334,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 1, 2, 4, 5, 7, 11"
+   }
+  },
+  "pub18:1982": {
+   "label": "Generic/typical-use qualifiers before a specific noun",
+   "description": "It fires on function words or short connectors (for, on, to, of, means, 's) in the middle of a general statement about what is preferred, typical, or simple, where the next token will name the particular audience, case, or object the statement applies to.",
+   "repetition_related": false,
+   "raw": "LABEL: Generic/typical-use qualifiers before a specific noun\n\nDESCRIPTION: It fires on function words or short connectors (for, on, to, of, means, 's) in the middle of a general statement about what is preferred, typical, or simple, where the next token will name the particular audience, case, or object the statement applies to.\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.8333333333333333,
+    "tpr": 0.6666666666666666,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 5, 8, 9, 4"
+   }
+  },
+  "pub18:2005": {
+   "label": "Start of new sentence's subject noun phrase",
+   "description": "Fires on \"The\"/\"the\" or a subject noun at the start of a new sentence or clause, especially after a newline, where the model predicts a topical subject noun (series, puppy, size, etc.) to come next.",
+   "repetition_related": false,
+   "raw": "LABEL: Start of new sentence's subject noun phrase\n\nDESCRIPTION: Fires on \"The\"/\"the\" or a subject noun at the start of a new sentence or clause, especially after a newline, where the model predicts a topical subject noun (series, puppy, size, etc.) to come next.\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.41666666666666663,
+    "tpr": 0.3333333333333333,
+    "tnr": 0.5,
+    "raw": "ACTIVE: 2, 4, 7, 11, 12"
+   }
+  },
+  "pub18:2015": {
+   "label": "Introducing an example or illustration",
+   "description": "It fires at points where a concrete example or specific instance is about to be introduced, such as \"For instance\", \"For example,\", \"An example of this was\", \"like\", \"involving\", and \"specific examples.\"",
+   "repetition_related": false,
+   "raw": "LABEL: Introducing an example or illustration\nDESCRIPTION: It fires at points where a concrete example or specific instance is about to be introduced, such as \"For instance\", \"For example,\", \"An example of this was\", \"like\", \"involving\", and \"specific examples.\"\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.3333333333333333,
+    "tpr": 0.3333333333333333,
+    "tnr": 0.3333333333333333,
+    "raw": "ACTIVE: 2, 4, 7, 10, 11, 12"
+   }
+  },
+  "pub18:2022": {
+   "label": "Anticipating a standard math concept/method",
+   "description": "Fires on tokens right before the model names a standard math concept, formula, or method (e.g. \"Recall [Relevant] Formulas\", \"a [classic] algebraic problem\", \"standard [calculus] approach\"), so it likely reflects a prediction of math terminology coming next.",
+   "repetition_related": false,
+   "raw": "LABEL: Anticipating a standard math concept/method\nDESCRIPTION: Fires on tokens right before the model names a standard math concept, formula, or method (e.g. \"Recall [Relevant] Formulas\", \"a [classic] algebraic problem\", \"standard [calculus] approach\"), so it likely reflects a prediction of math terminology coming next.\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.75,
+    "tpr": 0.6666666666666666,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 1, 4, 5, 11, 12"
+   }
+  },
+  "pub18:2920": {
+   "label": "Mid-reasoning math tokens before elaboration",
+   "description": "Fires at mid-sentence or clause-boundary tokens (punctuation, \"and\", \"but\", parentheses) in verbose chain-of-thought math, often while checking a case or restating a value, where the model is about to continue with an explanation or condition.",
+   "repetition_related": false,
+   "raw": "LABEL: Mid-reasoning math tokens before elaboration\nDESCRIPTION: Fires at mid-sentence or clause-boundary tokens (punctuation, \"and\", \"but\", parentheses) in verbose chain-of-thought math, often while checking a case or restating a value, where the model is about to continue with an explanation or condition.\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.5833333333333333,
+    "tpr": 0.5,
+    "tnr": 0.6666666666666666,
+    "raw": "ACTIVE: 1,5,7,11,12"
+   }
+  },
+  "pub18:3584": {
+   "label": "Mid-name token predicting continuation of proper noun",
+   "description": "Fires on the first or middle sub-word fragment of a proper noun (names of people, places, games, titles) in Wikipedia text, where the model must complete the name from earlier context, often a name that already appeared (Troika, Tyrone, Pickens, Fez).",
+   "repetition_related": false,
+   "raw": "LABEL: Mid-name token predicting continuation of proper noun\n\nDESCRIPTION: Fires on the first or middle sub-word fragment of a proper noun (names of people, places, games, titles) in Wikipedia text, where the model must complete the name from earlier context, often a name that already appeared (Troika, Tyrone, Pickens, Fez).\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.5833333333333333,
+    "tpr": 0.5,
+    "tnr": 0.6666666666666666,
+    "raw": "ACTIVE: 6, 12, 8, 2, 9"
+   }
+  },
+  "pub18:3890": {
+   "label": "Positions right before a content-listing start",
+   "description": "Fires on punctuation or boundary tokens (colons, commas, newlines, \"like\") where the next token begins a new concrete item, phrase or content, such as just after a label like \"Line 1:*\" or \"Pros:*\", or after a \"Witty,\" adjective.",
+   "repetition_related": false,
+   "raw": "LABEL: Positions right before a content-listing start\nDESCRIPTION: Fires on punctuation or boundary tokens (colons, commas, newlines, \"like\") where the next token begins a new concrete item, phrase or content, such as just after a label like \"Line 1:*\" or \"Pros:*\", or after a \"Witty,\" adjective.\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.16666666666666666,
+    "tpr": 0.16666666666666666,
+    "tnr": 0.16666666666666666,
+    "raw": "ACTIVE: 1, 6, 8, 9, 10, 12"
+   }
+  },
+  "pub18:4076": {
+   "label": "Checking prompt constraint wording during reasoning",
+   "description": "Fires mid-sentence in the model's chain-of-thought when it is analyzing or interpreting the exact wording of a prompt's formatting or instruction constraints (e.g. title, bullet counts, JSON, quotation marks), often right before it resolves how to satisfy them.",
+   "repetition_related": false,
+   "raw": "LABEL: Checking prompt constraint wording during reasoning\n\nDESCRIPTION: Fires mid-sentence in the model's chain-of-thought when it is analyzing or interpreting the exact wording of a prompt's formatting or instruction constraints (e.g. title, bullet counts, JSON, quotation marks), often right before it resolves how to satisfy them.\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.5833333333333333,
+    "tpr": 0.5,
+    "tnr": 0.6666666666666666,
+    "raw": "ACTIVE: 2, 7, 8, 11, 12"
+   }
+  },
+  "pub18:6262": {
+   "label": "Noun/quantity before a coordinating \"AND\" clause",
+   "description": "It fires on the last token of a quantity or noun phrase (e.g. \"brought\", \"%\", \"sugar\", \"example\") while the model, mid-\"Wait\" reinterpretation of an ambiguous problem statement, is about to continue with \"AND\" or \"and then\" to add a second condition.",
+   "repetition_related": false,
+   "raw": "LABEL: Noun/quantity before a coordinating \"AND\" clause\nDESCRIPTION: It fires on the last token of a quantity or noun phrase (e.g. \"brought\", \"%\", \"sugar\", \"example\") while the model, mid-\"Wait\" reinterpretation of an ambiguous problem statement, is about to continue with \"AND\" or \"and then\" to add a second condition.\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.8333333333333334,
+    "tpr": 0.8333333333333334,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 1, 2, 5, 6, 9, 12"
+   }
+  },
+  "pub18:7048": {
+   "label": "Mid-phrase before a predictable named noun",
+   "description": "Fires on tokens where the next word is a strongly expected continuation of a specific title or phrase (e.g. the end of \"Threes\" or \"Deception\", or \"real\" before \"estate\", or \"the\" before \"WWE Championship\"), mostly in Wikipedia or restated conclusions, with weak activation.",
+   "repetition_related": false,
+   "raw": "LABEL: Mid-phrase before a predictable named noun\nDESCRIPTION: Fires on tokens where the next word is a strongly expected continuation of a specific title or phrase (e.g. the end of \"Threes\" or \"Deception\", or \"real\" before \"estate\", or \"the\" before \"WWE Championship\"), mostly in Wikipedia or restated conclusions, with weak activation.\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.5,
+    "tpr": 0.5,
+    "tnr": 0.5,
+    "raw": "ACTIVE: 4, 5, 6, 8, 10, 11"
+   }
+  },
+  "pub18:8948": {
+   "label": "Mid-sentence tokens while repeating a \"Wait\" sentence",
+   "description": "It fires on tokens inside a sentence that the model is restating verbatim from a moment earlier, usually after \"Wait, I need to check if\u2026\", where the next token is predicted by copying the earlier instance.",
+   "repetition_related": true,
+   "raw": "LABEL: Mid-sentence tokens while repeating a \"Wait\" sentence\n\nDESCRIPTION: It fires on tokens inside a sentence that the model is restating verbatim from a moment earlier, usually after \"Wait, I need to check if\u2026\", where the next token is predicted by copying the earlier instance.\n\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.6666666666666666,
+    "tpr": 0.6666666666666666,
+    "tnr": 0.6666666666666666,
+    "raw": "ACTIVE: 3, 5, 8, 9, 11, 12"
+   }
+  },
+  "pub18:10806": {
+   "label": "Subject position after \"Wait,\" self-check clause",
+   "description": "Fires on the pronoun, comma, or auxiliary that ends an if-clause or subject within a \"Wait, I need to check / Wait, if...\" self-correction line, just before the model states a restated or re-verified conclusion.",
+   "repetition_related": true,
+   "raw": "LABEL: Subject position after \"Wait,\" self-check clause\nDESCRIPTION: Fires on the pronoun, comma, or auxiliary that ends an if-clause or subject within a \"Wait, I need to check / Wait, if...\" self-correction line, just before the model states a restated or re-verified conclusion.\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.8333333333333334,
+    "tpr": 0.8333333333333334,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 1, 6, 8, 9, 11, 12"
+   }
+  },
+  "pub18:12393": {
+   "label": "Next item in a list or enumeration",
+   "description": "It fires at tokens where the next word is the next member of a list or set of alternatives, such as after \"22,\" before \"30\", after \"Delano,\" before \"Ennis\", or after \"like\" before a list of examples.",
+   "repetition_related": false,
+   "raw": "LABEL: Next item in a list or enumeration\nDESCRIPTION: It fires at tokens where the next word is the next member of a list or set of alternatives, such as after \"22,\" before \"30\", after \"Delano,\" before \"Ennis\", or after \"like\" before a list of examples.\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.6666666666666666,
+    "tpr": 0.6666666666666666,
+    "tnr": 0.6666666666666666,
+    "raw": "ACTIVE: 3, 5, 6, 7, 8, 11"
+   }
+  },
+  "pub18:24687": {
+   "label": "Mid-token completion of predictable multi-token sequences",
+   "description": "It fires on tokens inside a known or partially completed sequence, such as a word split into pieces, a formula, an HTML tag, or a name, where the next token is highly predictable from memorized or earlier context.",
+   "repetition_related": false,
+   "raw": "LABEL: Mid-token completion of predictable multi-token sequences\n\nDESCRIPTION: It fires on tokens inside a known or partially completed sequence, such as a word split into pieces, a formula, an HTML tag, or a name, where the next token is highly predictable from memorized or earlier context.\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.75,
+    "tpr": 0.6666666666666666,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 1,7,9,11,12"
+   }
+  },
+  "pub18:58808": {
+   "label": "Referring to the problem statement's wording",
+   "description": "Fires in the model's chain-of-thought when it is analyzing or interpreting the prompt or a quoted phrase from the problem (e.g., \"the prompt\", \"the question\", closing quote of a phrase), typically just before it comments on what the wording means or implies.",
+   "repetition_related": false,
+   "raw": "LABEL: Referring to the problem statement's wording\nDESCRIPTION: Fires in the model's chain-of-thought when it is analyzing or interpreting the prompt or a quoted phrase from the problem (e.g., \"the prompt\", \"the question\", closing quote of a phrase), typically just before it comments on what the wording means or implies.\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.6666666666666667,
+    "tpr": 0.5,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 1, 7, 9, 12"
+   }
+  },
+  "pub18:62474": {
+   "label": "Newline after sentence in Wikipedia narrative",
+   "description": "Fires on a newline token that ends a sentence in a Wikipedia-style military history passage, where the next sentence is expected to continue the narrative (here, a ship opening fire). With only one weak example (activation 0.13), this reading is tentative.",
+   "repetition_related": false,
+   "raw": "LABEL: Newline after sentence in Wikipedia narrative\nDESCRIPTION: Fires on a newline token that ends a sentence in a Wikipedia-style military history passage, where the next sentence is expected to continue the narrative (here, a ship opening fire). With only one weak example (activation 0.13), this reading is tentative.\nREPETITION_RELATED: no",
+   "score": null
+  },
+  "ours20:189": {
+   "label": "Abstract noun concluding a relation-type judgment",
+   "description": "Fires on the abstract noun (ratio, multiplier, comparison, relationship, timeline) that completes the model's classification of a math word-problem phrase, typically in \"it's a direct/simple X\" statements, just before a line break and a new check.",
+   "repetition_related": false,
+   "raw": "LABEL: Abstract noun concluding a relation-type judgment\nDESCRIPTION: Fires on the abstract noun (ratio, multiplier, comparison, relationship, timeline) that completes the model's classification of a math word-problem phrase, typically in \"it's a direct/simple X\" statements, just before a line break and a new check.\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.8333333333333334,
+    "tpr": 0.8333333333333334,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 2, 6, 9, 12, 5, 3"
+   }
+  },
+  "ours20:1057": {
+   "label": "Mid-line words in generated poetry/lyrics",
+   "description": "Fires on tokens in the middle of a line of poem or song lyrics that the model is composing, typically a content word or function word inside a line before its natural ending.",
+   "repetition_related": false,
+   "raw": "LABEL: Mid-line words in generated poetry/lyrics\nDESCRIPTION: Fires on tokens in the middle of a line of poem or song lyrics that the model is composing, typically a content word or function word inside a line before its natural ending.\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.6666666666666667,
+    "tpr": 0.5,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 5, 6, 10, 11, 8, 12\n\nWait, the instructions say to respond with one line only. Final answer:\n\nACTIVE: 5, 6, 10, 11"
+   }
+  },
+  "ours20:1376": {
+   "label": "Hyphen inside Wikipedia \"@-@\" compound words",
+   "description": "It fires on the hyphen (or its \"@\" delimiters) in WikiText's tokenized \"@-@\" hyphenated compounds, usually right after the first word piece and before the second half of the compound is predicted (e.g. \"out @-@ of @-@ bounds\", \"grief @-@ stricken\").",
+   "repetition_related": false,
+   "raw": "LABEL: Hyphen inside Wikipedia \"@-@\" compound words\n\nDESCRIPTION: It fires on the hyphen (or its \"@\" delimiters) in WikiText's tokenized \"@-@\" hyphenated compounds, usually right after the first word piece and before the second half of the compound is predicted (e.g. \"out @-@ of @-@ bounds\", \"grief @-@ stricken\").\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.8333333333333334,
+    "tpr": 0.8333333333333334,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 5, 6, 4, 11, 12, 10"
+   }
+  },
+  "ours20:1602": {
+   "label": "Counting quantity of countable items next",
+   "description": "Fires on quantity/number tokens (\"many\", \"multiple\", \"of\" after \"Number\", numerals, \"two\") in word-problem reasoning, where the next token is the countable noun being counted (containers, flans, boxes, trains).",
+   "repetition_related": false,
+   "raw": "LABEL: Counting quantity of countable items next\nDESCRIPTION: Fires on quantity/number tokens (\"many\", \"multiple\", \"of\" after \"Number\", numerals, \"two\") in word-problem reasoning, where the next token is the countable noun being counted (containers, flans, boxes, trains).\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.6666666666666667,
+    "tpr": 0.5,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 1, 5, 7, 9"
+   }
+  },
+  "ours20:2210": {
+   "label": "Function word early in a question or prompt",
+   "description": "Fires on a function word (preposition, article, or determiner such as \"of\", \"the\", \"For\", \"An\", \"between\") that starts or sits within the first few words of a question or task statement, most often in multiple-choice business or law prompts, where the model expects the subject noun phrase to follow.",
+   "repetition_related": false,
+   "raw": "LABEL: Function word early in a question or prompt\n\nDESCRIPTION: Fires on a function word (preposition, article, or determiner such as \"of\", \"the\", \"For\", \"An\", \"between\") that starts or sits within the first few words of a question or task statement, most often in multiple-choice business or law prompts, where the model expects the subject noun phrase to follow.\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.8333333333333333,
+    "tpr": 0.6666666666666666,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 3, 4, 8, 12"
+   }
+  },
+  "ours20:2458": {
+   "label": "Mid-expression math/LaTeX token before operand",
+   "description": "Fires on tokens inside a partially written mathematical or code expression (e.g. \\frac, \\begin, \"=\", \"(1\", \"{\") where the next token will be a formula operand, bracket, or argument, mostly in LaTeX math derivations.",
+   "repetition_related": false,
+   "raw": "LABEL: Mid-expression math/LaTeX token before operand\nDESCRIPTION: Fires on tokens inside a partially written mathematical or code expression (e.g. \\frac, \\begin, \"=\", \"(1\", \"{\") where the next token will be a formula operand, bracket, or argument, mostly in LaTeX math derivations.\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.41666666666666663,
+    "tpr": 0.3333333333333333,
+    "tnr": 0.5,
+    "raw": "ACTIVE: 1, 2, 3, 4, 7"
+   }
+  },
+  "ours20:2677": {
+   "label": "Sentence-ending punctuation in reasoning deliberation",
+   "description": "It fires on the period or question mark that closes a sentence in the model's chain-of-thought where it proposes an interpretation, approach, or caveat, just before a new bullet or step such as \"Let's...\" or \"Wait\".",
+   "repetition_related": false,
+   "raw": "LABEL: Sentence-ending punctuation in reasoning deliberation\n\nDESCRIPTION: It fires on the period or question mark that closes a sentence in the model's chain-of-thought where it proposes an interpretation, approach, or caveat, just before a new bullet or step such as \"Let's...\" or \"Wait\".\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.8333333333333334,
+    "tpr": 0.8333333333333334,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 1, 2, 5, 7, 8, 10"
+   }
+  },
+  "ours20:5150": {
+   "label": "Final word completing a clause, before period",
+   "description": "Fires on the last token of a sentence-final phrase (often a pronoun, adverb, or noun like \"other,\" \"itself,\" \"there,\" \"out,\" \"past\") where the clause is complete and a period is strongly predicted next, mostly in Wikipedia-style prose.",
+   "repetition_related": false,
+   "raw": "LABEL: Final word completing a clause, before period\n\nDESCRIPTION: Fires on the last token of a sentence-final phrase (often a pronoun, adverb, or noun like \"other,\" \"itself,\" \"there,\" \"out,\" \"past\") where the clause is complete and a period is strongly predicted next, mostly in Wikipedia-style prose.\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.9166666666666667,
+    "tpr": 0.8333333333333334,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 3, 4, 5, 7, 8"
+   }
+  },
+  "ours20:5231": {
+   "label": "End of planning, before writing final answer",
+   "description": "Fires at the sentence-ending period or newline where the model finishes verifying its work and announces it will now format or write the final response, just before an outline of steps begins.",
+   "repetition_related": false,
+   "raw": "LABEL: End of planning, before writing final answer\nDESCRIPTION: Fires at the sentence-ending period or newline where the model finishes verifying its work and announces it will now format or write the final response, just before an outline of steps begins.\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.8333333333333333,
+    "tpr": 0.6666666666666666,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 2, 3, 10, 11"
+   }
+  },
+  "ours20:5710": {
+   "label": "Inside hypothetical quoted problem wording",
+   "description": "Fires on tokens within a quoted or hypothetical rewording of the problem statement, usually after \"if the problem says/meant...\", as the model considers alternative phrasings while checking ambiguity.",
+   "repetition_related": false,
+   "raw": "LABEL: Inside hypothetical quoted problem wording\nDESCRIPTION: Fires on tokens within a quoted or hypothetical rewording of the problem statement, usually after \"if the problem says/meant...\", as the model considers alternative phrasings while checking ambiguity.\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.5,
+    "tpr": 0.3333333333333333,
+    "tnr": 0.6666666666666666,
+    "raw": "ACTIVE: 1, 6, 9, 12"
+   }
+  },
+  "ours20:6329": {
+   "label": "Hesitant self-doubt restatement before re-checking",
+   "description": "Fires on \"Wait\" (or a noun like \"containers\" or \"fee\") in degenerating reasoning chains, where the model is about to restate or re-check an earlier claim, often looping through near-identical variants.",
+   "repetition_related": true,
+   "raw": "LABEL: Hesitant self-doubt restatement before re-checking\nDESCRIPTION: Fires on \"Wait\" (or a noun like \"containers\" or \"fee\") in degenerating reasoning chains, where the model is about to restate or re-check an earlier claim, often looping through near-identical variants.\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.8333333333333334,
+    "tpr": 0.8333333333333334,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 3,5,6,8,10,12"
+   }
+  },
+  "ours20:6680": {
+   "label": "Newline/indent before another \"Wait,\" restart",
+   "description": "Fires on the newline or indentation whitespace token at the start of a new line in a chain-of-thought, where the model is about to begin another \"Wait, ...\" self-correction that re-checks or restates the previous computation.",
+   "repetition_related": true,
+   "raw": "LABEL: Newline/indent before another \"Wait,\" restart\n\nDESCRIPTION: Fires on the newline or indentation whitespace token at the start of a new line in a chain-of-thought, where the model is about to begin another \"Wait, ...\" self-correction that re-checks or restates the previous computation.\n\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.75,
+    "tpr": 0.6666666666666666,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 1,3,8,9,11"
+   }
+  },
+  "ours20:6870": {
+   "label": "Space before inline math variable",
+   "description": "Fires on the \" $\" token that opens inline LaTeX right after a word like \"for\", \"of\", or \"point\", especially when the model is re-reading or quoting the problem statement and is about to name a variable or expression.",
+   "repetition_related": true,
+   "raw": "LABEL: Space before inline math variable\nDESCRIPTION: Fires on the \" $\" token that opens inline LaTeX right after a word like \"for\", \"of\", or \"point\", especially when the model is re-reading or quoting the problem statement and is about to name a variable or expression.\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.75,
+    "tpr": 0.5,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 1, 3, 4"
+   }
+  },
+  "ours20:7480": {
+   "label": "Planning the final answer's presentation, mid-phrase",
+   "description": "It fires on the last word of a phrase in a plan for how to write up the solution, such as \"solve for unknowns\", \"step-by-step reasoning\", \"calculate each individually\", or \"state the calculation clearly\". These phrases appear in the draft plan or in the opening sentence of the final answer, and the next token is likely to be a clause-ending or a following instruction.",
+   "repetition_related": false,
+   "raw": "LABEL: Planning the final answer's presentation, mid-phrase\n\nDESCRIPTION: It fires on the last word of a phrase in a plan for how to write up the solution, such as \"solve for unknowns\", \"step-by-step reasoning\", \"calculate each individually\", or \"state the calculation clearly\". These phrases appear in the draft plan or in the opening sentence of the final answer, and the next token is likely to be a clause-ending or a following instruction.\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.8333333333333333,
+    "tpr": 0.6666666666666666,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 4, 7, 11, 12"
+   }
+  },
+  "ours20:7922": {
+   "label": "Mid-expression token in repeated \"Wait,\" restatement",
+   "description": "It fires on tokens inside a math expression or quoted phrase that is being re-stated verbatim in a \"Wait, ...\" loop, where the next tokens (e.g. \"has no solution\", \"is\", \"x\") are predictable from the earlier identical copy.",
+   "repetition_related": true,
+   "raw": "LABEL: Mid-expression token in repeated \"Wait,\" restatement\nDESCRIPTION: It fires on tokens inside a math expression or quoted phrase that is being re-stated verbatim in a \"Wait, ...\" loop, where the next tokens (e.g. \"has no solution\", \"is\", \"x\") are predictable from the earlier identical copy.\n\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.8333333333333334,
+    "tpr": 0.8333333333333334,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 2, 3, 6, 8, 10, 12"
+   }
+  },
+  "ours20:8127": {
+   "label": "Newline before indented bullet in reasoning re-check",
+   "description": "Fires on the newline token that ends a bullet in the model's chain-of-thought, where the model has just said it will re-read, re-check, or reconsider the problem and the next line is a new indented sub-bullet.",
+   "repetition_related": true,
+   "raw": "LABEL: Newline before indented bullet in reasoning re-check\nDESCRIPTION: Fires on the newline token that ends a bullet in the model's chain-of-thought, where the model has just said it will re-read, re-check, or reconsider the problem and the next line is a new indented sub-bullet.\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.8333333333333334,
+    "tpr": 0.8333333333333334,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 1, 4, 5, 6, 9, 12"
+   }
+  },
+  "ours20:8733": {
+   "label": "Interpreting word-problem phrasing as implying relationships",
+   "description": "Fires mid-sentence in the model's reasoning about how a math word problem is worded, typically right after \"usually\", \"implies\", or \"it gives\", where the next words will name the relationship, comparison, or structure the problem intends.",
+   "repetition_related": false,
+   "raw": "LABEL: Interpreting word-problem phrasing as implying relationships\n\nDESCRIPTION: Fires mid-sentence in the model's reasoning about how a math word problem is worded, typically right after \"usually\", \"implies\", or \"it gives\", where the next words will name the relationship, comparison, or structure the problem intends.\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.75,
+    "tpr": 0.6666666666666666,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 1, 3, 7, 9, 11"
+   }
+  },
+  "ours20:8776": {
+   "label": "Period ending a numbered/bulleted calculation step",
+   "description": "Fires on the period (or \"$.\" closing math) right after a numeric value that ends a step in a restated list of solution steps, where the next token will be a new list item number or bullet.",
+   "repetition_related": true,
+   "raw": "LABEL: Period ending a numbered/bulleted calculation step\n\nDESCRIPTION: Fires on the period (or \"$.\" closing math) right after a numeric value that ends a step in a restated list of solution steps, where the next token will be a new list item number or bullet.\n\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.75,
+    "tpr": 0.5,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 4, 7, 9"
+   }
+  },
+  "ours20:9072": {
+   "label": "Predicting \"answer/result\" noun after determiner",
+   "description": "Fires on a word like \"the\", \"Box\", \"different\", \"same\" or \"final\" right before the model is expected to say \"answer\" or \"result\", usually when it plans or concludes a math solution (e.g. \"Box the answer\", \"the final answer\").",
+   "repetition_related": false,
+   "raw": "LABEL: Predicting \"answer/result\" noun after determiner\nDESCRIPTION: Fires on a word like \"the\", \"Box\", \"different\", \"same\" or \"final\" right before the model is expected to say \"answer\" or \"result\", usually when it plans or concludes a math solution (e.g. \"Box the answer\", \"the final answer\").\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.9166666666666667,
+    "tpr": 0.8333333333333334,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 1, 8, 4, 5, 7"
+   }
+  },
+  "ours20:9081": {
+   "label": "Second item in parallel contrasting clause",
+   "description": "It fires on the subject token of the second half of a parallel construction (\"X is ..., Y is ...\"), where the model has just stated a pattern for the first item and is about to restate it for the second item (e.g. \"the 5 Republicans must form...\", \"$s_1$ represents...\").",
+   "repetition_related": true,
+   "raw": "LABEL: Second item in parallel contrasting clause\nDESCRIPTION: It fires on the subject token of the second half of a parallel construction (\"X is ..., Y is ...\"), where the model has just stated a pattern for the first item and is about to restate it for the second item (e.g. \"the 5 Republicans must form...\", \"$s_1$ represents...\").\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.6666666666666666,
+    "tpr": 0.6666666666666666,
+    "tnr": 0.6666666666666666,
+    "raw": "ACTIVE: 1, 2, 5, 9, 11, 12"
+   }
+  },
+  "ours20:9457": {
+   "label": "Start of a parallel \"If...\" conditional clause",
+   "description": "It fires on \"If\" (or the subject pronoun right after \"But\"/\"if\") that opens a new conditional or contrasting clause, directly after a prior \"If he/she ..., he/she ...\" bullet in a confused math chain-of-thought, where the model enumerates alternative scenarios.",
+   "repetition_related": true,
+   "raw": "LABEL: Start of a parallel \"If...\" conditional clause\n\nDESCRIPTION: It fires on \"If\" (or the subject pronoun right after \"But\"/\"if\") that opens a new conditional or contrasting clause, directly after a prior \"If he/she ..., he/she ...\" bullet in a confused math chain-of-thought, where the model enumerates alternative scenarios.\n\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.8333333333333334,
+    "tpr": 0.8333333333333334,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 2,4,5,6,7,9"
+   }
+  },
+  "ours20:10188": {
+   "label": "Predicting a count number next",
+   "description": "Fires at the token just before a model-computed count (word, letter, or item total) is written, such as \" (\" before a running word-count tag or \" \" before \"7 letters\" or \"11 bits\", where the next token is a number.",
+   "repetition_related": false,
+   "raw": "LABEL: Predicting a count number next\nDESCRIPTION: Fires at the token just before a model-computed count (word, letter, or item total) is written, such as \" (\" before a running word-count tag or \" \" before \"7 letters\" or \"11 bits\", where the next token is a number.\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.6666666666666666,
+    "tpr": 0.3333333333333333,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 3, 6"
+   }
+  },
+  "ours20:10632": {
+   "label": "Announcing one more verification check",
+   "description": "Fires on function words in phrases like \"Let me [just]\", \"Let me\", \"just to\" after the model has already reached an answer, where it is about to announce another double-check of its work.",
+   "repetition_related": true,
+   "raw": "LABEL: Announcing one more verification check\nDESCRIPTION: Fires on function words in phrases like \"Let me [just]\", \"Let me\", \"just to\" after the model has already reached an answer, where it is about to announce another double-check of its work.\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.8333333333333333,
+    "tpr": 0.6666666666666666,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 1, 2, 10, 12"
+   }
+  },
+  "ours20:10915": {
+   "label": "Final term of distributed polynomial multiplication",
+   "description": "Fires at the sign, space, or operator just before the last coefficient or constant factor in a term-by-term expansion (e.g. \"-1(-1)\", \"0 \\times 5^0\"), where the next token is the constant/last factor in a repeated pattern.",
+   "repetition_related": false,
+   "raw": "LABEL: Final term of distributed polynomial multiplication\nDESCRIPTION: Fires at the sign, space, or operator just before the last coefficient or constant factor in a term-by-term expansion (e.g. \"-1(-1)\", \"0 \\times 5^0\"), where the next token is the constant/last factor in a repeated pattern.\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.8333333333333334,
+    "tpr": 0.8333333333333334,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 1,3,4,5,6,11"
+   }
+  },
+  "ours20:11435": {
+   "label": "End of first alternative, predicting \"or\"",
+   "description": "Fires at the last token of the first option in an either/or or \"A or B\" construction, where the model predicts that \"or\" and a second alternative come next.",
+   "repetition_related": false,
+   "raw": "LABEL: End of first alternative, predicting \"or\"\nDESCRIPTION: Fires at the last token of the first option in an either/or or \"A or B\" construction, where the model predicts that \"or\" and a second alternative come next.\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.8333333333333334,
+    "tpr": 0.8333333333333334,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 1, 2, 5, 7, 9, 10"
+   }
+  },
+  "ours20:11529": {
+   "label": "Start of next parallel enumerated statement",
+   "description": "It fires at the boundary where the model is about to begin the next sibling item in a list of parallel facts or conditions (e.g. \"James is 1 year younger\", \"If she coaches...\", \"Day 3 runs...\"), so the next clause mirrors the structure of the previous one.",
+   "repetition_related": true,
+   "raw": "LABEL: Start of next parallel enumerated statement\nDESCRIPTION: It fires at the boundary where the model is about to begin the next sibling item in a list of parallel facts or conditions (e.g. \"James is 1 year younger\", \"If she coaches...\", \"Day 3 runs...\"), so the next clause mirrors the structure of the previous one.\n\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.75,
+    "tpr": 0.8333333333333334,
+    "tnr": 0.6666666666666666,
+    "raw": "ACTIVE: 1,5,6,9,10,4,7"
+   }
+  },
+  "ours20:12043": {
+   "label": "End of math problem statement boundary",
+   "description": "Fires on the newline or final punctuation that ends a math problem's statement, just before the \"Please reason step by step\" instruction or the assistant's reasoning begins.",
+   "repetition_related": false,
+   "raw": "LABEL: End of math problem statement boundary\n\nDESCRIPTION: Fires on the newline or final punctuation that ends a math problem's statement, just before the \"Please reason step by step\" instruction or the assistant's reasoning begins.\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.8333333333333333,
+    "tpr": 0.6666666666666666,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 1, 3, 5, 12"
+   }
+  },
+  "ours20:12222": {
+   "label": "Mid-sentence in self-doubt \"Wait\" reconsideration",
+   "description": "Fires on function words or commas (\" is\", \",\", \" should\", \" of\") that sit inside a \"Wait, ...\" re-examination in a chain of thought, where the model is re-interpreting the problem or double-checking an assumption and the next token will continue that clause.",
+   "repetition_related": true,
+   "raw": "LABEL: Mid-sentence in self-doubt \"Wait\" reconsideration\nDESCRIPTION: Fires on function words or commas (\" is\", \",\", \" should\", \" of\") that sit inside a \"Wait, ...\" re-examination in a chain of thought, where the model is re-interpreting the problem or double-checking an assumption and the next token will continue that clause.\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.6666666666666666,
+    "tpr": 0.6666666666666666,
+    "tnr": 0.6666666666666666,
+    "raw": "ACTIVE: 1, 3, 5, 7, 10, 12"
+   }
+  },
+  "ours20:12311": {
+   "label": "Number or quantity about to be stated, in final answer",
+   "description": "Fires on function words (with, was, is, has, of, at) in the final post-</think> step-by-step write-up, right before the model restates a specific number or value from the problem.",
+   "repetition_related": true,
+   "raw": "LABEL: Number or quantity about to be stated, in final answer\nDESCRIPTION: Fires on function words (with, was, is, has, of, at) in the final post-</think> step-by-step write-up, right before the model restates a specific number or value from the problem.\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.8333333333333333,
+    "tpr": 0.6666666666666666,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 5,8,9,12"
+   }
+  },
+  "ours20:12572": {
+   "label": "Next token copies earlier math expression",
+   "description": "It fires on a token inside a math expression that restates an earlier one (a digit, variable, or space), where the model is about to copy the next piece from previous context, e.g. \"x^8 + 3x^4\", \"20^2\" \u2192 \"30^2\", \"0.866\".",
+   "repetition_related": true,
+   "raw": "LABEL: Next token copies earlier math expression\nDESCRIPTION: It fires on a token inside a math expression that restates an earlier one (a digit, variable, or space), where the model is about to copy the next piece from previous context, e.g. \"x^8 + 3x^4\", \"20^2\" \u2192 \"30^2\", \"0.866\".\n\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.75,
+    "tpr": 0.8333333333333334,
+    "tnr": 0.6666666666666666,
+    "raw": "ACTIVE: 1, 2, 3, 5, 9, 11, 12"
+   }
+  },
+  "ours20:12884": {
+   "label": "Mid-clause in conditional \"if X, he is...\" restatement",
+   "description": "Fires inside a conditional or \"Wait, if...\" clause (on the comma, a preposition, or the verb right after \"if he\") when the model is about to restate the consequence it just wrote, anticipating a repeated \"he is moving/placing/has...\" phrase.",
+   "repetition_related": true,
+   "raw": "LABEL: Mid-clause in conditional \"if X, he is...\" restatement\n\nDESCRIPTION: Fires inside a conditional or \"Wait, if...\" clause (on the comma, a preposition, or the verb right after \"if he\") when the model is about to restate the consequence it just wrote, anticipating a repeated \"he is moving/placing/has...\" phrase.\n\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.8333333333333334,
+    "tpr": 0.8333333333333334,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 2, 5, 6, 8, 9, 12"
+   }
+  },
+  "ours20:13205": {
+   "label": "Newline after a \"Wait, if...\" self-doubt sentence",
+   "description": "Fires on the newline or indentation whitespace token that ends a \"Wait, if...\" or \"But wait, ...\" sentence in the chain of thought, where the model is about to raise another doubt or re-examine the problem's premise.",
+   "repetition_related": true,
+   "raw": "LABEL: Newline after a \"Wait, if...\" self-doubt sentence\n\nDESCRIPTION: Fires on the newline or indentation whitespace token that ends a \"Wait, if...\" or \"But wait, ...\" sentence in the chain of thought, where the model is about to raise another doubt or re-examine the problem's premise.\n\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.6666666666666666,
+    "tpr": 0.3333333333333333,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 10, 12"
+   }
+  },
+  "ours20:13840": {
+   "label": "Space before a repeated number",
+   "description": "It fires on the space token (or \" $\") just before a digit in a repeated or restated arithmetic expression, where the model is about to copy the same number it wrote earlier.",
+   "repetition_related": true,
+   "raw": "LABEL: Space before a repeated number\n\nDESCRIPTION: It fires on the space token (or \" $\") just before a digit in a repeated or restated arithmetic expression, where the model is about to copy the same number it wrote earlier.\n\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.8333333333333333,
+    "tpr": 0.6666666666666666,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 1, 3, 8, 6"
+   }
+  },
+  "ours20:14345": {
+   "label": "Noun in quoted/restated problem text",
+   "description": "Fires on a content word (e.g. \"song\", \"segment\", \"much\", \"earnings\", \"haiku\") inside a request or problem statement that the model is quoting, paraphrasing or re-reading, often just before the phrase continues.",
+   "repetition_related": true,
+   "raw": "LABEL: Noun in quoted/restated problem text\nDESCRIPTION: Fires on a content word (e.g. \"song\", \"segment\", \"much\", \"earnings\", \"haiku\") inside a request or problem statement that the model is quoting, paraphrasing or re-reading, often just before the phrase continues.\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.6666666666666666,
+    "tpr": 0.6666666666666666,
+    "tnr": 0.6666666666666666,
+    "raw": "ACTIVE: 1,2,6,9,10,12"
+   }
+  },
+  "ours20:14481": {
+   "label": "End of final list item before blank line",
+   "description": "Fires on the last token of the final item in an enumerated list (often option J or the last bullet), where the model is about to break out with a blank line and move on to commentary or the next step.",
+   "repetition_related": false,
+   "raw": "LABEL: End of final list item before blank line\nDESCRIPTION: Fires on the last token of the final item in an enumerated list (often option J or the last bullet), where the model is about to break out with a blank line and move on to commentary or the next step.\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.9166666666666667,
+    "tpr": 0.8333333333333334,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 2, 5, 6, 7, 11"
+   }
+  },
+  "ours20:15190": {
+   "label": "Newline ending conclusion before \"Wait\" self-correction",
+   "description": "Fires on the newline or period closing a short \"So ...\" deduction line in a chain of reasoning, where the model is about to begin a new line, typically \"Wait, but...\" or another \"So...\", that re-examines or restates the point.",
+   "repetition_related": true,
+   "raw": "LABEL: Newline ending conclusion before \"Wait\" self-correction\nDESCRIPTION: Fires on the newline or period closing a short \"So ...\" deduction line in a chain of reasoning, where the model is about to begin a new line, typically \"Wait, but...\" or another \"So...\", that re-examines or restates the point.\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.5833333333333333,
+    "tpr": 0.5,
+    "tnr": 0.6666666666666666,
+    "raw": "ACTIVE: 3, 5, 7, 8, 10"
+   }
+  },
+  "ours20:15418": {
+   "label": "Digits of final boxed numeric answer",
+   "description": "Fires on the digit tokens inside \\boxed{...} (or after \"Final Answer:\") when the model writes out the final numeric answer it has already computed, mostly in math word problems.",
+   "repetition_related": true,
+   "raw": "LABEL: Digits of final boxed numeric answer\nDESCRIPTION: Fires on the digit tokens inside \\boxed{...} (or after \"Final Answer:\") when the model writes out the final numeric answer it has already computed, mostly in math word problems.\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.9166666666666667,
+    "tpr": 0.8333333333333334,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 12, 9, 11, 10, 8"
+   }
+  },
+  "ours20:15425": {
+   "label": "Label noun right before colon in list",
+   "description": "Fires on the final token of a short bolded or bulleted item label or heading (e.g. \"years\", \"Condition\", \"Equation\", \"cylinder\") where the next token is predicted to be a colon introducing its definition or value.",
+   "repetition_related": false,
+   "raw": "LABEL: Label noun right before colon in list\nDESCRIPTION: Fires on the final token of a short bolded or bulleted item label or heading (e.g. \"years\", \"Condition\", \"Equation\", \"cylinder\") where the next token is predicted to be a colon introducing its definition or value.\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.75,
+    "tpr": 0.5,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 1, 5, 9"
+   }
+  },
+  "ours20:15922": {
+   "label": "Copying a token mid-expression during restatement",
+   "description": "Fires on a token (digit, operator, caret, or space) inside a math expression that the model is re-copying from earlier text, typically after \"Wait,\" when it restates a prior equation, so the next token is predictable from the earlier copy.",
+   "repetition_related": true,
+   "raw": "LABEL: Copying a token mid-expression during restatement\nDESCRIPTION: Fires on a token (digit, operator, caret, or space) inside a math expression that the model is re-copying from earlier text, typically after \"Wait,\" when it restates a prior equation, so the next token is predictable from the earlier copy.\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.6666666666666666,
+    "tpr": 0.6666666666666666,
+    "tnr": 0.6666666666666666,
+    "raw": "ACTIVE: 1, 2, 5, 7, 9, 11"
+   }
+  },
+  "ours20:16073": {
+   "label": "Whitespace/newline right before repeated \"Wait\"",
+   "description": "Fires on newline or indentation tokens that follow a line starting with \"Wait,\" in looping self-doubt text, where the model predicts another \"Wait,\" line will come next.",
+   "repetition_related": true,
+   "raw": "LABEL: Whitespace/newline right before repeated \"Wait\"\nDESCRIPTION: Fires on newline or indentation tokens that follow a line starting with \"Wait,\" in looping self-doubt text, where the model predicts another \"Wait,\" line will come next.\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.75,
+    "tpr": 0.6666666666666666,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 1, 5, 6, 7, 4"
+   }
+  }
+ }
+}

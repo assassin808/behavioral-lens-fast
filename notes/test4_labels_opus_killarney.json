@@ -1,0 +1,246 @@
+{
+ "model": "claude-opus-5-5",
+ "n": 20,
+ "labels": {
+  "pub18:1539": {
+   "label": "End of repeated unit in verbatim loop",
+   "description": "Fires on the closing token of a repeated line or segment (e.g., \"$.\" after a restated equation, the closing quote-paren, or the final hashtag) inside degenerate repetition loops, where the model expects the cycle to restart.",
+   "repetition_related": true,
+   "raw": "LABEL: End of repeated unit in verbatim loop\n\nDESCRIPTION: Fires on the closing token of a repeated line or segment (e.g., \"$.\" after a restated equation, the closing quote-paren, or the final hashtag) inside degenerate repetition loops, where the model expects the cycle to restart.\n\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.8333333333333333,
+    "tpr": 0.6666666666666666,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 2, 6, 7, 11"
+   }
+  },
+  "ours20:10915": {
+   "label": "Final term in term-by-term expansion",
+   "description": "Fires at the coefficient, operator or multiplication token that begins the last term in a systematic term-by-term computation, where the model anticipates the closing constant or lowest-order term. Examples include distributing a factor over polynomial terms, place-value expansions ending in \u00d75^0 or \u00d72^0, cross-product components, and linear-equation substitutions.",
+   "repetition_related": false,
+   "raw": "LABEL: Final term in term-by-term expansion\n\nDESCRIPTION: Fires at the coefficient, operator or multiplication token that begins the last term in a systematic term-by-term computation, where the model anticipates the closing constant or lowest-order term. Examples include distributing a factor over polynomial terms, place-value expansions ending in \u00d75^0 or \u00d72^0, cross-product components, and linear-equation substitutions.\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.75,
+    "tpr": 0.6666666666666666,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 1, 3, 4, 6, 11"
+   }
+  },
+  "ours20:9081": {
+   "label": "Second item in parallel contrastive structure",
+   "description": "Fires on the subject of the second clause in a parallel \"X is A, Y is B\" construction (e.g., \"5 Democrats\u2026 the 5 [Republicans]\", \"$S_2$ is\u2026, $S_3$\u2026\"), where the model is about to predict a predicate analogous to the first clause's.",
+   "repetition_related": false,
+   "raw": "LABEL: Second item in parallel contrastive structure\n\nDESCRIPTION: Fires on the subject of the second clause in a parallel \"X is A, Y is B\" construction (e.g., \"5 Democrats\u2026 the 5 [Republicans]\", \"$S_2$ is\u2026, $S_3$\u2026\"), where the model is about to predict a predicate analogous to the first clause's.\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.75,
+    "tpr": 0.6666666666666666,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 5, 7, 9, 11, 12"
+   }
+  },
+  "ours16:1375": {
+   "label": "Line break before a reasoning pivot",
+   "description": "Fires on the newline or blank-line token that ends a run of short chain-of-thought deductions, typically one reaching a conclusion, contradiction or dead end, where the model expects a meta-reasoning pivot next (\"Wait,\", \"Okay, I will assume\", \"Let's try to\u2026\", \"So the answer is\").",
+   "repetition_related": false,
+   "raw": "LABEL: Line break before a reasoning pivot\n\nDESCRIPTION: Fires on the newline or blank-line token that ends a run of short chain-of-thought deductions, typically one reaching a conclusion, contradiction or dead end, where the model expects a meta-reasoning pivot next (\"Wait,\", \"Okay, I will assume\", \"Let's try to\u2026\", \"So the answer is\").\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 1.0,
+    "tpr": 1.0,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 1, 3, 5, 10, 11, 12"
+   }
+  },
+  "ours20:13205": {
+   "label": "Line break after \"Wait, if\u2026\" restatement",
+   "description": "Fires on the newline or indentation token right after a \"Wait, (but) if X, then Y\" sentence that re-checks a premise or answer stated earlier. At that point the model is about to continue the doubt-driven reconsideration, with lines like \"But why\u2026\", \"Is it possible\u2026\", or \"But maybe\u2026\".",
+   "repetition_related": true,
+   "raw": "LABEL: Line break after \"Wait, if\u2026\" restatement\n\nDESCRIPTION: Fires on the newline or indentation token right after a \"Wait, (but) if X, then Y\" sentence that re-checks a premise or answer stated earlier. At that point the model is about to continue the doubt-driven reconsideration, with lines like \"But why\u2026\", \"Is it possible\u2026\", or \"But maybe\u2026\".\n\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 1.0,
+    "tpr": 1.0,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 2,6,10,11,12,1"
+   }
+  },
+  "pub18:1813": {
+   "label": "Mid-phrase inside terse, parallel bullet-list items",
+   "description": "Fires on tokens partway through short, telegraphic list entries in structured chain-of-thought notes. Examples include keyword enumerations (\"Combat, Magic, Protection\"), brief parenthetical eliminations (\"No, news isn't a record\"), and outline steps (\"Mention instability\"). It seems to track the compressed, parallel note-taking style where the model expects the item to wrap up quickly.",
+   "repetition_related": false,
+   "raw": "LABEL: Mid-phrase inside terse, parallel bullet-list items\n\nDESCRIPTION: Fires on tokens partway through short, telegraphic list entries in structured chain-of-thought notes. Examples include keyword enumerations (\"Combat, Magic, Protection\"), brief parenthetical eliminations (\"No, news isn't a record\"), and outline steps (\"Mention instability\"). It seems to track the compressed, parallel note-taking style where the model expects the item to wrap up quickly.\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.75,
+    "tpr": 0.6666666666666666,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 1, 2, 7, 10, 12"
+   }
+  },
+  "pub18:8948": {
+   "label": "Tokens inside verbatim-repeated or re-quoted earlier text",
+   "description": "Fires mid-sentence on content tokens when the current line copies an earlier line verbatim, as in \"Wait, I need to check\u2026\" loops, quoting one's own earlier reasoning, or a repeated song title, where the next token is predictable by copying the prior instance.",
+   "repetition_related": true,
+   "raw": "LABEL: Tokens inside verbatim-repeated or re-quoted earlier text\n\nDESCRIPTION: Fires mid-sentence on content tokens when the current line copies an earlier line verbatim, as in \"Wait, I need to check\u2026\" loops, quoting one's own earlier reasoning, or a repeated song title, where the next token is predictable by copying the prior instance.\n\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.6666666666666666,
+    "tpr": 0.6666666666666666,
+    "tnr": 0.6666666666666666,
+    "raw": "ACTIVE: 3, 5, 8, 9, 11, 12"
+   }
+  },
+  "ours16:8733": {
+   "label": "Hypothesized hidden structure in problem wording",
+   "description": "Fires on the content word naming a possible hidden structure, such as \"specific\", \"sequence\", \"constraint\", \"frame\" or \"uniform\", when the chain-of-thought asks whether a word problem's phrasing \"implies a ___\" (a trick or alternative reading that would change the interpretation).",
+   "repetition_related": false,
+   "raw": "LABEL: Hypothesized hidden structure in problem wording\n\nDESCRIPTION: Fires on the content word naming a possible hidden structure, such as \"specific\", \"sequence\", \"constraint\", \"frame\" or \"uniform\", when the chain-of-thought asks whether a word problem's phrasing \"implies a ___\" (a trick or alternative reading that would change the interpretation).\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.75,
+    "tpr": 0.6666666666666666,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 11, 5, 2, 6, 1"
+   }
+  },
+  "ours16:12009": {
+   "label": "Single-digit number tokens in math reasoning",
+   "description": "Fires on a lone single-digit numeral (e.g., 3, 5, 7, 8, 9) that serves as a concrete quantity, label value or term in a mathematical expression within chain-of-thought, typically right after \"$\", \"=\", \"+\" or a label like \"r=\".",
+   "repetition_related": false,
+   "raw": "LABEL: Single-digit number tokens in math reasoning\n\nDESCRIPTION: Fires on a lone single-digit numeral (e.g., 3, 5, 7, 8, 9) that serves as a concrete quantity, label value or term in a mathematical expression within chain-of-thought, typically right after \"$\", \"=\", \"+\" or a label like \"r=\".\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 1.0,
+    "tpr": 1.0,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 4,5,6,8,9,10"
+   }
+  },
+  "ours16:9790": {
+   "label": "Mid-span of memorized fixed phrases",
+   "description": "Fires on a token inside a well-known canonical expression, such as a Bible verse, official organization name, song title, HTML boilerplate or textbook formula definition, where the rest of the phrase is strongly predictable from memory.",
+   "repetition_related": false,
+   "raw": "LABEL: Mid-span of memorized fixed phrases\n\nDESCRIPTION: Fires on a token inside a well-known canonical expression, such as a Bible verse, official organization name, song title, HTML boilerplate or textbook formula definition, where the rest of the phrase is strongly predictable from memory.\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.6666666666666666,
+    "tpr": 0.6666666666666666,
+    "tnr": 0.6666666666666666,
+    "raw": "ACTIVE: 2,3,4,5,8,11"
+   }
+  },
+  "pub18:937": {
+   "label": "",
+   "description": "",
+   "repetition_related": false,
+   "raw": "LABE",
+   "score": {
+    "bal_acc": 1.0,
+    "tpr": 1.0,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 3,4,6,8,9,11"
+   }
+  },
+  "pub18:3890": {
+   "label": "Lead-in before an elaborating description or list",
+   "description": "Fires on colons, commas, and linking words (\"like\", \"typically\", \"Line 1:\", \"Pros:\") at the point where the text is about to deliver its substantive content, most often a list of items, a descriptive phrase, or an explanatory clause.",
+   "repetition_related": false,
+   "raw": "LABEL: Lead-in before an elaborating description or list\n\nDESCRIPTION: Fires on colons, commas, and linking words (\"like\", \"typically\", \"Line 1:\", \"Pros:\") at the point where the text is about to deliver its substantive content, most often a list of items, a descriptive phrase, or an explanatory clause.\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.16666666666666666,
+    "tpr": 0.16666666666666666,
+    "tnr": 0.16666666666666666,
+    "raw": "ACTIVE: 1, 6, 8, 9, 10, 12"
+   }
+  },
+  "ours16:9008": {
+   "label": "Content words ending short drafted filler sentences",
+   "description": "Fires on the noun or verb near the end of short, generic, formulaic sentences, such as draft lines in constrained-writing attempts or bland biography text, where the model expects the sentence to close soon (e.g., \"Flowers [bloom].\", \"served in various [capacities]\").",
+   "repetition_related": false,
+   "raw": "LABEL: Content words ending short drafted filler sentences\n\nDESCRIPTION: Fires on the noun or verb near the end of short, generic, formulaic sentences, such as draft lines in constrained-writing attempts or bland biography text, where the model expects the sentence to close soon (e.g., \"Flowers [bloom].\", \"served in various [capacities]\").\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.75,
+    "tpr": 0.6666666666666666,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 4,5,6,9,11"
+   }
+  },
+  "pub18:2920": {
+   "label": "Clause boundary right after inline math expression",
+   "description": "Fires on the punctuation, conjunction or parenthesis that immediately closes a short inline math statement or value in step-by-step reasoning (e.g. \"x=6$.\", \"f(2)$ and\", \"x^4=2$,\", \"8.5%.\"), where the model expects a consequence or continuation of the claim to follow.",
+   "repetition_related": false,
+   "raw": "LABEL: Clause boundary right after inline math expression\n\nDESCRIPTION: Fires on the punctuation, conjunction or parenthesis that immediately closes a short inline math statement or value in step-by-step reasoning (e.g. \"x=6$.\", \"f(2)$ and\", \"x^4=2$,\", \"8.5%.\"), where the model expects a consequence or continuation of the claim to follow.\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.6666666666666667,
+    "tpr": 0.5,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 1, 5, 11, 12"
+   }
+  },
+  "pub18:12393": {
+   "label": "Predicting next item in parallel enumeration",
+   "description": "Fires at separators or lead-in tokens (commas, \"like\", \"called\", bullet quote marks) just before the next element in a list or series of parallel alternatives, such as answer options, names, terms, or bullet entries, where the model expects another sibling item.",
+   "repetition_related": false,
+   "raw": "LABEL: Predicting next item in parallel enumeration\n\nDESCRIPTION: Fires at separators or lead-in tokens (commas, \"like\", \"called\", bullet quote marks) just before the next element in a list or series of parallel alternatives, such as answer options, names, terms, or bullet entries, where the model expects another sibling item.\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.6666666666666666,
+    "tpr": 0.6666666666666666,
+    "tnr": 0.6666666666666666,
+    "raw": "ACTIVE: 3,5,7,8,9,11"
+   }
+  },
+  "ours16:6592": {
+   "label": "Key noun under scrutiny in self-checking clauses",
+   "description": "Fires on the central noun or term (clown, lists, ticks, bullets count, order, pencils, total*, \"Sustained\") inside a hedging or clarifying clause where the reasoning stops to check what a constraint or phrase means, typically after \"Wait, I need to check if\u2026\" or \"make sure I don't\u2026\".",
+   "repetition_related": true,
+   "raw": "LABEL: Key noun under scrutiny in self-checking clauses\n\nDESCRIPTION: Fires on the central noun or term (clown, lists, ticks, bullets count, order, pencils, total*, \"Sustained\") inside a hedging or clarifying clause where the reasoning stops to check what a constraint or phrase means, typically after \"Wait, I need to check if\u2026\" or \"make sure I don't\u2026\".\n\nREPETITION_RELATED: yes",
+   "score": {
+    "bal_acc": 0.75,
+    "tpr": 0.8333333333333334,
+    "tnr": 0.6666666666666666,
+    "raw": "ACTIVE: 2,3,4,6,7,10,11"
+   }
+  },
+  "ours20:2677": {
+   "label": "End of tentative interpretation or method proposal",
+   "description": "Fires on the sentence-ending period or question mark in chain-of-thought after the model states a hedged assumption, interpretation or planned approach (e.g., \"usually we assume\u2026\", \"let's try grouping\u2026\", \"I need to multiply by 100\"), just before it proceeds to compute or reconsider.",
+   "repetition_related": false,
+   "raw": "LABEL: End of tentative interpretation or method proposal\n\nDESCRIPTION: Fires on the sentence-ending period or question mark in chain-of-thought after the model states a hedged assumption, interpretation or planned approach (e.g., \"usually we assume\u2026\", \"let's try grouping\u2026\", \"I need to multiply by 100\"), just before it proceeds to compute or reconsider.\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 0.9166666666666667,
+    "tpr": 0.8333333333333334,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 1,2,5,7,8"
+   }
+  },
+  "ours16:11268": {
+   "label": "Plural reference to previously listed items",
+   "description": "Fires right after a list or set of several previously mentioned entities is complete. Typical positions are the plural anaphor that refers back to them (\"these\", \"them\", \"they\") or the plural verb that follows (\"are\"), as in \"$6_8$ and $7_8$ \u2026 them\" or \"Garry Castle, Clonony Castle, and Moystown Castle are\".",
+   "repetition_related": false,
+   "raw": "LABEL: Plural reference to previously listed items\n\nDESCRIPTION: Fires right after a list or set of several previously mentioned entities is complete. Typical positions are the plural anaphor that refers back to them (\"these\", \"them\", \"they\") or the plural verb that follows (\"are\"), as in \"$6_8$ and $7_8$ \u2026 them\" or \"Garry Castle, Clonony Castle, and Moystown Castle are\".\n\nREPETITION_RELATED: no",
+   "score": {
+    "bal_acc": 1.0,
+    "tpr": 1.0,
+    "tnr": 1.0,
+    "raw": "ACTIVE: 1,2,4,7,8,11"
+   }
+  },
+  "ours16:1011": {
+   "label": "Final aggregation step after listed sub-results",
+   "description": "Fires at the bullet or indentation token that opens the concluding line of a step-by-step calculation, typically \"Total =\" or \"Sum =\" after the individual quantities have been listed, and also at similar step-transition points such as \"Combine\" or \"Set exponents equal\".",
+   "repetition_related": true,
+   "raw": "LABEL: Final aggregation step after listed sub-results\n\nDESCRIPTION: Fires at the bullet or indentation token that opens the concluding line of a step-by-step calculation, typically \"Total =\" or \"Sum =\" after the individual quantities have been listed, and also at similar step-transition points such as \"Combine\" or \"Set exponents equal\".\n\nREPETITION_RELATED: yes (it is most active in \"final check\" and confirmation passages that restate earlier computations, though its core signal is the transition to the summing step).",
+   "score": {
+    "bal_acc": 0.5833333333333333,
+    "tpr": 0.5,
+    "tnr": 0.6666666666666666,
+    "raw": "ACTIVE: 5, 9, 11, 12, 4"
+   }
+  },
+  "pub18:24687": {
+   "label": "Mid-span tokens of memorized, highly predictable sequences",
+   "description": "Fires inside well-known fixed sequences where the continuation is nearly certain. Examples include boilerplate HTML/CSS (`<head>`, `padding`), canonical names and titles (Eretmochelys, Deathly Hallows, \"The Times They Are a-Changin'\", Deborah Kara Unger) and standard formula patterns ((x\u2082, y\u2082), (x+8),",
+   "repetition_related": false,
+   "raw": "LABEL: Mid-span tokens of memorized, highly predictable sequences\n\nDESCRIPTION: Fires inside well-known fixed sequences where the continuation is nearly certain. Examples include boilerplate HTML/CSS (`<head>`, `padding`), canonical names and titles (Eretmochelys, Deathly Hallows, \"The Times They Are a-Changin'\", Deborah Kara Unger) and standard formula patterns ((x\u2082, y\u2082), (x+8),",
+   "score": {
+    "bal_acc": 0.8333333333333334,
+    "tpr": 0.8333333333333334,
+    "tnr": 0.8333333333333334,
+    "raw": "ACTIVE: 1, 7, 9, 10, 11, 12"
+   }
+  }
+ }
+}

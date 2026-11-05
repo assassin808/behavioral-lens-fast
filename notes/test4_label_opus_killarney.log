@@ -1,0 +1,21 @@
+features to label 20 model claude-opus-5-5
+pub18:1539 | End of repeated unit in verbatim loop | rep True | bal_acc 0.83
+ours20:10915 | Final term in term-by-term expansion | rep False | bal_acc 0.75
+ours20:9081 | Second item in parallel contrastive structure | rep False | bal_acc 0.75
+ours16:1375 | Line break before a reasoning pivot | rep False | bal_acc 1.0
+ours20:13205 | Line break after "Wait, if…" restatement | rep True | bal_acc 1.0
+pub18:1813 | Mid-phrase inside terse, parallel bullet-list items | rep False | bal_acc 0.75
+pub18:8948 | Tokens inside verbatim-repeated or re-quoted earlier text | rep True | bal_acc 0.67
+ours16:8733 | Hypothesized hidden structure in problem wording | rep False | bal_acc 0.75
+ours16:12009 | Single-digit number tokens in math reasoning | rep False | bal_acc 1.0
+ours16:9790 | Mid-span of memorized fixed phrases | rep False | bal_acc 0.67
+pub18:937 |  | rep False | bal_acc 1.0
+pub18:3890 | Lead-in before an elaborating description or list | rep False | bal_acc 0.17
+ours16:9008 | Content words ending short drafted filler sentences | rep False | bal_acc 0.75
+pub18:2920 | Clause boundary right after inline math expression | rep False | bal_acc 0.67
+pub18:12393 | Predicting next item in parallel enumeration | rep False | bal_acc 0.67
+ours16:6592 | Key noun under scrutiny in self-checking clauses | rep True | bal_acc 0.75
+ours20:2677 | End of tentative interpretation or method proposal | rep False | bal_acc 0.92
+ours16:11268 | Plural reference to previously listed items | rep False | bal_acc 1.0
+ours16:1011 | Final aggregation step after listed sub-results | rep True | bal_acc 0.58
+pub18:24687 | Mid-span tokens of memorized, highly predictable sequences | rep False | bal_acc 0.83

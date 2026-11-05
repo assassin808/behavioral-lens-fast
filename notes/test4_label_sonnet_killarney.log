@@ -1,0 +1,120 @@
+features to label 119 model claude-sonnet-5-5
+ours16:13 | Newline before another "Wait," re-check line | rep True | bal_acc 0.83
+ours16:149 | Newline before repeating "Wait," line again | rep True | bal_acc 0.5
+ours16:1011 | Final summation step after listed computations | rep True | bal_acc 0.92
+ours16:1375 | Newline after a stuck or contradictory reasoning step | rep True | bal_acc 1.0
+ours16:1444 | Closing math "$" before repeated "Wait," line | rep True | bal_acc 0.83
+ours16:1729 | Abstract noun completing generic formal phrase | rep False | bal_acc 0.75
+ours16:2293 | Subject token right before stating a computed value | rep False | bal_acc 0.75
+ours16:2562 | Indentation whitespace before repeated "Wait," line | rep True | bal_acc 0.83
+ours16:2657 | Second member of a contrasted pair | rep False | bal_acc 0.75
+ours16:2996 | Sentence-ending period in Wikipedia prose | rep False | bal_acc 0.5
+ours16:3673 | Mid-phrase token while restating earlier text | rep True | bal_acc 0.92
+ours16:3792 | Number followed by parenthetical annotation or label | rep False | bal_acc 0.83
+ours16:4365 | End of final computed answer, before verification | rep True | bal_acc 0.92
+ours16:4371 | Early sentence-start tokens after paragraph break | rep False | bal_acc 0.5
+ours16:5526 | Final token of a restated, copied phrase | rep True | bal_acc 0.75
+ours16:5917 | Period ending problem-statement sentence in analysis | rep False | bal_acc 0.75
+ours16:6592 | Noun in self-correction constraint-checking sentences | rep False | bal_acc 0.58
+ours16:7142 | Noun completing a modified noun phrase | rep False | bal_acc 0.75
+ours16:7236 | Copying next number during repeated calculation | rep True | bal_acc 0.83
+ours16:7614 | Clause-boundary comma after complete main clause | rep False | bal_acc 0.92
+ours16:7770 | "Wait" tokens in repeated self-correction loops | rep True | bal_acc 0.83
+ours16:8156 | Content word completing a clause (noun/verb) | rep False | bal_acc 0.75
+ours16:8733 | Noun after "imply/part of a" hedging | rep False | bal_acc 0.83
+ours16:9008 | Content word completing a short simple sentence | rep False | bal_acc 0.83
+ours16:9112 | Verb/noun in conditional "if subject X" restatement | rep True | bal_acc 0.58
+ours16:9790 | Mid-phrase token in memorized fixed phrase | rep False | bal_acc 0.75
+ours16:10080 | Mental-math decomposition: next number to split | rep False | bal_acc 0.83
+ours16:10763 | Binary operator/equals before next operand number | rep False | bal_acc 0.92
+ours16:11102 | Token right after "Wait," restating prior content | rep True | bal_acc 0.83
+ours16:11268 | Plural subject just before predicate verb | rep False | bal_acc 1.0
+ours16:12009 | Single-digit numeral token in reasoning | rep True | bal_acc 1.0
+ours16:12061 | First digit of multiplication result | rep False | bal_acc 0.83
+ours16:13144 | Final digit of a computed arithmetic result | rep False | bal_acc 0.75
+ours16:13840 | Digit copying inside repeated number restatement | rep True | bal_acc 0.67
+ours16:14311 | Proposed alternative interpretation before "? No" | rep True | bal_acc 0.83
+ours16:14622 | Verification/review step heading after calculation | rep False | bal_acc 0.67
+ours16:15688 | Wikitext numeric separator "@.@" / "@,@" tokens | rep False | bal_acc 0.67
+ours16:16107 | Quantity noun before colon/equals in calculation | rep False | bal_acc 0.67
+pub18:323 | Function words preceding mathematical domain/structure | rep False | bal_acc 0.83
+pub18:373 | Early tokens of a question's first sentence | rep False | bal_acc 0.58
+pub18:551 | Start of a restated or alternative problem quote | rep True | bal_acc 0.83
+pub18:563 | Restating the problem's topic or text | rep True | bal_acc 0.5
+pub18:591 | Number-expected token during self-doubt rechecking | rep True | bal_acc 0.83
+pub18:723 | First token of new topic sentence | rep False | bal_acc 0.5
+pub18:761 | Analytic commentary on a problem's phrasing or wording | rep False | bal_acc 0.83
+pub18:770 | Mid-phrase token before a short commentary continuation | rep False | bal_acc 0.67
+pub18:820 | Mid-sentence content word before a continuing phrase | rep False | bal_acc 0.75
+pub18:937 | Mid-clause verb/auxiliary in restated question | rep True | bal_acc 0.67
+pub18:941 | Subject noun right before main verb | rep False | bal_acc 0.75
+pub18:983 | Space before next numbered list item | rep False | bal_acc 0.92
+pub18:1034 | Subject noun after determiner, predicate next | rep False | bal_acc 0.42
+pub18:1095 | Demonstrative/determiner starting a generalization about problems | rep False | bal_acc 0.5
+pub18:1418 | Index/exponent separator in structured math sequences | rep True | bal_acc 0.58
+pub18:1461 | Verb/connective right after subject, predicting "to" | rep False | bal_acc 0.75
+pub18:1470 | Hyphen "@-@" token in Wikipedia compounds | rep False | bal_acc 0.67
+pub18:1477 | Word-initial fragments awaiting suffix completion | rep False | bal_acc 0.58
+pub18:1498 | Inside conditional clause in reasoning bullets | rep False | bal_acc 0.5
+pub18:1539 | Final token before repeated phrase restarts | rep True | bal_acc 0.92
+pub18:1699 | Function word mid-phrase when restating earlier text | rep True | bal_acc 0.5
+pub18:1813 | Terse noun in bulleted planning/checklist items | rep False | bal_acc 0.67
+pub18:1885 | Predicting "number/count of" next | rep False | bal_acc 0.67
+pub18:1944 | Auxiliary/"already" signaling completed state | rep False | bal_acc 0.75
+pub18:1969 | Informal quoted speech or lyrics, mid-utterance | rep False | bal_acc 0.83
+pub18:1982 | Generic/typical-use qualifiers before a specific noun | rep False | bal_acc 0.83
+pub18:2005 | Start of new sentence's subject noun phrase | rep False | bal_acc 0.42
+pub18:2015 | Introducing an example or illustration | rep False | bal_acc 0.33
+pub18:2022 | Anticipating a standard math concept/method | rep False | bal_acc 0.75
+pub18:2920 | Mid-reasoning math tokens before elaboration | rep False | bal_acc 0.58
+pub18:3584 | Mid-name token predicting continuation of proper noun | rep False | bal_acc 0.58
+pub18:3890 | Positions right before a content-listing start | rep False | bal_acc 0.17
+pub18:4076 | Checking prompt constraint wording during reasoning | rep False | bal_acc 0.58
+pub18:6262 | Noun/quantity before a coordinating "AND" clause | rep False | bal_acc 0.83
+pub18:7048 | Mid-phrase before a predictable named noun | rep False | bal_acc 0.5
+pub18:8948 | Mid-sentence tokens while repeating a "Wait" sentence | rep True | bal_acc 0.67
+pub18:10806 | Subject position after "Wait," self-check clause | rep True | bal_acc 0.83
+pub18:12393 | Next item in a list or enumeration | rep False | bal_acc 0.67
+pub18:24687 | Mid-token completion of predictable multi-token sequences | rep False | bal_acc 0.75
+pub18:58808 | Referring to the problem statement's wording | rep False | bal_acc 0.67
+pub18:62474 | Newline after sentence in Wikipedia narrative | rep False | bal_acc None
+ours20:189 | Abstract noun concluding a relation-type judgment | rep False | bal_acc 0.83
+ours20:1057 | Mid-line words in generated poetry/lyrics | rep False | bal_acc 0.67
+ours20:1376 | Hyphen inside Wikipedia "@-@" compound words | rep False | bal_acc 0.83
+ours20:1602 | Counting quantity of countable items next | rep False | bal_acc 0.67
+ours20:2210 | Function word early in a question or prompt | rep False | bal_acc 0.83
+ours20:2458 | Mid-expression math/LaTeX token before operand | rep False | bal_acc 0.42
+ours20:2677 | Sentence-ending punctuation in reasoning deliberation | rep False | bal_acc 0.83
+ours20:5150 | Final word completing a clause, before period | rep False | bal_acc 0.92
+ours20:5231 | End of planning, before writing final answer | rep False | bal_acc 0.83
+ours20:5710 | Inside hypothetical quoted problem wording | rep False | bal_acc 0.5
+ours20:6329 | Hesitant self-doubt restatement before re-checking | rep True | bal_acc 0.83
+ours20:6680 | Newline/indent before another "Wait," restart | rep True | bal_acc 0.75
+ours20:6870 | Space before inline math variable | rep True | bal_acc 0.75
+ours20:7480 | Planning the final answer's presentation, mid-phrase | rep False | bal_acc 0.83
+ours20:7922 | Mid-expression token in repeated "Wait," restatement | rep True | bal_acc 0.83
+ours20:8127 | Newline before indented bullet in reasoning re-check | rep True | bal_acc 0.83
+ours20:8733 | Interpreting word-problem phrasing as implying relationships | rep False | bal_acc 0.75
+ours20:8776 | Period ending a numbered/bulleted calculation step | rep True | bal_acc 0.75
+ours20:9072 | Predicting "answer/result" noun after determiner | rep False | bal_acc 0.92
+ours20:9081 | Second item in parallel contrasting clause | rep True | bal_acc 0.67
+ours20:9457 | Start of a parallel "If..." conditional clause | rep True | bal_acc 0.83
+ours20:10188 | Predicting a count number next | rep False | bal_acc 0.67
+ours20:10632 | Announcing one more verification check | rep True | bal_acc 0.83
+ours20:10915 | Final term of distributed polynomial multiplication | rep False | bal_acc 0.83
+ours20:11435 | End of first alternative, predicting "or" | rep False | bal_acc 0.83
+ours20:11529 | Start of next parallel enumerated statement | rep True | bal_acc 0.75
+ours20:12043 | End of math problem statement boundary | rep False | bal_acc 0.83
+ours20:12222 | Mid-sentence in self-doubt "Wait" reconsideration | rep True | bal_acc 0.67
+ours20:12311 | Number or quantity about to be stated, in final answer | rep True | bal_acc 0.83
+ours20:12572 | Next token copies earlier math expression | rep True | bal_acc 0.75
+ours20:12884 | Mid-clause in conditional "if X, he is..." restatement | rep True | bal_acc 0.83
+ours20:13205 | Newline after a "Wait, if..." self-doubt sentence | rep True | bal_acc 0.67
+ours20:13840 | Space before a repeated number | rep True | bal_acc 0.83
+ours20:14345 | Noun in quoted/restated problem text | rep True | bal_acc 0.67
+ours20:14481 | End of final list item before blank line | rep False | bal_acc 0.92
+ours20:15190 | Newline ending conclusion before "Wait" self-correction | rep True | bal_acc 0.58
+ours20:15418 | Digits of final boxed numeric answer | rep True | bal_acc 0.92
+ours20:15425 | Label noun right before colon in list | rep False | bal_acc 0.75
+ours20:15922 | Copying a token mid-expression during restatement | rep True | bal_acc 0.67
+ours20:16073 | Whitespace/newline right before repeated "Wait" | rep True | bal_acc 0.75

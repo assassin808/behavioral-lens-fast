@@ -1,0 +1,19 @@
+[transformers] The fast path is not available because one of the required library is not installed. Falling back to torch implementation. To install follow https://github.com/fla-org/flash-linear-attention#installation and https://github.com/Dao-AILab/causal-conv1d
+
+Loading weights:   0%|          | 0/320 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 320/320 [00:00<00:00, 11220.72it/s]
+6 looping texts, loop_frac=[0.201, 0.039, 0.134, 0.083, 0.218, 0.158]
+base           NLL loop 0.021  NLL prod 0.505   (Δ vs base: loop +0.000, prod +0.000)
+p50c           NLL loop 0.114  NLL prod 0.558   (Δ vs base: loop +0.093, prod +0.053)
+sel_alpha1     NLL loop 0.025  NLL prod 0.510   (Δ vs base: loop +0.005, prod +0.005)
+sel_alpha2     NLL loop 0.032  NLL prod 0.517   (Δ vs base: loop +0.012, prod +0.012)
+sel_alpha6     NLL loop 0.114  NLL prod 0.558   (Δ vs base: loop +0.093, prod +0.053)
+sel_alpha10    NLL loop 0.764  NLL prod 0.655   (Δ vs base: loop +0.744, prod +0.150)
+all_alpha1     NLL loop 0.027  NLL prod 0.514   (Δ vs base: loop +0.007, prod +0.010)
+all_alpha1.5   NLL loop 0.032  NLL prod 0.521   (Δ vs base: loop +0.012, prod +0.016)
+all_alpha2     NLL loop 0.038  NLL prod 0.528   (Δ vs base: loop +0.017, prod +0.023)
+rand_dir       NLL loop 0.027  NLL prod 0.516   (Δ vs base: loop +0.006, prod +0.011)
+rand_cols      NLL loop 0.022  NLL prod 0.506   (Δ vs base: loop +0.001, prod +0.001)
+bias-0.5       NLL loop 0.033  NLL prod 0.548   (Δ vs base: loop +0.013, prod +0.043)
+bias-1         NLL loop 0.058  NLL prod 0.630   (Δ vs base: loop +0.038, prod +0.125)
+bias-2         NLL loop 0.192  NLL prod 0.955   (Δ vs base: loop +0.171, prod +0.450)
