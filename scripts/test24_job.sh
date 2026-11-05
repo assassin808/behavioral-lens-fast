@@ -8,6 +8,7 @@
 #SBATCH --output=/scratch/yang0531/blf_data/logs/%x_%j.out
 cd /scratch/yang0531/blf_t24
 set -a; . ~/.env; set +a; export HF_TOKEN=${hf_token:-$HF_TOKEN}
+export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 export HF_HOME=/scratch/yang0531/noise_pilot/hf_cache VLLM_USE_FLASHINFER_SAMPLER=0 OMP_NUM_THREADS=8 TOKENIZERS_PARALLELISM=false
 export PYTHONPATH=/scratch/yang0531/blf_t24/scripts:${EXTRA_PYPATH}
 nvidia-smi --query-gpu=name,memory.total --format=csv,noheader
