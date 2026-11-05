@@ -118,9 +118,11 @@ P(loop) and resid·u at loop vs non-loop positions:
 | 2048 | 20 | 1.62 | 1.19 | 0.433 ± 0.012 | 96 % | 0.18 |
 
 - Thinking-on states sit consistently higher on u than thinking-off states of the same problems, and the gap grows with position.
-  resid·u drifts upward through the thinking trace, while thinking-off stays flat (`test8_think_vs_nothink_u_killarney.png`).
+  In both modes resid·u drifts upward over the first 2k tokens; the thinking-on curve is higher
+  throughout, by a roughly constant offset after ~250 tokens (`test8_think_vs_nothink_u_killarney.png`). The figure averages all
+  positions over texts ≥ 2,048 tokens long: 388 thinking-on, 118 thinking-off. The table uses non-loop positions of all 400 problems.
 - By 2k tokens the gap is 20 % of the loop gap. Thinking mode lives partway up the loop axis even before any verbatim repeat.
-- Hypothesis (untested): the upward drift reflects the thinking mode's growing amount of re-reading and self-checking. That matches
+- Hypothesis (untested): the upward drift reflects a growing amount of re-reading and self-checking. That matches
   test 3's L15 neurons, which fire on referring back. Cheap test: regress resid·u on a re-reading tag per span.
 
 ## Outcome vs predictions (predictions above unchanged)
