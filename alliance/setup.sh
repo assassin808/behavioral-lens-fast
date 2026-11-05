@@ -18,7 +18,7 @@ cd ..
 [ -d env ] || python -m venv env
 source env/bin/activate
 pip install -q --upgrade pip
-pip install -q "torch==2.8.0" "transformers>=5.11" safetensors accelerate numpy scipy scikit-learn matplotlib openai huggingface_hub
+pip install -q "torch>=2.7" "transformers>=5.11" safetensors accelerate numpy scipy scikit-learn matplotlib openai huggingface_hub
 pip install -q flash-linear-attention || echo "flash-linear-attention failed: slow torch fallback will be used"
 pip install -q causal-conv1d --no-build-isolation || echo "causal-conv1d failed: slow fallback will be used"
 
