@@ -11,6 +11,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from expA_common import REPO, DSETS, astra_rows, questions, user_turn, candidates, grade_value, measure_prefix, real_recheck, token_sets
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
+DEV = os.environ.get("EXPA_DEV", "cuda")
 model_dir, mtag, ttag = sys.argv[1], sys.argv[2], sys.argv[3]
 MAXN = int(sys.argv[4]) if len(sys.argv) > 4 else 10 ** 9
 D = f"{os.environ.get('BLF_DATA', '/scratch/yang0531/blf_data')}/expA"; os.makedirs(D, exist_ok=True)
@@ -26,10 +27,10 @@ else:
 rows = rows[:MAXN]
 
 tok = AutoTokenizer.from_pretrained(model_dir)
-model = AutoModelForCausalLM.from_pretrained(model_dir, dtype=torch.bfloat16).to("cuda").eval()
-dmask, wmask, amask = (torch.tensor(m, device="cuda") for m in token_sets(tok))
+model = AutoModelForCausalLM.from_pretrained(model_dir, dtype=torch.bfloat16).to(DEV).eval()
+dmask, wmask, amask = (torch.tensor(m, device=DEV) for m in token_sets(tok))
 small = model.config.get_text_config().hidden_size == 1024
-U = {L: torch.tensor(np.load(f"{REPO}/shared/u_L{L}.npy"), dtype=torch.float32, device="cuda") for L in (15, 19)} if small else None
+U = {L: torch.tensor(np.load(f"{REPO}/shared/u_L{L}.npy"), dtype=torch.float32, device=DEV) for L in (15, 19)} if small else None
 print("model", model_dir, "hidden", model.config.get_text_config().hidden_size, "u-readout", small,
       "| set sizes doubt/wrap/ambig", int(dmask.sum()), int(wmask.sum()), int(amask.sum()), flush=True)
 
@@ -56,7 +57,7 @@ with open(of, "w") as f, torch.no_grad():
             js.append((ci, c, k, j))
         if not js: continue
         jmax = max(j for *_, j in js)
-        ids = torch.tensor([pid + gid[:jmax]], device="cuda")
+        ids = torch.tensor([pid + gid[:jmax]], device=DEV)
         out = model.model(ids, output_hidden_states=small)
         P = len(pid)
         LOG = model.lm_head(out.last_hidden_state[0, [P + j - 1 for *_, j in js]]).float()
@@ -73,6 +74,7 @@ with open(of, "w") as f, torch.no_grad():
                        correct=grade_value(c["value"], r["answer"]), char_pos=c["start"], tok_pos=j, real_recheck=real_recheck(think, c),
                        next_tok_real=tok.decode([gid[j]]), p_real_next=float(p[gid[j]]) if gid[j] < len(p) else None,
                        p_doubt=pd, p_wrap=pw, p_let=pa, ratio=pd / max(pd + pw, 1e-12),
+                       p_doubt_ext=float(p[demask].sum()), p_wrap_ext=float(p[wemask].sum()),
                        top=[(tok.decode([int(i)]), round(float(v), 4)) for v, i in zip(top.values, top.indices)],
                        ctx=think[max(0, c["start"] - 200):k] + "【】" + think[k:k + 120])
             if small:

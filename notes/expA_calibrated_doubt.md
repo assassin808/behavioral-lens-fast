@@ -78,3 +78,20 @@ P(doubt)/(P(doubt)+P(wrapup)); cross-model teacher forcing (0.8B on the 4B's pre
   "if the answer is 7, let's see"). One candidate per line.
 - Measurement position made exact at the token level: the real trace is tokenised and the next-token distribution is read at the
   token that covers the first content character of the next line (so the prefix ends at a real token boundary).
+
+### Pilot (job 7293981, L40S, 0.28 GPU-h; 20 problems per model, plus 60 of Astra's base traces) — what reading the raw rows showed
+- Generation works for base 0.8B and Qwen3.5-4B with the same template (`<think>\n` opened in both; only the template default differs).
+  Base 0.8B: 18/20 cut at 12,288 tokens; 4B: 2/20 cut, mean 4.6k tokens. 4B writes in the same "Here's a thinking process…" style.
+- lm_head(last_hidden_state) equals the full forward logits (max |diff| 0.0), so the cheaper readout is exact.
+- 0.8B candidate points read as real answer statements ("So the answer is 366.", "Final Answer: 240.") and the next real line is
+  usually a re-check ("Wait, what if…", "Let's double-check…", "Is there any chance…"). The model put P(Wait/Let/Is…) of 0.2–0.8
+  after *correct* answers too — consistent in sign with the hypothesis, n far too small to say more.
+- Defects found and fixed before the full run (Amendment 2, labels/positions only):
+  (a) a whitespace-only next line made the "next token" a whitespace token (`gsm8k_test_170`): blank / whitespace-only lines are now skipped;
+  (b) conditional enumerations "If … ⏎ Then the answer is 25." and a 4B "Example: … Answer: 5." were counted as candidates:
+      `then` and `example` added to the exclusion words;
+  (c) the fixed DOUBT set misses question-starts that are clearly re-checks (" If", " Could", " What", " Which", " Alternative") and the WRAP
+      set misses 4B's wrap-up headers ("Final Polish", "Refining the Output", "Review", "Formatting", "Looks good", "Ready"). The primary
+      sets stay as pre-registered; DOUBT_EXT / WRAP_EXT (in `expA_common.py`) are reported as a secondary sensitivity check.
+  (d) " Let" is often the single most likely token after a candidate (0.2–0.67) and is split between "Let's double-check" and
+      "Let's write out the steps": it stays out of both sets in the primary (as pre-registered), and p_doubt + p_let is reported.

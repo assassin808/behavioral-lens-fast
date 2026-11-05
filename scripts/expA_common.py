@@ -60,7 +60,7 @@ def candidates(think, max_n=3):
             continue
         ls = think.rfind("\n", 0, m.start()) + 1
         before = think[ls:m.start()]
-        if re.search(r"\b(if|whether|scenario|assume|suppose|unless|could|would|might|maybe|recall|similar|typical|usually|expected)\b|\?", before, re.I) or "?" in rest:
+        if re.search(r"\b(if|whether|scenario|assume|suppose|unless|could|would|might|maybe|recall|similar|typical|usually|expected|then|example)\b|\?", before, re.I) or "?" in rest:
             continue   # hypothetical / question, not a statement of an answer
         if re.match(r"\s*not\b", rest): continue
         v = _clean(rest)
@@ -88,7 +88,7 @@ def measure_prefix(think, cand):
     le = think.find("\n", cand["end"])
     if le < 0: return None
     k = le
-    while k < len(think) and think[k] == "\n": k += 1
+    while k < len(think) and think[k] in " \t\n": k += 1   # skip blank / whitespace-only lines
     m = _MARKUP.match(think, k)
     k2 = m.end()
     if k2 >= len(think): return None
@@ -104,15 +104,21 @@ DOUBT = {"wait", "but", "hmm", "actually", "however", "maybe", "perhaps", "doubl
          "alternatively", "re", "is", "did", "no"}
 WRAP = {"so", "therefore", "thus", "final", "</think>", "**", "\\boxed", "answer", "done", "conclusion", "okay", "ok"}
 AMBIG = {"let"}
+# Amendment 2 (from the pilot, before the full run): secondary, broader sets. Primary analysis keeps DOUBT / WRAP.
+DOUBT_EXT = DOUBT | {"if", "could", "what", "why", "which", "alternative", "does", "another", "or"}
+WRAP_EXT = WRAP | {"ref", "review", "refining", "formatting", "format", "looks", "ready", "everything", "construct", "draft",
+                   "structure", "steps", "step", "writing", "box", "seems"}
 
 def token_sets(tok):
     import numpy as np
-    V = len(tok); d, w, a = np.zeros(V, bool), np.zeros(V, bool), np.zeros(V, bool)
+    V = len(tok); d, w, a, de, we = (np.zeros(V, bool) for _ in range(5))
     for i in range(V):
         s = tok.decode([i])
-        if s and set(s) <= {"\n"} and len(s) >= 2: w[i] = True; continue   # '\n\n'-type tokens
+        if s and set(s) <= {"\n"} and len(s) >= 2: w[i] = we[i] = True; continue   # '\n\n'-type tokens
         t = s.strip().lower()
         if t in DOUBT: d[i] = True
         elif t in WRAP: w[i] = True
         elif t in AMBIG: a[i] = True
-    return d, w, a
+        if t in DOUBT_EXT: de[i] = True
+        elif t in WRAP_EXT: we[i] = True
+    return d, w, a, de, we
