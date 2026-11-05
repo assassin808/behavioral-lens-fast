@@ -8,7 +8,8 @@
 - inference threshold theta = EMA of the smallest selected activation (BatchTopK -> JumpReLU-style per-token at eval).
 - aux-k loss (k_aux = 512, coef 1/32) on latents dead for > 5M tokens.
 """
-import sys, json, time, numpy as np, torch, torch.nn as nn
+import os, sys, json, time, numpy as np, torch, torch.nn as nn
+DEV = os.environ.get("SAE_DEVICE", "cuda")
 
 ACT, LAYER, OUTP = sys.argv[1], int(sys.argv[2]), sys.argv[3]
 D_SAE = int(sys.argv[4]) if len(sys.argv) > 4 else 16384
@@ -54,20 +55,20 @@ class SAE(nn.Module):
     def decode(s, z): return z @ s.W_dec + s.b_dec
 
 
-sae = SAE().cuda(); opt = torch.optim.Adam(sae.parameters(), lr=LR, betas=(0.9, 0.999))
-steps = int(EPOCHS * len(tr_idx) / BS); last_fire = torch.zeros(D_SAE, device="cuda"); tokseen = 0
+sae = SAE().to(DEV); opt = torch.optim.Adam(sae.parameters(), lr=LR, betas=(0.9, 0.999))
+steps = int(EPOCHS * len(tr_idx) / BS); last_fire = torch.zeros(D_SAE, device=DEV); tokseen = 0
 perm = tr_idx[torch.randperm(len(tr_idx))]
 print("steps", steps, flush=True)
 for st in range(steps):
     j = perm[(st * BS) % len(perm):(st * BS) % len(perm) + BS]
     if len(j) < BS: continue
-    x = Xall[j].cuda().float() / c
+    x = Xall[j].to(DEV).float() / c
     a = sae.pre(x); z, thr = sae.topk(a, K)
     xh = sae.decode(z); err = x - xh
     l2 = err.pow(2).sum(1).mean()
     fired = (z > 0).any(0); tokseen += BS; last_fire[fired] = tokseen
     dead = (tokseen - last_fire) > 5_000_000
-    aux = torch.tensor(0.0, device="cuda")
+    aux = torch.tensor(0.0, device=DEV)
     if dead.sum() > 0:
         ad = a * dead[None]
         kk = min(512, int(dead.sum()))
@@ -89,11 +90,11 @@ for st in range(steps):
 
 # held-out eval with threshold encoder
 with torch.no_grad():
-    fv_num = fv_den = 0; l0 = []; cnt = torch.zeros(D_SAE, device="cuda")
+    fv_num = fv_den = 0; l0 = []; cnt = torch.zeros(D_SAE, device=DEV)
     sel = te_idx[torch.randperm(len(te_idx))[:400000]]
-    xm = Xall[sel[:50000]].cuda().float().mean(0) / c
+    xm = Xall[sel[:50000]].to(DEV).float().mean(0) / c
     for s in range(0, len(sel), BS):
-        x = Xall[sel[s:s + BS]].cuda().float() / c
+        x = Xall[sel[s:s + BS]].to(DEV).float() / c
         z = sae.encode(x); xh = sae.decode(z)
         fv_num += (x - xh).pow(2).sum().item(); fv_den += (x - xm).pow(2).sum().item()
         l0.append((z > 0).sum(1).float().mean().item()); cnt += (z > 0).sum(0)
