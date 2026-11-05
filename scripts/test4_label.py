@@ -23,7 +23,7 @@ def chat(prompt, max_tokens=400):
     for a in range(5):
         try:
             req = urllib.request.Request(B + "/chat/completions", data=json.dumps({"model": MODEL, "messages": [{"role": "user", "content": prompt}],
-                                         "max_tokens": max_tokens, "temperature": 0}).encode(),
+                                         "max_tokens": max_tokens}).encode(),   # temperature is rejected for these models
                                          headers={"Authorization": "Bearer " + KEY, "Content-Type": "application/json"})
             return json.load(urllib.request.urlopen(req, timeout=180))["choices"][0]["message"]["content"]
         except Exception as e:
@@ -58,9 +58,9 @@ def score(lab, o, seed):
     p = ("A sparse-autoencoder latent of a language model has this explanation:\n" + f"LABEL: {lab['label']}\nDESCRIPTION: {lab['description']}\n\n"
          "For each context below, the token of interest is marked [[like this]]. Decide for which contexts the latent is ACTIVE at the "
          "marked token. About half are active.\n\n" + "\n".join(f"{i + 1}. {show(e, act=False)}" for i, (e, _) in enumerate(allx)) +
-         "\n\nAnswer with one line: ACTIVE: <comma-separated numbers>")
-    t = chat(p, 100)
-    m = re.search(r"ACTIVE:\s*([\d,\s]*)", t); pred = set(int(x) for x in re.findall(r"\d+", m[1])) if m else set()
+         "\n\nRespond with ONLY one line and no reasoning: ACTIVE: <comma-separated numbers>")
+    t = chat(p, 800)
+    ms = re.findall(r"ACTIVE:\s*([\d,\s]*)", t); pred = set(int(x) for x in re.findall(r"\d+", ms[-1])) if ms else set()
     y = [l for _, l in allx]; yh = [1 if i + 1 in pred else 0 for i in range(len(allx))]
     tpr = sum(a and b for a, b in zip(y, yh)) / max(1, sum(y)); tnr = sum((not a) and (not b) for a, b in zip(y, yh)) / max(1, len(y) - sum(y))
     return dict(bal_acc=(tpr + tnr) / 2, tpr=tpr, tnr=tnr, raw=t)
