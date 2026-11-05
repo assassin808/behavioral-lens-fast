@@ -5,6 +5,8 @@ Out: notes/expA_results_{OUT_TAG}.json, notes/fig/expA_pdoubt_{OUT_TAG}.png (ref
 """
 import json, os, sys
 import numpy as np
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from expA_common import answer_like
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 D = f"{os.environ.get('BLF_DATA', '/scratch/yang0531/blf_data')}/expA"
 tag, arms = sys.argv[1], [a for a in sys.argv[2:] if "/" not in a]
@@ -34,18 +36,22 @@ def boot(x, y, B=2000):
     return float(np.percentile(v, 2.5)), float(np.percentile(v, 97.5))
 
 
-def load(arm):
-    R = [json.loads(l) for l in open(f"{D}/meas_{arm}.jsonl")]
+def load(arm):   # arm may join several files with '+', e.g. base_on_base_p0+base_on_base_p1
+    R = [json.loads(l) for a in arm.split("+") for l in open(f"{D}/meas_{a}.jsonl")]
     for r in R:
         r["p_doubt_plus_let"] = r["p_doubt"] + r["p_let"]; r["real_recheck"] = float(r["real_recheck"])
         r["ratio_ext"] = r["p_doubt_ext"] / max(r["p_doubt_ext"] + r["p_wrap_ext"], 1e-12)
+    R = [r for r in R if answer_like(r["value"])]          # amendment 3
+    first = {}
+    for r in sorted(R, key=lambda r: r["cand_idx"]): first.setdefault((r["traces"], r["id"]), r["cand_idx"])
+    for r in R: r["is_first"] = first[(r["traces"], r["id"])] == r["cand_idx"]
     return R
 
 
 res = {}
 for arm in arms:
     R = load(arm)
-    for sub, sel in [("first", lambda r: r["cand_idx"] == 0), ("first3", lambda r: True)]:
+    for sub, sel in [("first", lambda r: r["is_first"]), ("first3", lambda r: True)]:
         S = [r for r in R if sel(r)]
         y = np.array([0 if r["correct"] else 1 for r in S])
         d = dict(n=len(S), n_correct=int((y == 0).sum()), n_incorrect=int(y.sum()))
@@ -62,7 +68,7 @@ for arm in arms:
         print(arm, sub, d["n"], d["n_correct"], d["n_incorrect"], " ".join(f"{s}={d[s]['auc']}{d[s]['ci']}" for s in SIG if s in d))
 for a, b in pairs:   # P3: p50c vs base on the same points
     A = {(r["id"], r["cand_idx"]): r for r in load(a)}; B = {(r["id"], r["cand_idx"]): r for r in load(b)}
-    keys = [k for k in A if k in B and k[1] == 0]
+    keys = [k for k in A if k in B and A[k]["is_first"]]
     d = {}
     for ok in (True, False):
         K = [k for k in keys if A[k]["correct"] == ok]
@@ -80,7 +86,7 @@ import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
 fig, axes = plt.subplots(1, len(arms), figsize=(3.2 * len(arms), 3.2), sharey=True)
 axes = np.atleast_1d(axes)
 for ax, arm in zip(axes, arms):
-    S = [r for r in load(arm) if r["cand_idx"] == 0]
+    S = [r for r in load(arm) if r["is_first"]]
     for ok, col, lab in [(True, "#2a7ab9", "correct"), (False, "#d1495b", "incorrect")]:
         x = np.array([r["p_doubt"] for r in S if r["correct"] == ok])
         if len(x) == 0: continue
@@ -90,6 +96,6 @@ for ax, arm in zip(axes, arms):
     a = res[f"{arm}|first"]["p_doubt"]
     ax.set_title(f"{arm}\nAUC {a['auc']} [{a['ci'][0]}, {a['ci'][1]}]", fontsize=8)
     ax.set_xticks([0, 1]); ax.set_xticklabels(["correct", "incorrect"]); ax.set_yscale("log"); ax.legend(fontsize=6, frameon=False, loc="lower center")
-axes[0].set_ylabel("P(doubt) of next token after first candidate answer")
+axes[0].set_ylabel("P(doubt), next token")
 fig.tight_layout(); os.makedirs(os.path.dirname(of), exist_ok=True); fig.savefig(of, dpi=150)
 print("wrote", oj, of)

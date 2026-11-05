@@ -1,7 +1,8 @@
 """Experiment A: thinking-on generations with one harness for every model (vLLM, Astra THINK35 sampling, cap 12,288 tokens).
 Problems: GSM8K = Astra's 200 logged ids + the next unused test ids in file order up to 500; MATH-500 = all 500.
 
-    python scripts/expA_gen.py MODEL_DIR TAG [N_PER_SET]      -> $BLF_DATA/expA/gen_{TAG}.jsonl  (refuses to overwrite)
+    python scripts/expA_gen.py MODEL_DIR TAG [N_PER_SET] [PART NPARTS]   -> $BLF_DATA/expA/gen_{TAG}.jsonl  (refuses to overwrite)
+PART/NPARTS: keep problems i with i % NPARTS == PART (to split one model's run over short jobs; same seed, same sampling).
 """
 import json, os, sys, time
 os.environ.setdefault("VLLM_USE_FLASHINFER_SAMPLER", "0")
@@ -29,6 +30,8 @@ def main():
     of = f"{outd}/gen_{tag}.jsonl"
     assert not os.path.exists(of), f"refusing to overwrite {of}"
     rows = problems(n)
+    if len(sys.argv) > 5:
+        part, nparts = int(sys.argv[4]), int(sys.argv[5]); rows = rows[part::nparts]
     from vllm import LLM, SamplingParams
     t0 = time.time()
     llm = LLM(model=model_dir, gpu_memory_utilization=0.88, max_model_len=MAXTOK + 1024, dtype="bfloat16", max_num_seqs=256, seed=0,

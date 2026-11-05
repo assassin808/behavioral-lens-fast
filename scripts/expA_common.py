@@ -122,3 +122,12 @@ def token_sets(tok):
         if t in DOUBT_EXT: de[i] = True
         elif t in WRAP_EXT: we[i] = True
     return d, w, a, de, we
+
+# Amendment 3 (after reading 6 incorrect base points from the full run; applied in analysis to every arm alike):
+# a phrase "candidate" whose value is a description rather than a value ("the coefficient of $x^0", "simply the number of integer
+# points ... such that ...") is not a candidate answer. Hedge words in front of the value are stripped first.
+_HEDGE = re.compile(r"^(?:(?:seems|seem|to|be|is|definitely|clearly|just|simply|probably|likely|indeed|still|consistently|now)\s+)+", re.I)
+def answer_like(value):
+    v = _HEDGE.sub("", value.strip())
+    words = re.findall(r"[A-Za-z]{2,}", re.sub(r"\$[^$]*\$?|\\[a-zA-Z]+(\{[^}]*\})?", " ", v))
+    return len(words) <= 2

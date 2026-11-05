@@ -95,3 +95,12 @@ P(doubt)/(P(doubt)+P(wrapup)); cross-model teacher forcing (0.8B on the 4B's pre
       sets stay as pre-registered; DOUBT_EXT / WRAP_EXT (in `expA_common.py`) are reported as a secondary sensitivity check.
   (d) " Let" is often the single most likely token after a candidate (0.2–0.67) and is split between "Let's double-check" and
       "Let's write out the steps": it stays out of both sets in the primary (as pre-registered), and p_doubt + p_let is reported.
+
+### Amendment 3 (after the Astra-trace arms and the first 500-problem base part were measured; detector only, applied to every arm)
+Reading 6 random *incorrect* first candidates of the fresh base run showed 2 of 6 were not answers but descriptions
+("So the answer is the coefficient of $x^0$.", "The answer is simply the number of integer points $(a,b)$ such that …"). These
+inflate the incorrect class with non-answers. Rule added (`answer_like` in `expA_common.py`): after stripping hedge words
+(seems / to be / definitely / just / simply / …), a phrase value with more than 2 alphabetic words outside LaTeX is not a candidate;
+the first candidate of a trace is then the earliest answer-like one. This was decided before any AUC on the fresh data was computed.
+(Honest note: AUCs on Astra's traces had already been computed with the old rule — they are kept as
+`notes/expA_results_astra_preA3.json` and reported next to the post-amendment numbers.)
