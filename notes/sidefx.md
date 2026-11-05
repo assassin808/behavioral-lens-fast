@@ -78,3 +78,38 @@ Caveats on the design:
   It is the primary comparator for the hook arms (clampp5, loopsel, clampmean, a3). Those comparisons then share the numerical
   path exactly. Real-weight p50c is still reported. The predictions above are unchanged; "p50c" in P1–P5 is read as p50chook for
   the hook arms, and p50chook vs p50c is reported as a harness check.
+
+### Throughput note (harness)
+- **Eager mode.** Eager vLLM at batch 256 on an L40S gives 5.4k tok/s, close to the earlier RunPod screening's 5.0k with CUDA graphs.
+  At batch 10–20 it is launch-bound: 20 % GPU utilization, about 25 steps/s.
+- **CUDA graphs not used.** `full_decode_only` CUDA graphs run 8.4k tok/s with the hooks installed. I could not verify that the hooks
+  are captured correctly: greedy texts diverge between eager and graph mode even for the same arm, as expected from numerics, so
+  divergence is no test. I therefore kept **eager for every arm** (`scripts/sidefx_cgtest.py`, log `cg_7292687`).
+- **Merged generate call.** Both sets now go through one `generate` call.
+
+### Pilot gate K1 (10 GSM8K + 10 MATH-500 × 1 sample per arm; 7 arms as concurrent processes on one L40S)
+| arm | compl | loop_end | no-box / finished | whitespace | cut after `</think>` | acc_all |
+|---|---|---|---|---|---|---|
+| p50c (weights) | 0.45 | 0.05 | 0/9 | 0 | 0.25 | 0.35 |
+| p50chook | 0.60 | 0.05 | 0/12 | 0 | 0.10 | 0.30 |
+| clampp5 | 0.60 | 0.15 | 1/12 | 1 | 0.10 | 0.35 |
+| loopsel | 0.45 | **0.35** | 0/9 | **3** | 0.20 | 0.40 |
+| clampmean | 0.50 | 0.25 | 0/10 | 0 | 0.05 | 0.40 |
+| a3 | 0.45 | 0.30 | 0/9 | 1 | 0.15 | 0.35 |
+
+The base pilot was cancelled before it finished (20 sequences decoding to 16k in eager mode, launch-bound). Base runs in screening on 100 + 100 × 2.
+
+Read by eye:
+- **Gate passed.** Text is coherent in all hook arms, p50c breaks loops (0.05), and the classes are right. Specifically:
+  - Every "whitespace" sample really is runaway indentation: bullets indented further and further until about 1M trailing spaces at the cap.
+  - The clampp5 no-box sample really ends "Final Answer: 180 miles." without a box.
+  - loopsel's loop_end samples really are verbatim loops ("Wait, `(1.25, 4.5)` is the location of the dot." × N).
+- **New (exploratory, not pre-registered).** At the 16k cap the dominant p50c failure is not "no box" but "cut, still reasoning".
+  In 6 of 10 such p50c samples `</think>` had already been emitted, and the *answer* section kept ruminating until the cap. Examples:
+  "Wait, I'll check the wording again. 'restart the download from the beginning.'…", and "Let's try to verify if there is a typo in
+  the question." I added the rate "cut after `</think>`" to the analysis as an exploratory metric. It is presumably the 16k-cap
+  version of 32k's "finished without \boxed{}".
+- p50c's wrong finished answers re-interpret the problem: "muffins are not fresh duck eggs" (26 vs 18), and "the flock size acts as
+  a distractor" (25 vs 20). The model over-questions the wording rather than failing to re-check it.
+- **Early signal (n = 20, noisy).** loopsel has the same mean loop-position push as p50c but breaks far fewer loops (0.35), and
+  it shows whitespace degeneration too.

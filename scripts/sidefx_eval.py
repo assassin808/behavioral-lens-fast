@@ -125,18 +125,18 @@ def main():
     sets = load_sets(a.sets.split(","), a.n, a.offset)
     sp_kw = dict(SAMPLING_THINK35); sp_kw["max_tokens"] = a.max_tokens; sp_kw["seed"] = a.seed
     allrecs = []; t0 = time.time(); ntok = 0
-    for name, rows in sets.items():
-        prompts = [tok.apply_chat_template([{"role": "user", "content": build_prompt(r["problem"])}], tokenize=False,
-                                           add_generation_prompt=True, enable_thinking=True) for r in rows]
-        outs = llm.generate(prompts, SamplingParams(n=a.samples, **sp_kw))
-        for r, o in zip(rows, outs):
-            for k, s in enumerate(o.outputs):
-                text, n, cut = s.text, len(s.token_ids), s.finish_reason == "length"
-                ok, pred = grade(text, r["answer"]); ls = loop_signals(text); ntok += n
-                allrecs.append(dict(set=name, id=r["id"], k=k, gold=r["answer"], pred=pred, correct=ok,
-                                    correct_lenient=grade_lenient(text, r["answer"]), n_tokens=n, cut=cut, closed="</think>" in text,
-                                    loop_end=bool(ls["verbatim_loop_end"] or ls["repetitive_end"]),
-                                    cls=classify(text, ok, pred, cut, loop_signals), text=text))
+    items = [(name, r) for name, rows in sets.items() for r in rows]          # all sets in ONE generate call (fewer decode steps)
+    prompts = [tok.apply_chat_template([{"role": "user", "content": build_prompt(r["problem"])}], tokenize=False,
+                                       add_generation_prompt=True, enable_thinking=True) for _, r in items]
+    outs = llm.generate(prompts, SamplingParams(n=a.samples, **sp_kw))
+    for (name, r), o in zip(items, outs):
+        for k, s in enumerate(o.outputs):
+            text, n, cut = s.text, len(s.token_ids), s.finish_reason == "length"
+            ok, pred = grade(text, r["answer"]); ls = loop_signals(text); ntok += n
+            allrecs.append(dict(set=name, id=r["id"], k=k, gold=r["answer"], pred=pred, correct=ok,
+                                correct_lenient=grade_lenient(text, r["answer"]), n_tokens=n, cut=cut, closed="</think>" in text,
+                                loop_end=bool(ls["verbatim_loop_end"] or ls["repetitive_end"]),
+                                cls=classify(text, ok, pred, cut, loop_signals), text=text))
     dt = time.time() - t0
     with open(outp, "w") as f:
         for x in allrecs: f.write(json.dumps(x) + "\n")

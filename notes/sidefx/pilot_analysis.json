@@ -1,0 +1,804 @@
+{
+ "all": {
+  "p50c": {
+   "n": 20,
+   "completion": 0.45,
+   "loop_end": 0.05,
+   "acc_all": 0.35,
+   "se1_nobox_per_finished": 0.0,
+   "se2_whitespace": 0.0,
+   "xse_cut_after_think": 0.25,
+   "xse_noanswer_any": 0.55,
+   "acc_on_completed": 0.7777777777777778,
+   "n_finished": 9,
+   "n_nobox": 0,
+   "n_whitespace": 0,
+   "paired_n": 8,
+   "paired_acc": 0.75,
+   "paired_acc_ref": 0.75,
+   "ci95_minus_ref": {
+    "completion": [
+     -0.35000000000000003,
+     0.04999999999999999
+    ],
+    "loop_end": [
+     -0.15,
+     0.15
+    ],
+    "se1_nobox_per_finished": [
+     0.0,
+     0.0
+    ],
+    "se2_whitespace": [
+     0.0,
+     0.0
+    ],
+    "xse_cut_after_think": [
+     0.0,
+     0.30000000000000004
+    ],
+    "acc_all": [
+     0.0,
+     0.15000000000000002
+    ]
+   },
+   "classes": {
+    "finished_wrong": 2,
+    "correct": 7,
+    "cut_still_reasoning": 10,
+    "cut_verbatim_loop": 1
+   }
+  },
+  "p50chook": {
+   "n": 20,
+   "completion": 0.6,
+   "loop_end": 0.05,
+   "acc_all": 0.3,
+   "se1_nobox_per_finished": 0.0,
+   "se2_whitespace": 0.0,
+   "xse_cut_after_think": 0.1,
+   "xse_noanswer_any": 0.4,
+   "acc_on_completed": 0.5,
+   "n_finished": 12,
+   "n_nobox": 0,
+   "n_whitespace": 0,
+   "classes": {
+    "finished_wrong": 6,
+    "correct": 6,
+    "cut_still_reasoning": 7,
+    "cut_verbatim_loop": 1
+   }
+  },
+  "clampp5": {
+   "n": 20,
+   "completion": 0.6,
+   "loop_end": 0.15,
+   "acc_all": 0.35,
+   "se1_nobox_per_finished": 0.08333333333333333,
+   "se2_whitespace": 0.05,
+   "xse_cut_after_think": 0.1,
+   "xse_noanswer_any": 0.45,
+   "acc_on_completed": 0.5833333333333334,
+   "n_finished": 12,
+   "n_nobox": 1,
+   "n_whitespace": 1,
+   "paired_n": 10,
+   "paired_acc": 0.6,
+   "paired_acc_ref": 0.6,
+   "ci95_minus_ref": {
+    "completion": [
+     -0.19999999999999996,
+     0.19999999999999996
+    ],
+    "loop_end": [
+     0.0,
+     0.25
+    ],
+    "se1_nobox_per_finished": [
+     0.0,
+     0.2727272727272727
+    ],
+    "se2_whitespace": [
+     0.0,
+     0.15
+    ],
+    "xse_cut_after_think": [
+     -0.15,
+     0.15000000000000002
+    ],
+    "acc_all": [
+     0.0,
+     0.15000000000000002
+    ]
+   },
+   "classes": {
+    "finished_wrong": 4,
+    "correct": 7,
+    "cut_still_reasoning": 5,
+    "finished_no_box": 1,
+    "cut_repetitive": 2,
+    "cut_whitespace": 1
+   }
+  },
+  "loopsel": {
+   "n": 20,
+   "completion": 0.45,
+   "loop_end": 0.35,
+   "acc_all": 0.4,
+   "se1_nobox_per_finished": 0.0,
+   "se2_whitespace": 0.15,
+   "xse_cut_after_think": 0.2,
+   "xse_noanswer_any": 0.55,
+   "acc_on_completed": 0.8888888888888888,
+   "n_finished": 9,
+   "n_nobox": 0,
+   "n_whitespace": 3,
+   "paired_n": 8,
+   "paired_acc": 0.875,
+   "paired_acc_ref": 0.75,
+   "ci95_minus_ref": {
+    "completion": [
+     -0.35,
+     0.050000000000000044
+    ],
+    "loop_end": [
+     0.1,
+     0.5
+    ],
+    "se1_nobox_per_finished": [
+     0.0,
+     0.0
+    ],
+    "se2_whitespace": [
+     0.0,
+     0.30124999999999885
+    ],
+    "xse_cut_after_think": [
+     -0.15,
+     0.30000000000000004
+    ],
+    "acc_all": [
+     0.0,
+     0.25
+    ]
+   },
+   "classes": {
+    "correct": 8,
+    "cut_still_reasoning": 2,
+    "finished_wrong": 1,
+    "cut_whitespace": 3,
+    "cut_verbatim_loop": 4,
+    "cut_repetitive": 2
+   }
+  },
+  "clampmean": {
+   "n": 20,
+   "completion": 0.5,
+   "loop_end": 0.25,
+   "acc_all": 0.4,
+   "se1_nobox_per_finished": 0.0,
+   "se2_whitespace": 0.0,
+   "xse_cut_after_think": 0.05,
+   "xse_noanswer_any": 0.5,
+   "acc_on_completed": 0.8,
+   "n_finished": 10,
+   "n_nobox": 0,
+   "n_whitespace": 0,
+   "paired_n": 9,
+   "paired_acc": 0.7777777777777778,
+   "paired_acc_ref": 0.6666666666666666,
+   "ci95_minus_ref": {
+    "completion": [
+     -0.3,
+     0.09999999999999998
+    ],
+    "loop_end": [
+     0.0,
+     0.45
+    ],
+    "se1_nobox_per_finished": [
+     0.0,
+     0.0
+    ],
+    "se2_whitespace": [
+     0.0,
+     0.0
+    ],
+    "xse_cut_after_think": [
+     -0.20124999999999993,
+     0.15
+    ],
+    "acc_all": [
+     0.0,
+     0.25
+    ]
+   },
+   "classes": {
+    "correct": 8,
+    "cut_verbatim_loop": 5,
+    "finished_wrong": 2,
+    "cut_still_reasoning": 5
+   }
+  },
+  "a3": {
+   "n": 20,
+   "completion": 0.45,
+   "loop_end": 0.3,
+   "acc_all": 0.35,
+   "se1_nobox_per_finished": 0.0,
+   "se2_whitespace": 0.05,
+   "xse_cut_after_think": 0.15,
+   "xse_noanswer_any": 0.55,
+   "acc_on_completed": 0.7777777777777778,
+   "n_finished": 9,
+   "n_nobox": 0,
+   "n_whitespace": 1,
+   "paired_n": 8,
+   "paired_acc": 0.75,
+   "paired_acc_ref": 0.75,
+   "ci95_minus_ref": {
+    "completion": [
+     -0.35124999999999995,
+     0.04999999999999999
+    ],
+    "loop_end": [
+     0.09875000000000005,
+     0.45
+    ],
+    "se1_nobox_per_finished": [
+     0.0,
+     0.0
+    ],
+    "se2_whitespace": [
+     0.0,
+     0.15
+    ],
+    "xse_cut_after_think": [
+     -0.1,
+     0.20124999999999887
+    ],
+    "acc_all": [
+     0.0,
+     0.15000000000000002
+    ]
+   },
+   "classes": {
+    "finished_wrong": 2,
+    "correct": 7,
+    "cut_still_reasoning": 4,
+    "cut_verbatim_loop": 6,
+    "cut_whitespace": 1
+   }
+  }
+ },
+ "gsm8k": {
+  "p50c": {
+   "n": 10,
+   "completion": 0.5,
+   "loop_end": 0.1,
+   "acc_all": 0.3,
+   "se1_nobox_per_finished": 0.0,
+   "se2_whitespace": 0.0,
+   "xse_cut_after_think": 0.2,
+   "xse_noanswer_any": 0.5,
+   "acc_on_completed": 0.6,
+   "n_finished": 5,
+   "n_nobox": 0,
+   "n_whitespace": 0,
+   "paired_n": 5,
+   "paired_acc": 0.6,
+   "paired_acc_ref": 0.6,
+   "ci95_minus_ref": {
+    "completion": [
+     -0.7,
+     -0.10000000000000009
+    ],
+    "loop_end": [
+     0.0,
+     0.3
+    ],
+    "se1_nobox_per_finished": [
+     0.0,
+     0.0
+    ],
+    "se2_whitespace": [
+     0.0,
+     0.0
+    ],
+    "xse_cut_after_think": [
+     0.0,
+     0.5
+    ],
+    "acc_all": [
+     0.0,
+     0.0
+    ]
+   },
+   "classes": {
+    "finished_wrong": 2,
+    "correct": 3,
+    "cut_still_reasoning": 4,
+    "cut_verbatim_loop": 1
+   }
+  },
+  "p50chook": {
+   "n": 10,
+   "completion": 0.9,
+   "loop_end": 0.0,
+   "acc_all": 0.3,
+   "se1_nobox_per_finished": 0.0,
+   "se2_whitespace": 0.0,
+   "xse_cut_after_think": 0.0,
+   "xse_noanswer_any": 0.1,
+   "acc_on_completed": 0.3333333333333333,
+   "n_finished": 9,
+   "n_nobox": 0,
+   "n_whitespace": 0,
+   "classes": {
+    "finished_wrong": 6,
+    "correct": 3,
+    "cut_still_reasoning": 1
+   }
+  },
+  "clampp5": {
+   "n": 10,
+   "completion": 0.8,
+   "loop_end": 0.1,
+   "acc_all": 0.3,
+   "se1_nobox_per_finished": 0.125,
+   "se2_whitespace": 0.0,
+   "xse_cut_after_think": 0.1,
+   "xse_noanswer_any": 0.3,
+   "acc_on_completed": 0.375,
+   "n_finished": 8,
+   "n_nobox": 1,
+   "n_whitespace": 0,
+   "paired_n": 7,
+   "paired_acc": 0.42857142857142855,
+   "paired_acc_ref": 0.42857142857142855,
+   "ci95_minus_ref": {
+    "completion": [
+     -0.40249999999999986,
+     0.20000000000000007
+    ],
+    "loop_end": [
+     0.0,
+     0.3
+    ],
+    "se1_nobox_per_finished": [
+     0.0,
+     0.375
+    ],
+    "se2_whitespace": [
+     0.0,
+     0.0
+    ],
+    "xse_cut_after_think": [
+     0.0,
+     0.3
+    ],
+    "acc_all": [
+     0.0,
+     0.0
+    ]
+   },
+   "classes": {
+    "finished_wrong": 4,
+    "correct": 3,
+    "cut_still_reasoning": 2,
+    "finished_no_box": 1
+   }
+  },
+  "loopsel": {
+   "n": 10,
+   "completion": 0.5,
+   "loop_end": 0.3,
+   "acc_all": 0.4,
+   "se1_nobox_per_finished": 0.0,
+   "se2_whitespace": 0.1,
+   "xse_cut_after_think": 0.3,
+   "xse_noanswer_any": 0.5,
+   "acc_on_completed": 0.8,
+   "n_finished": 5,
+   "n_nobox": 0,
+   "n_whitespace": 1,
+   "paired_n": 5,
+   "paired_acc": 0.8,
+   "paired_acc_ref": 0.6,
+   "ci95_minus_ref": {
+    "completion": [
+     -0.7,
+     -0.09999999999999998
+    ],
+    "loop_end": [
+     0.09750000000000014,
+     0.6
+    ],
+    "se1_nobox_per_finished": [
+     0.0,
+     0.0
+    ],
+    "se2_whitespace": [
+     0.0,
+     0.3
+    ],
+    "xse_cut_after_think": [
+     0.0,
+     0.6
+    ],
+    "acc_all": [
+     0.0,
+     0.30000000000000004
+    ]
+   },
+   "classes": {
+    "correct": 4,
+    "cut_still_reasoning": 2,
+    "finished_wrong": 1,
+    "cut_whitespace": 1,
+    "cut_verbatim_loop": 2
+   }
+  },
+  "clampmean": {
+   "n": 10,
+   "completion": 0.6,
+   "loop_end": 0.1,
+   "acc_all": 0.4,
+   "se1_nobox_per_finished": 0.0,
+   "se2_whitespace": 0.0,
+   "xse_cut_after_think": 0.0,
+   "xse_noanswer_any": 0.4,
+   "acc_on_completed": 0.6666666666666666,
+   "n_finished": 6,
+   "n_nobox": 0,
+   "n_whitespace": 0,
+   "paired_n": 6,
+   "paired_acc": 0.6666666666666666,
+   "paired_acc_ref": 0.5,
+   "ci95_minus_ref": {
+    "completion": [
+     -0.6000000000000001,
+     -0.09999999999999998
+    ],
+    "loop_end": [
+     0.0,
+     0.3
+    ],
+    "se1_nobox_per_finished": [
+     0.0,
+     0.0
+    ],
+    "se2_whitespace": [
+     0.0,
+     0.0
+    ],
+    "xse_cut_after_think": [
+     0.0,
+     0.0
+    ],
+    "acc_all": [
+     0.0,
+     0.3
+    ]
+   },
+   "classes": {
+    "correct": 4,
+    "cut_verbatim_loop": 1,
+    "finished_wrong": 2,
+    "cut_still_reasoning": 3
+   }
+  },
+  "a3": {
+   "n": 10,
+   "completion": 0.5,
+   "loop_end": 0.4,
+   "acc_all": 0.3,
+   "se1_nobox_per_finished": 0.0,
+   "se2_whitespace": 0.0,
+   "xse_cut_after_think": 0.2,
+   "xse_noanswer_any": 0.5,
+   "acc_on_completed": 0.6,
+   "n_finished": 5,
+   "n_nobox": 0,
+   "n_whitespace": 0,
+   "paired_n": 5,
+   "paired_acc": 0.6,
+   "paired_acc_ref": 0.6,
+   "ci95_minus_ref": {
+    "completion": [
+     -0.7,
+     -0.09999999999999998
+    ],
+    "loop_end": [
+     0.1,
+     0.7
+    ],
+    "se1_nobox_per_finished": [
+     0.0,
+     0.0
+    ],
+    "se2_whitespace": [
+     0.0,
+     0.0
+    ],
+    "xse_cut_after_think": [
+     0.0,
+     0.5
+    ],
+    "acc_all": [
+     0.0,
+     0.0
+    ]
+   },
+   "classes": {
+    "finished_wrong": 2,
+    "correct": 3,
+    "cut_still_reasoning": 1,
+    "cut_verbatim_loop": 4
+   }
+  }
+ },
+ "math500": {
+  "p50c": {
+   "n": 10,
+   "completion": 0.4,
+   "loop_end": 0.0,
+   "acc_all": 0.4,
+   "se1_nobox_per_finished": 0.0,
+   "se2_whitespace": 0.0,
+   "xse_cut_after_think": 0.3,
+   "xse_noanswer_any": 0.6,
+   "acc_on_completed": 1.0,
+   "n_finished": 4,
+   "n_nobox": 0,
+   "n_whitespace": 0,
+   "paired_n": 3,
+   "paired_acc": 1.0,
+   "paired_acc_ref": 1.0,
+   "ci95_minus_ref": {
+    "completion": [
+     0.0,
+     0.30000000000000004
+    ],
+    "loop_end": [
+     -0.3,
+     0.0
+    ],
+    "se1_nobox_per_finished": [
+     0.0,
+     0.0
+    ],
+    "se2_whitespace": [
+     0.0,
+     0.0
+    ],
+    "xse_cut_after_think": [
+     0.0,
+     0.30000000000000004
+    ],
+    "acc_all": [
+     0.0,
+     0.30000000000000004
+    ]
+   },
+   "classes": {
+    "cut_still_reasoning": 6,
+    "correct": 4
+   }
+  },
+  "p50chook": {
+   "n": 10,
+   "completion": 0.3,
+   "loop_end": 0.1,
+   "acc_all": 0.3,
+   "se1_nobox_per_finished": 0.0,
+   "se2_whitespace": 0.0,
+   "xse_cut_after_think": 0.2,
+   "xse_noanswer_any": 0.7,
+   "acc_on_completed": 1.0,
+   "n_finished": 3,
+   "n_nobox": 0,
+   "n_whitespace": 0,
+   "classes": {
+    "cut_verbatim_loop": 1,
+    "correct": 3,
+    "cut_still_reasoning": 6
+   }
+  },
+  "clampp5": {
+   "n": 10,
+   "completion": 0.4,
+   "loop_end": 0.2,
+   "acc_all": 0.4,
+   "se1_nobox_per_finished": 0.0,
+   "se2_whitespace": 0.1,
+   "xse_cut_after_think": 0.1,
+   "xse_noanswer_any": 0.6,
+   "acc_on_completed": 1.0,
+   "n_finished": 4,
+   "n_nobox": 0,
+   "n_whitespace": 1,
+   "paired_n": 3,
+   "paired_acc": 1.0,
+   "paired_acc_ref": 1.0,
+   "ci95_minus_ref": {
+    "completion": [
+     0.0,
+     0.30000000000000004
+    ],
+    "loop_end": [
+     0.0,
+     0.30000000000000004
+    ],
+    "se1_nobox_per_finished": [
+     0.0,
+     0.0
+    ],
+    "se2_whitespace": [
+     0.0,
+     0.3
+    ],
+    "xse_cut_after_think": [
+     -0.30000000000000004,
+     0.0
+    ],
+    "acc_all": [
+     0.0,
+     0.30000000000000004
+    ]
+   },
+   "classes": {
+    "cut_repetitive": 2,
+    "correct": 4,
+    "cut_still_reasoning": 3,
+    "cut_whitespace": 1
+   }
+  },
+  "loopsel": {
+   "n": 10,
+   "completion": 0.4,
+   "loop_end": 0.4,
+   "acc_all": 0.4,
+   "se1_nobox_per_finished": 0.0,
+   "se2_whitespace": 0.2,
+   "xse_cut_after_think": 0.1,
+   "xse_noanswer_any": 0.6,
+   "acc_on_completed": 1.0,
+   "n_finished": 4,
+   "n_nobox": 0,
+   "n_whitespace": 2,
+   "paired_n": 3,
+   "paired_acc": 1.0,
+   "paired_acc_ref": 1.0,
+   "ci95_minus_ref": {
+    "completion": [
+     0.0,
+     0.3
+    ],
+    "loop_end": [
+     0.0,
+     0.6
+    ],
+    "se1_nobox_per_finished": [
+     0.0,
+     0.0
+    ],
+    "se2_whitespace": [
+     0.0,
+     0.5
+    ],
+    "xse_cut_after_think": [
+     -0.4,
+     0.2
+    ],
+    "acc_all": [
+     0.0,
+     0.3
+    ]
+   },
+   "classes": {
+    "cut_verbatim_loop": 2,
+    "correct": 4,
+    "cut_repetitive": 2,
+    "cut_whitespace": 2
+   }
+  },
+  "clampmean": {
+   "n": 10,
+   "completion": 0.4,
+   "loop_end": 0.4,
+   "acc_all": 0.4,
+   "se1_nobox_per_finished": 0.0,
+   "se2_whitespace": 0.0,
+   "xse_cut_after_think": 0.1,
+   "xse_noanswer_any": 0.6,
+   "acc_on_completed": 1.0,
+   "n_finished": 4,
+   "n_nobox": 0,
+   "n_whitespace": 0,
+   "paired_n": 3,
+   "paired_acc": 1.0,
+   "paired_acc_ref": 1.0,
+   "ci95_minus_ref": {
+    "completion": [
+     0.0,
+     0.3
+    ],
+    "loop_end": [
+     -0.1,
+     0.7
+    ],
+    "se1_nobox_per_finished": [
+     0.0,
+     0.0
+    ],
+    "se2_whitespace": [
+     0.0,
+     0.0
+    ],
+    "xse_cut_after_think": [
+     -0.4,
+     0.2
+    ],
+    "acc_all": [
+     0.0,
+     0.3
+    ]
+   },
+   "classes": {
+    "cut_still_reasoning": 2,
+    "correct": 4,
+    "cut_verbatim_loop": 4
+   }
+  },
+  "a3": {
+   "n": 10,
+   "completion": 0.4,
+   "loop_end": 0.2,
+   "acc_all": 0.4,
+   "se1_nobox_per_finished": 0.0,
+   "se2_whitespace": 0.1,
+   "xse_cut_after_think": 0.1,
+   "xse_noanswer_any": 0.6,
+   "acc_on_completed": 1.0,
+   "n_finished": 4,
+   "n_nobox": 0,
+   "n_whitespace": 1,
+   "paired_n": 3,
+   "paired_acc": 1.0,
+   "paired_acc_ref": 1.0,
+   "ci95_minus_ref": {
+    "completion": [
+     0.0,
+     0.3
+    ],
+    "loop_end": [
+     0.0,
+     0.3
+    ],
+    "se1_nobox_per_finished": [
+     0.0,
+     0.0
+    ],
+    "se2_whitespace": [
+     0.0,
+     0.3
+    ],
+    "xse_cut_after_think": [
+     -0.30000000000000004,
+     0.0
+    ],
+    "acc_all": [
+     0.0,
+     0.3
+    ]
+   },
+   "classes": {
+    "cut_verbatim_loop": 2,
+    "correct": 4,
+    "cut_still_reasoning": 3,
+    "cut_whitespace": 1
+   }
+  }
+ }
+}
