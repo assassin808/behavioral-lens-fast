@@ -87,11 +87,11 @@ What the tokens say (top by mean Δp at real loop states):
 Bare J-lens reads (R0) agree: +u = "still / actually / is it? / not" (还是, 其实是, 不是, Actually, **?), −u = result nouns and closure.
 So in the mid layers **u is a "doubt / re-check (Wait, is, maybe, If, No)" vs "close and move on (\n\n, So, Final, Let, </think>, verify)" axis**.
 "Keep enumerating" is not what +u reads as; "re-question the same thing" is. Caveat: the sign holds at non-loop positions too, with
-~80 % of the loop-position size (e.g. R-lens hs16 cls −u/+u: loop +1.65/−0.67, non-loop +1.06/−0.90). The axis is generic; the
+85–90 % of the loop-position size (cls(−u) − cls(+u)) (e.g. R-lens hs16 cls −u/+u: loop +1.65/−0.67, non-loop +1.06/−0.90). The axis is generic; the
 gating that makes the edit loop-specific is in the neurons (Q2), not in the direction.
 
 **P2b (variance): PASS.** var(h·u15)/tr Cov(h) = 3.5–5.1 % at hs13–22 (30–53× the isotropic 1/1024); u15 is the 2nd–3rd eigendirection
-of the residual covariance at hs13–22 (top PC 10–13 %). u19's share peaks at hs20 (6.1 %). Mean h·u15 is ~2.2× larger at loop than
+of the residual covariance at hs13–22 (top PC 10–13 %). u19's share peaks at hs20 (6.1 %). Mean h·u15 is 1.6–2.4× larger at loop than
 at non-loop generated positions at every layer 13–24 (hs16: 2.25 vs 0.94; WikiText 0.53). Both shares collapse after the final block
 (hs24 pre-norm: 0.46 %, rank 34). u is one of the dominant directions of the mid-layer residual, not a small-variance one.
 
@@ -110,3 +110,6 @@ Caveats: the R-lens adds ±s·u at *all* generated positions (ungated), so it re
 edit's median); token classes were fixed in advance but are hand-picked; J-lens fits are short-context (128 tokens) averages, ours on
 400 prompts; tuned lens trained 2 epochs on 180 k positions (no held-out text overlap with the analysis set: different split / WikiText
 article ranges); 40 looping texts, one seed.
+
+## Compute
+Killarney L40S, tests 2+4 together: **1.81 GPU-h** (collect 0.53, J-lens fit 0.81, tuned fit 0.16, read 0.10, 2 SAEs 0.12, analyze 0.06, pilot/failed 0.03). API: ~280 gateway calls (Sonnet 119 labels + 118 scores; Opus 20 + 20).

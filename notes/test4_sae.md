@@ -81,3 +81,6 @@ Caveats: one SAE seed / size; activations from the base model on its own + p50c 
 states are encoded with the *base* SAE (that is the point, but reconstruction is poor on them, FVU ≈ 0.5, so small ON effects can be
 reconstruction artefacts); labels come from ≤ 12 contexts at max 2 per generation; loop contexts are near-duplicates, which inflates
 detection scores of loop latents.
+
+## Compute
+Killarney L40S, tests 2+4 together: **1.81 GPU-h** (collect 0.53, J-lens fit 0.81, tuned fit 0.16, read 0.10, 2 SAEs 0.12, analyze 0.06, pilot/failed 0.03). API: ~280 gateway calls (Sonnet 119 labels + 118 scores; Opus 20 + 20).
