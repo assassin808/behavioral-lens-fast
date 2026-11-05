@@ -7,9 +7,16 @@ REF = os.environ.get("SFX_REF", "p50chook")   # comparator; hook arms are compar
 D, pre, outp = sys.argv[1], sys.argv[2], sys.argv[3]
 arms = sys.argv[4:] or ["base", "p50c", "p50chook", "clampp5", "loopsel", "clampmean", "a3"]
 R = {}
+import glob as _g
+K0 = os.environ.get("SFX_K0") == "1"          # keep only sample k=0 (arms run with different numbers of samples)
 for a in arms:
-    try: R[a] = [json.loads(l) for l in open(f"{D}/{pre}{a}.jsonl")]
-    except FileNotFoundError: pass
+    if "=" in a: a, f = a.split("=", 1)
+    else:
+        fs = sorted(_g.glob(f"{D}/{pre}{a}.jsonl")) or sorted(_g.glob(f"{D}/{pre}{a}_n*.jsonl"))
+        if not fs: continue
+        f = fs[0]
+    R[a] = [x for x in (json.loads(l) for l in open(f)) if not (K0 and x["k"] != 0)]
+    print(a, f, len(R[a]))
 
 def by_prob(recs):
     g = {}
@@ -60,8 +67,8 @@ for scope in ["all", "gsm8k", "math500"]:
 json.dump(out, open(outp, "w"), indent=1)
 for scope in out:
     print(f"\n## {scope}")
-    print("arm | n | compl | loop_end | acc_all | no-box/fin | whitespace | cut after </think> | acc_on_compl | paired acc (arm/ref, n)")
+    print("arm | n | compl | × acc_on_compl = acc_all | loop_end | no-box/fin | whitespace | cut after </think> | acc_on_compl | paired acc (arm/ref, n)")
     for a, m in out[scope].items():
         pa = f"{m['paired_acc']:.3f}/{m['paired_acc_ref']:.3f} ({m['paired_n']})" if "paired_n" in m else "-"
-        print(f"{a} | {m['n']} | {m['completion']:.3f} | {m['loop_end']:.3f} | {m['acc_all']:.3f} | {m['se1_nobox_per_finished']:.3f} ({m['n_nobox']}/{m['n_finished']}) | "
+        print(f"{a} | {m['n']} | {m['completion']:.3f} × {m['acc_on_completed']:.3f} = {m['acc_all']:.3f} | {m['loop_end']:.3f} | {m['se1_nobox_per_finished']:.3f} ({m['n_nobox']}/{m['n_finished']}) | "
               f"{m['se2_whitespace']:.3f} ({m['n_whitespace']}) | {m['xse_cut_after_think']:.3f} | {m['acc_on_completed']:.3f} | {pa}")

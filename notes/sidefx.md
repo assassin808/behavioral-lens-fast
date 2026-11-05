@@ -113,3 +113,15 @@ Read by eye:
   a distractor" (25 vs 20). The model over-questions the wording rather than failing to re-check it.
 - **Early signal (n = 20, noisy).** loopsel has the same mean loop-position push as p50c but breaks far fewer loops (0.35), and
   it shows whitespace degeneration too.
+
+### Screening logistics (deviation, recorded before any screening result was read)
+- **Queue limits.** The interac QOS allows one job per user, and nodes have about one free L40S. Arms therefore run 2 at a time on
+  one GPU (`scripts/sidefx_screen_multi.sh`).
+- **Throughput.** With 16k contexts it is about 3k tok/s combined, lower than the 1k-context benchmark. Running every arm at
+  200 + 200 × 2 would not fit the 3h job limit or the budget.
+- **What ran.**
+  - p50chook and loopsel: × 2 samples (job 7293441).
+  - clampp5, p50c, clampmean and a3: × 1 sample (job 7294772).
+  - base: 100 + 100 × 1 (job 7294773).
+- **Analysis rule.** The main table uses **sample k = 0 only for every arm** (`SFX_K0=1`), on the same problems and the same
+  seed-0 sampling stream. The × 2 numbers for p50chook and loopsel are reported separately as a check.
