@@ -31,7 +31,9 @@ print("no-think gens:", len(G), "cut", sum(g["cut"] for g in G), "loop_frac>0.05
 for g in G[:2] + G[200:202]: print("--- sample", g["id"], g["n_tokens"], "tokens:", g["text"][:300].replace("\n", " | "), "...", g["text"][-200:].replace("\n", " | "))
 PYEOF
 
-# 2. pilot (8 contexts, 16k) + sign gate
+# 2. pilot (8 contexts, 16k) + sign gate   (T38_STAGE=pilot: stop after it; T38_STAGE=full: skip it)
+STAGE=${T38_STAGE:-all}
+if [ "$STAGE" != full ]; then
 PILOT=1 $PY scripts/test3_collect.py 16384 8
 PILOT=1 $PY scripts/test8_tf.py 16384 8
 $PY - <<'PYEOF'
@@ -47,6 +49,8 @@ if not (len(lo) and np.mean([a - b for a, b in lo]) > 0): print("PILOT GATE FAIL
 print("pilot gate passed")
 PYEOF
 echo "pilot done $(( $(date +%s) - T0 ))s"
+fi
+[ "$STAGE" = pilot ] && exit 0
 
 # 3. full
 $PY scripts/test3_collect.py $MAXT $NPC
