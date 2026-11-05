@@ -1,3 +1,6 @@
 built /data2/ec2-user/models/qwen3.5-0.8b-astra/variants/sel_alpha2
 built /data2/ec2-user/models/qwen3.5-0.8b-astra/variants/all_alpha1.5
 built /data2/ec2-user/models/qwen3.5-0.8b-astra/variants/rand_cols
+SUMMARY {"tag": "p50c", "n": 50, "acc": 0.56, "closed": 0.8, "cut": 0.3, "mean_tokens": 10595.26, "rep20": 0.112519917302307, "sec": 869.5063071250916, "tok_per_s": 609.268726010271}
+SUMMARY {"tag": "base", "n": 50, "acc": 0.14, "closed": 0.14, "cut": 0.86, "mean_tokens": 14561.0, "rep20": 0.5592472759919598, "sec": 1046.0061988830566, "tok_per_s": 696.0283799249223}
+SUMMARY {"tag": "sel_alpha2", "n": 50, "acc": 0.32, "closed": 0.4, "cut": 0.66, "mean_tokens": 13749.18, "rep20": 0.4343150870734729, "sec": 1030.5470559597015, "tok_per_s": 667.0816204115985}
