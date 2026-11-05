@@ -1,0 +1,12 @@
+NVIDIA L40S, 46068 MiB
+stat positions loop/prod/wiki 400000 400000 200000
+ours16 max|cos(dec,u)| 0.5645734071731567 freq-dead 6.103515625e-05
+pub18 max|cos(dec,u)| 0.44654959440231323 freq-dead 0.117950439453125
+ours20 max|cos(dec,u)| 0.6477856636047363 freq-dead 0.0
+ours16 max cos 0.5645734071731567 on20 in prodtop100 0.25
+pub18 max cos 0.44654959440231323 on20 in prodtop100 0.25
+ours20 max cos 0.6477856636047363 on20 in prodtop100 0.45
+exemplars ours16 38
+exemplars pub18 41
+exemplars ours20 40
+saved notes/test4_analyze_killarney.json
