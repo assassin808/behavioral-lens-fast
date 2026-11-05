@@ -3,6 +3,10 @@
 A short side project: look at the MIT Astra weight edits with as many interpretability tools as possible,
 and say in plain words what the edit actually does inside the model.
 
+> **Results: [`notes/RESULTS.md`](notes/RESULTS.md)**. It covers the causal chain, a table of tool × object × finding,
+> the behaviour comparison, and corrections to the earlier `q1`–`q6` notes. Where they conflict, RESULTS.md is authoritative.
+> The plan below is the original one; RESULTS.md shows which parts were done and what they found.
+
 Astra (GPT-6 in a sandbox) edited Qwen3.5-0.8B's weights directly, with no training, and math accuracy jumped.
 We want a clear, multi-tool account of what changed.
 
