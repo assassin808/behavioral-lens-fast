@@ -10,7 +10,7 @@ set -euo pipefail
 BLF_HOME=${BLF_HOME:-$HOME/scratch/blf_run}
 BRANCH=$1; RUNNER=$2; shift 2
 cd "$BLF_HOME"
-module load StdEnv/2023 python/3.11 cuda/12.6 2>/dev/null || true
+module load StdEnv/2023 2>/dev/null || true; export PATH=$HOME/.local/bin:$PATH; unset PIP_CONFIG_FILE PYTHONPATH
 source env/bin/activate
 [ -f ~/.env ] && { set -a; . ~/.env; set +a; }
 export HF_HOME=$BLF_HOME/hf_cache HF_HUB_OFFLINE=1 TOKENIZERS_PARALLELISM=false OMP_NUM_THREADS=8 VLLM_USE_FLASHINFER_SAMPLER=0
