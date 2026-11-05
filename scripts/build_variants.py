@@ -19,7 +19,7 @@ def variant(name, L):
     elif name == "rand_cols":
         rc = torch.randperm(W0.shape[1])[:64]; W = W0.clone(); W[:, rc] = W0[:, rc] - 6 * torch.outer(u, u @ W0[:, rc])
     elif name.startswith("top64_"):                 # top64_<criterion>_alpha<a>: our re-ranked columns, same rule
-        crit, a = name[6:].rsplit("_alpha", 1); c = torch.tensor(np.load(f"shared/top64_{crit}_L{L}.npy")); a = float(a)
+        crit, a = name[6:].rsplit("_alpha", 1); fn = {"dprime": "by_dprime", "uproj": "by_uproj", "combined": "combined"}[crit]; c = torch.tensor(np.load(f"shared/top64_{fn}_L{L}.npy")); a = float(a)
         W = W0.clone(); W[:, c] = W0[:, c] - a * torch.outer(u, u @ W0[:, c])
     elif name.startswith("rand_dir") and name != "rand_dir":   # rand_dirNN: random unit direction, Astra cols, α=6 (same generator order as q4b)
         k = int(name[8:]); gen = torch.Generator().manual_seed(0); r = None

@@ -1,1 +1,8 @@
-[queue] start Thu Nov  5 03:12:28 UTC 2026
+[queue] start Thu Nov  5 03:17:18 UTC 2026
+built /data2/ec2-user/models/qwen3.5-0.8b-astra/variants/top64_dprime_alpha6
+built /data2/ec2-user/models/qwen3.5-0.8b-astra/variants/top64_uproj_alpha6
+built /data2/ec2-user/models/qwen3.5-0.8b-astra/variants/rand_dir00
+built /data2/ec2-user/models/qwen3.5-0.8b-astra/variants/rand_dir01
+built /data2/ec2-user/models/qwen3.5-0.8b-astra/variants/rand_dir02
+built /data2/ec2-user/models/qwen3.5-0.8b-astra/variants/rand_dir03
+built /data2/ec2-user/models/qwen3.5-0.8b-astra/variants/rand_dir04

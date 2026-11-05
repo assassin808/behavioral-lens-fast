@@ -21,7 +21,7 @@ def main():
     ap = argparse.ArgumentParser(); ap.add_argument("model"); ap.add_argument("tag")
     ap.add_argument("--sets", default="gsm8k,math500"); ap.add_argument("--n", type=int, default=100); ap.add_argument("--samples", type=int, default=1)
     ap.add_argument("--max-tokens", type=int, default=16384); ap.add_argument("--no-think", action="store_true"); ap.add_argument("--rep-penalty", type=float, default=1.0)
-    ap.add_argument("--think-budget", type=int, default=0); ap.add_argument("--mem", type=float, default=float(os.environ.get("EVAL_GPU_MEM", 0.75))); ap.add_argument("--max-seqs", type=int, default=int(os.environ.get("EVAL_MAX_SEQS", 256))); ap.add_argument("--eager", action="store_true"); ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--think-budget", type=int, default=0); ap.add_argument("--mem", type=float, default=float(os.environ.get("EVAL_GPU_MEM", 0.85))); ap.add_argument("--max-seqs", type=int, default=int(os.environ.get("EVAL_MAX_SEQS", 256))); ap.add_argument("--eager", action="store_true"); ap.add_argument("--seed", type=int, default=0)
     a = ap.parse_args()
     from astra_eval import build_prompt, grade, loop_signals, SAMPLING_THINK35
     from vllm import LLM, SamplingParams
