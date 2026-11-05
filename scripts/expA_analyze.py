@@ -11,7 +11,8 @@ REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 D = f"{os.environ.get('BLF_DATA', '/scratch/yang0531/blf_data')}/expA"
 tag, arms = sys.argv[1], [a for a in sys.argv[2:] if "/" not in a]
 pairs = [a.split("/") for a in sys.argv[2:] if "/" in a]   # "armA/armB": same traces, two models -> paired shift by correctness
-oj, of = f"{REPO}/notes/expA_results_{tag}.json", f"{REPO}/notes/fig/expA_pdoubt_{tag}.png"
+OUT = os.environ.get("EXPA_OUT", f"{REPO}/notes")
+oj, of = f"{OUT}/expA_results_{tag}.json", f"{OUT}/fig/expA_pdoubt_{tag}.png"
 assert not os.path.exists(oj) and not os.path.exists(of), "refusing to overwrite"
 SIG = ["p_doubt", "ratio", "p_doubt_plus_let", "p_doubt_ext", "ratio_ext", "u15_hs16", "u15_hs20", "u19_hs20", "real_recheck"]
 rng = np.random.default_rng(0)
@@ -36,11 +37,33 @@ def boot(x, y, B=2000):
     return float(np.percentile(v, 2.5)), float(np.percentile(v, 97.5))
 
 
+_TXT = {}
+def trace_text(traces, id_):
+    """thinking text of a trace (for the repetition covariate)."""
+    if traces not in _TXT:
+        from expA_common import astra_rows, DSETS
+        if traces.startswith("astra:"):
+            rows = [r for ds in DSETS for r in astra_rows(traces.split(":")[1], ds)]
+        else:
+            rows = [json.loads(l) for l in open(f"{D}/gen_{traces}.jsonl")]
+        _TXT[traces] = {r["id"]: r["text"].split("</think>")[0] for r in rows}
+    return _TXT[traces][id_]
+
+
+def rep_frac(prefix, n=30):
+    """fraction of the last n non-empty lines before the candidate that already occurred verbatim earlier in the trace."""
+    L = [l.strip() for l in prefix.split("\n") if l.strip()]
+    if len(L) <= n: return 0.0
+    seen = set(L[:-n]); last = L[-n:]
+    return sum(l in seen for l in last) / n
+
+
 def load(arm):   # arm may join several files with '+', e.g. base_on_base_p0+base_on_base_p1
     R = [json.loads(l) for a in arm.split("+") for l in open(f"{D}/meas_{a}.jsonl")]
     for r in R:
         r["p_doubt_plus_let"] = r["p_doubt"] + r["p_let"]; r["real_recheck"] = float(r["real_recheck"])
         r["ratio_ext"] = r["p_doubt_ext"] / max(r["p_doubt_ext"] + r["p_wrap_ext"], 1e-12)
+        r["rep_frac"] = rep_frac(trace_text(r["traces"], r["id"])[: r["char_pos"]])
     R = [r for r in R if answer_like(r["value"])]          # amendment 3
     first = {}
     for r in sorted(R, key=lambda r: r["cand_idx"]): first.setdefault((r["traces"], r["id"]), r["cand_idx"])
@@ -64,8 +87,24 @@ for arm in arms:
                         median_incorrect=float(np.median(x[y == 1])) if y.any() else None,
                         mean_correct=float(x[y == 0].mean()) if (y == 0).any() else None,
                         mean_incorrect=float(x[y == 1].mean()) if y.any() else None)
+        # confound checks: position in trace and dataset. AUC of log token position; within-dataset AUC; AUC of each signal after
+        # regressing out log position + dataset (OLS residual).
+        lp = np.log1p(np.array([r["tok_pos"] for r in S], float)); dsv = np.array([r["ds"] == "math500" for r in S], float)
+        d["log_tok_pos"] = dict(auc=round(float(auc(lp, y)), 3), ci=[round(v, 3) for v in boot(lp, y)])
+        rp = np.array([r["rep_frac"] for r in S], float)
+        d["rep_frac"] = dict(auc=round(float(auc(rp, y)), 3), mean_correct=float(rp[y == 0].mean()), mean_incorrect=float(rp[y == 1].mean()) if y.any() else None)
+        X = np.column_stack([np.ones(len(S)), lp, dsv, rp])
+        for s_ in ("p_doubt", "p_doubt_ext", "u15_hs16", "u15_hs20", "u19_hs20"):
+            if s_ not in S[0]: continue
+            x = np.array([r[s_] for r in S], float)
+            resid = x - X @ np.linalg.lstsq(X, x, rcond=None)[0]
+            d[s_]["auc_resid_pos_ds"] = round(float(auc(resid, y)), 3); d[s_]["ci_resid_pos_ds"] = [round(v, 3) for v in boot(resid, y)]
+            for ds in ("gsm8k", "math500"):
+                m = np.array([r["ds"] == ds for r in S])
+                d[s_][f"auc_{ds}"] = round(float(auc(x[m], y[m])), 3); d[s_][f"n_inc_{ds}"] = int(y[m].sum()); d[s_][f"n_{ds}"] = int(m.sum())
         res[f"{arm}|{sub}"] = d
         print(arm, sub, d["n"], d["n_correct"], d["n_incorrect"], " ".join(f"{s}={d[s]['auc']}{d[s]['ci']}" for s in SIG if s in d))
+        print("    pos", d["log_tok_pos"], "rep", d["rep_frac"]["auc"], "| resid(pos,ds,rep):", " ".join(f"{s}={d[s]['auc_resid_pos_ds']}{d[s]['ci_resid_pos_ds']} gsm={d[s]['auc_gsm8k']} math={d[s]['auc_math500']}" for s in ("p_doubt", "u15_hs16", "u15_hs20") if s in d))
 for a, b in pairs:   # P3: p50c vs base on the same points
     A = {(r["id"], r["cand_idx"]): r for r in load(a)}; B = {(r["id"], r["cand_idx"]): r for r in load(b)}
     keys = [k for k in A if k in B and A[k]["is_first"]]
