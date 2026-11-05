@@ -6,10 +6,10 @@ neurons (math / IFEval / MMLU-Pro, loop / non-loop).
 import os, sys, json
 import numpy as np, torch
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from test3_common import REPO, DATA_OUT
+from test3_common import REPO, DATA_OUT, RUNTAG
 
 MAXT = int(sys.argv[1]) if len(sys.argv) > 1 else 16384
-OUT = sys.argv[2] if len(sys.argv) > 2 else f"{REPO}/notes/test3a_ranking_{MAXT}.json"
+OUT = sys.argv[2] if len(sys.argv) > 2 else f"{REPO}/notes/test3a_ranking_{MAXT}_{RUNTAG}.json"
 D = torch.load(f"{DATA_OUT}/t3_collect_{MAXT}{os.environ.get('SUFFIX', '')}.pt", weights_only=False)
 meta = D["meta"]; cls = np.array([m["cls"] for m in meta]); src = np.array([m["src"] for m in meta])
 nl = np.array([m["n_loop"] for m in meta], float); nn = np.array([m["n_non"] for m in meta], float)

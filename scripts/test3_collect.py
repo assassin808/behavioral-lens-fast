@@ -16,7 +16,8 @@ Test-8 data: hidden_states[L] for L in PROBE_LAYERS at up to 256 loop + 256 non-
 import os, sys, json, time, random
 import numpy as np, torch
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from test3_common import MODELS, REPO, DATA_OUT, astra_rows, encode, loop_mask
+from test3_common import MODEL_DIR, RUNTAG, weights_file, REPO, DATA_OUT, astra_rows, encode, loop_mask
+DEV = os.environ.get("BLF_DEVICE", "cuda")
 
 MAXT = int(sys.argv[1]) if len(sys.argv) > 1 else 16384
 NPC = int(sys.argv[2]) if len(sys.argv) > 2 else 60
@@ -24,13 +25,13 @@ PROBE_LAYERS = [15, 16, 19, 20, 24]
 LAYERS = [15, 19]
 W_BEFORE, W_AFTER = 24, 8
 from transformers import AutoTokenizer, AutoModelForCausalLM
-tok = AutoTokenizer.from_pretrained(f"{MODELS}/base")
-model = AutoModelForCausalLM.from_pretrained(f"{MODELS}/base", dtype=torch.bfloat16).to("cuda").eval()
+tok = AutoTokenizer.from_pretrained(MODEL_DIR["base"])
+model = AutoModelForCausalLM.from_pretrained(MODEL_DIR["base"], dtype=torch.bfloat16).to(DEV).eval()
 import transformers.models.qwen3_5.modeling_qwen3_5 as M
 print("gated-delta impl:", {k: getattr(getattr(M, k), "__module__", "?") for k in dir(M) if "gated_delta_rule" in k}, flush=True)
 layers = model.model.layers
 
-U = {L: torch.tensor(np.load(f"{REPO}/shared/u_L{L}.npy"), dtype=torch.float32, device="cuda") for L in LAYERS}
+U = {L: torch.tensor(np.load(f"{REPO}/shared/u_L{L}.npy"), dtype=torch.float32, device=DEV) for L in LAYERS}
 COLS = {L: np.load(f"{REPO}/shared/astra_cols_L{L}.npy").astype(int) for L in LAYERS}
 P = {}
 for L in LAYERS:
@@ -99,9 +100,9 @@ t0 = time.time()
 with torch.no_grad():
     for ci, c in enumerate(ctxs):
         ids, Pn, m = c["ids"], c["P"], c["m"]
-        out = model.model(torch.tensor([ids], device="cuda"), output_hidden_states=True)
+        out = model.model(torch.tensor([ids], device=DEV), output_hidden_states=True)
         T = len(ids); gen_ok = np.arange(T) >= Pn
-        ml = torch.tensor(m & gen_ok, device="cuda"); mn = torch.tensor((~m) & gen_ok, device="cuda")
+        ml = torch.tensor(m & gen_ok, device=DEV); mn = torch.tensor((~m) & gen_ok, device=DEV)
         rec = dict(id=c["id"], src=c["src"], cls=c["cls"], kind=c.get("kind"), T=T, P=Pn, n_loop=int(ml.sum()), n_non=int(mn.sum()),
                    loop_frac=c["loop_frac"])
         ser = {}

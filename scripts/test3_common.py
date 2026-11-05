@@ -7,11 +7,18 @@ Model dirs (rebuilt locally on Killarney, see notes/test3_neurons.md):
 import glob, gzip, json, os
 import numpy as np
 
-MODELS = os.environ.get("BLF_MODELS", "/scratch/yang0531/blf_models")
-EXT = f"{MODELS}/extdata"          # google/IFEval prompts, TIGER-Lab/MMLU-Pro questions (prompt reconstruction)
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+_KILLARNEY = "/scratch/yang0531/blf_models"           # fallback paths (Killarney); portable runs set the env vars below
+MODEL_DIR = dict(base=os.environ.get("BLF_MODEL_BASE", f"{_KILLARNEY}/base"), p50c=os.environ.get("BLF_MODEL_P50C", f"{_KILLARNEY}/p50c"))
+EXT = f"{REPO}/data"                                   # data/ext_ifeval.jsonl (google/IFEval), data/ext_mmlupro_used.jsonl (TIGER-Lab/MMLU-Pro)
+RUNTAG = os.environ.get("BLF_RUNTAG", "killarney")     # suffix of every committed result file (cluster / run name)
+
+
+def weights_file(tag):
+    import glob as _g
+    return sorted(_g.glob(f"{MODEL_DIR[tag]}/model*.safetensors"))[0]
 INSTR = "Please reason step by step, and put your final answer within \\boxed{}."   # Astra mathqa.INSTRUCTION
-DATA_OUT = os.environ.get("T38_DATA", f"{REPO}/notes/t38_data")   # large per-sample outputs (gitignored)
+DATA_OUT = os.environ.get("T38_DATA") or (f"{os.environ['BLF_DATA']}/t38" if os.environ.get("BLF_DATA") else f"{REPO}/notes/t38_data")   # large per-sample outputs (gitignored)
 
 
 def loop_mask(ids, n=32):
@@ -28,11 +35,11 @@ def _questions():
         r = json.loads(l); q[r["id"]] = r["question"] + "\n" + INSTR
     for l in open(f"{REPO}/data/math500.jsonl"):
         r = json.loads(l); q[r["id"]] = r["problem"] + "\n" + INSTR
-    if os.path.exists(f"{EXT}/ifeval.jsonl"):
-        for l in open(f"{EXT}/ifeval.jsonl"):
+    if os.path.exists(f"{EXT}/ext_ifeval.jsonl"):
+        for l in open(f"{EXT}/ext_ifeval.jsonl"):
             r = json.loads(l); q[r["id"]] = r["prompt"]
-    if os.path.exists(f"{EXT}/mmlupro.jsonl"):
-        for l in open(f"{EXT}/mmlupro.jsonl"):
+    if os.path.exists(f"{EXT}/ext_mmlupro_used.jsonl"):
+        for l in open(f"{EXT}/ext_mmlupro_used.jsonl"):
             r = json.loads(l)
             opts = "\n".join(f"{chr(65 + i)}. {o}" for i, o in enumerate(r["options"]))
             # approximation of the official MMLU-Pro CoT prompt (Astra's exact prompt builder is not in the logs)

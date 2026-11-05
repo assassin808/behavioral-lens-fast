@@ -15,7 +15,8 @@
 import os, sys, json, time
 import numpy as np, torch
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from test3_common import MODELS, REPO, DATA_OUT, astra_rows, encode, loop_mask
+from test3_common import MODEL_DIR, REPO, DATA_OUT, astra_rows, encode, loop_mask
+DEV = os.environ.get("BLF_DEVICE", "cuda")
 from sklearn.linear_model import LogisticRegression
 
 MAXT = int(sys.argv[1]) if len(sys.argv) > 1 else 16384
@@ -29,9 +30,11 @@ uL = {15: U[15], 16: U[15], 19: U[19], 20: U[19], 24: U[19]}
 
 # ---------------- 1. probe
 st = D["states"]; groups = np.concatenate([np.full(len(s["pos"]), s["ctx"]) for s in st]); y = np.concatenate([s["is_loop"] for s in st]).astype(int)
+SUB = np.sort(np.random.default_rng(0).choice(len(y), min(len(y), 40000), replace=False))   # cap probe-fit cost
+groups, y = groups[SUB], y[SUB]
 probe, report = {}, {}
 for L in PL:
-    X = torch.cat([s["H"][L] for s in st]).float().numpy()
+    X = torch.cat([s["H"][L] for s in st])[torch.from_numpy(SUB)].float().numpy()
     ug = np.unique(groups); rng = np.random.default_rng(0); folds = np.array_split(rng.permutation(ug), 5)
     accs, aucs_u = [], []
     from sklearn.metrics import roc_auc_score
@@ -59,7 +62,7 @@ for L in PL:
 
 # ---------------- 2. passes
 from transformers import AutoTokenizer, AutoModelForCausalLM
-tok = AutoTokenizer.from_pretrained(f"{MODELS}/base")
+tok = AutoTokenizer.from_pretrained(MODEL_DIR["base"])
 def texts_p50c():
     R = [r for ds in ["gsm8k", "math500"] for r in astra_rows("p50c", ds)]
     rng = np.random.default_rng(1); R = [R[i] for i in rng.permutation(len(R))[:N]]
@@ -82,28 +85,28 @@ PASSES = [("p50c", "p50c_own", texts_p50c, MAXT), ("base", "p50c_own", texts_p50
           ("base", "base_loop", texts_base_loop, MAXT), ("p50c", "base_loop", texts_base_loop, MAXT),
           ("base", "base_nothink", texts_nothink, MAXT),
           ("base", "first_think", lambda: texts_first(True), 2048 + 300), ("base", "first_nothink", lambda: texts_first(False), 2048 + 300)]
-if PILOT: PASSES = [p for p in PASSES if p[1] in ("p50c_own", "base_nothink")]
 out = dict(probe_report=report, probe={L: (w.numpy(), b) for L, (w, b) in probe.items()}, passes={})
 for tag in ["base", "p50c"]:
-    model = AutoModelForCausalLM.from_pretrained(f"{MODELS}/{tag}", dtype=torch.bfloat16).to("cuda").eval()
-    Uc = {L: torch.tensor(uL[L], dtype=torch.float32, device="cuda") for L in PL}
-    Wc = {L: probe[L][0].cuda() for L in PL}
+    model = AutoModelForCausalLM.from_pretrained(MODEL_DIR[tag], dtype=torch.bfloat16).to(DEV).eval()
+    Uc = {L: torch.tensor(uL[L], dtype=torch.float32, device=DEV) for L in PL}
+    Wc = {L: probe[L][0].to(DEV) for L in PL}
     for (mtag, name, fn, maxt) in PASSES:
         if mtag != tag: continue
         T0 = fn()
-        if PILOT: T0 = T0[:4]
+        if PILOT: T0 = T0[:6]
+        if not T0: print(f"pass {mtag}|{name}: no texts, skipped", flush=True); continue
         recs = []; t0 = time.time()
         with torch.no_grad():
             for i, t in enumerate(T0):
                 ids, P = encode(tok, t["id"], t["text"], think=t["think"], maxt=maxt)
-                hs = model.model(torch.tensor([ids], device="cuda"), output_hidden_states=True).hidden_states
+                hs = model.model(torch.tensor([ids], device=DEV), output_hidden_states=True).hidden_states
                 r = dict(id=t["id"], src=t["src"], P=P, T=len(ids), m32=loop_mask(ids, 32), m16=loop_mask(ids, 16),
                          **{k: v for k, v in t.items() if k not in ("text", "id", "src")})
                 for L in PL:
                     h = hs[L][0].float()
                     r[f"u_{L}"] = (h @ Uc[L]).half().cpu().numpy()
                     r[f"logit_{L}"] = (h @ Wc[L] + probe[L][1]).half().cpu().numpy()
-                if name in ("base_loop", "p50c_own") and not PILOT or (PILOT and name == "p50c_own"):
+                if name in ("base_loop", "p50c_own"):
                     R = np.random.default_rng(i); idx = np.sort(R.choice(np.arange(P, len(ids)), min(256, len(ids) - P), replace=False))
                     r["pca_idx"] = idx; r["pca_H16"] = hs[16][0][idx].half().cpu().numpy(); r["pca_H20"] = hs[20][0][idx].half().cpu().numpy()
                 recs.append(r); del hs
