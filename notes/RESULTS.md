@@ -80,6 +80,22 @@ All arms run on one harness: thinking on, 16k cap, 200 GSM8K + 200 MATH-500, k=0
 - **No `\boxed{}` shows up as a different failure at 16k.** It is ~1% per arm (it was 21% at 32k). Instead, 8% of p50c samples write `</think>` and then keep re-checking the problem wording until the cap, and this rate does not depend on the overshoot.
 - **Compute:** ~4.5 L40S-h. One deviation: hook vs real-weight equivalence missed its gate (0.111 vs 0.1, bf16 noise), so the p50chook control was added.
 
+
+## 6c. LLM-API checks (branch `yang/api`, `notes/api_judge_crossfamily.md`, `notes/api_failure_labels.md`)
+
+Only Claude and open-weight models were reachable on the gateway. The non-Anthropic judge is gpt-oss-120b. 2,959 API calls in total.
+
+- **Auto-interp holds up with a different judge.** With gpt-oss as judge, absolute AP drops by about 0.1 (it is a weaker judge). But the gap between real and shuffled descriptions is unchanged (+0.20 to +0.27), and random neurons remain as describable as Astra's. Neither judge prefers its own descriptions.
+- **What the edited model's failures are** (Sonnet labels; hand-check 17/20, κ = 0.70 against gpt-oss):
+
+| set | over-doubt wording | re-check correct answer | paraphrase cycling | verbatim loop | plain error |
+|---|---|---|---|---|---|
+| p50c, thinking on (failures) | 42% | 27% | 10% | 13% | 5% |
+| base, thinking off (failures) | 20% | 2% | 2% | 6% | 69% |
+
+  **The edit removes the copying, not the doubting.** p50c's failures are still doubt: re-interpreting the question, or re-checking an answer that is already right. It is just no longer verbatim. Paraphrase cycling is present in 90% of capped non-looping outputs, but it is the form; the content is doubt. Thinking-off failures are ordinary reasoning errors.
+- **Doubt vs correctness (label view).** With thinking off, base doubts its first answer 15% of the time when it is right and 52% when it is wrong, so doubt is tied to correctness. With thinking on, doubt happens 95–100% of the time whatever the first answer. So the 0.8B model *can* calibrate doubt; thinking mode makes it doubt always. (Exp A gives the logprob view.)
+
 ## 6b. Untested hypotheses
 
 - Why do the late MLPs counteract the edit?
