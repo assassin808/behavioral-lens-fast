@@ -26,9 +26,15 @@ pip install -q causal-conv1d --no-build-isolation || echo "causal-conv1d failed:
 export HF_HOME=$BLF_HOME/hf_cache
 huggingface-cli download Qwen/Qwen3.5-0.8B --revision 2fc06364715b967f1860aea9cf38778875588b17 --local-dir models/base
 mkdir -p models/p50c
-cp models/base/*.json models/p50c/ ; cp models/base/*.txt models/p50c/ 2>/dev/null || true
-python repo/astra_logs/exp8_math/code/apply_edit.py models/base/model.safetensors* \
+# copy configs/tokenizer but not the shard index (p50c is written as a single model.safetensors)
+for f in models/base/*.json models/base/*.txt models/base/*.jinja; do
+  [ -e "$f" ] || continue; case "$f" in *safetensors.index.json) continue;; esac; cp "$f" models/p50c/
+done
+BASE_ST=$(ls models/base/*.safetensors | head -1)   # HF names it model.safetensors-00001-of-00001.safetensors
+[ "$(ls models/base/*.safetensors | wc -l)" = 1 ] || { echo "expected one base shard"; exit 1; }
+python repo/astra_logs/exp8_math/code/apply_edit.py "$BASE_ST" \
     repo/astra_logs/exp8_math/runs/p50c/edit models/p50c/model.safetensors
+python -c "from transformers import AutoModelForCausalLM as M; M.from_pretrained('models/p50c'); print('p50c loads')"
 
 python -c "import torch,transformers;print('torch',torch.__version__,'transformers',transformers.__version__)"
 echo "Setup done in $BLF_HOME. Next: put VECTOR_API_KEY / VECTOR_BASE_URL / HF_TOKEN in ~/.env, then submit alliance/job.sh."
