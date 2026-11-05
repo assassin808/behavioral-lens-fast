@@ -1,5 +1,5 @@
 """Build variant checkpoints (same rule family as Q4) as full model dirs for vLLM."""
-import os, shutil, sys, torch
+import os, shutil, sys, torch, numpy as np
 from safetensors.torch import load_file, save_file
 ROOT = "/data2/ec2-user/models/qwen3.5-0.8b-astra"
 base = load_file(f"{ROOT}/base/model.safetensors"); edit = load_file(f"{ROOT}/p50c/model.safetensors")
@@ -18,6 +18,14 @@ def variant(name, L):
         a = float(name[9:]); W = W0 - a * torch.outer(u, u @ W0)
     elif name == "rand_cols":
         rc = torch.randperm(W0.shape[1])[:64]; W = W0.clone(); W[:, rc] = W0[:, rc] - 6 * torch.outer(u, u @ W0[:, rc])
+    elif name.startswith("top64_"):                 # top64_<criterion>_alpha<a>: our re-ranked columns, same rule
+        crit, a = name[6:].rsplit("_alpha", 1); c = torch.tensor(np.load(f"shared/top64_{crit}_L{L}.npy")); a = float(a)
+        W = W0.clone(); W[:, c] = W0[:, c] - a * torch.outer(u, u @ W0[:, c])
+    elif name.startswith("rand_dir") and name != "rand_dir":   # rand_dirNN: random unit direction, Astra cols, α=6 (same generator order as q4b)
+        k = int(name[8:]); gen = torch.Generator().manual_seed(0); r = None
+        for i in range(k + 1):
+            r = {LL: torch.randn(1024, generator=gen) for LL in [15, 19]}
+        r = r[L] / r[L].norm(); W = W0.clone(); W[:, cols] = W0[:, cols] - 6 * torch.outer(r, r @ W0[:, cols])
     elif name == "rand_dir":
         r = torch.randn_like(u); r /= r.norm(); W = W0.clone(); d = (g["W1"] - W0)[:, cols].norm(dim=0)
         W[:, cols] = W0[:, cols] + torch.outer(r, d) * torch.sign(u @ W0[:, cols])
