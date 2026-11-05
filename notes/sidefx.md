@@ -125,3 +125,109 @@ Read by eye:
   - base: 100 + 100 × 1 (job 7294773).
 - **Analysis rule.** The main table uses **sample k = 0 only for every arm** (`SFX_K0=1`), on the same problems and the same
   seed-0 sampling stream. The × 2 numbers for p50chook and loopsel are reported separately as a check.
+
+## Results (screening: first 200 GSM8K + first 200 MATH-500, thinking on, 16k cap, Astra prompt/sampling/grader, shared eager-vLLM harness; sample k = 0 of every arm, n = 400 per arm)
+
+Script: `SFX_K0=1 python scripts/sidefx_analyze.py <dir> screen_ <out> ...`. Results: `notes/sidefx/screen_analysis_k0.json`.
+Per-sample outputs are in `/scratch/yang0531/blf_data/sidefx/screen/*.jsonl`. They are too large for git.
+Accuracy decomposition: **acc_all = completion × acc_on_completed**.
+
+| arm | completion × acc_on_completed = acc_all | loop_end | whitespace (cut, all-whitespace tail) | no-box / finished | cut after `</think>` (answer phase never ends) | paired acc vs p50chook (n problems) | mean tokens |
+|---|---|---|---|---|---|---|---|
+| base (100 + 100) | BASE_ROW |
+| p50c (real weights) | 0.578 × 0.835 = **0.482** | 0.052 | 16 (4.0 %) | 3/231 | 0.080 | 0.873 / 0.862 (189) | 11,969 |
+| p50chook (α 6, hook) | 0.560 × 0.817 = **0.460** | 0.077 | 13 (3.3 %) | 2/224 | 0.080 | (reference) | 11,855 |
+| **clampp5** (no state below normal p5) | 0.532 × 0.845 = **0.453** | **0.075** | **6 (1.5 %)** | 2/213 | 0.095 | 0.871 / 0.854 (178) | 12,040 |
+| **loopsel** (loop-selective neurons, dose-matched) | 0.422 × 0.852 = 0.375 | **0.393** | 3 (0.7 %) | 5/169 | 0.268 | 0.880 / 0.901 (142) | 13,509 |
+| clampmean (floor at normal mean) | 0.410 × 0.921 = 0.385 | 0.285 | 0 | 0/164 | 0.170 | 0.950 / 0.943 (141) | 13,667 |
+| a3 (α 3) | 0.415 × 0.910 = 0.385 | 0.345 | 3 (0.7 %) | 1/166 | 0.070 | 0.924 / 0.924 (144) | 12,901 |
+
+Per set (GSM8K / MATH-500):
+
+| arm | completion | acc_all | loop_end | whitespace |
+|---|---|---|---|---|
+| p50c | 0.815 / 0.340 | 0.650 / 0.315 | 0.030 / 0.075 | 7 / 9 |
+| p50chook | 0.760 / 0.360 | 0.585 / 0.335 | 0.060 / 0.095 | 7 / 6 |
+| clampp5 | 0.740 / 0.325 | 0.610 / 0.295 | 0.055 / 0.095 | 3 / 3 |
+| loopsel | 0.570 / 0.275 | 0.475 / 0.275 | 0.290 / 0.495 | 2 / 1 |
+| clampmean | 0.550 / 0.270 | 0.505 / 0.265 | 0.265 / 0.305 | 0 / 0 |
+| a3 | 0.575 / 0.255 | 0.510 / 0.260 | 0.290 / 0.400 | 0 / 3 |
+
+Checks:
+- **Harness reproduces earlier numbers.** p50chook (× 2, n = 800): MATH-500 completion 0.358, acc 0.323, loop_end 0.078. Real-weight p50c
+  in the earlier RunPod screening table: 0.34 / 0.31 / 0.09.
+- **Hook p50c vs real-weight p50c** (k = 0): acc 0.460 vs 0.482, whitespace 13 vs 16, loop_end 0.077 vs 0.052. These are within
+  sampling noise. They are not identical, because the bf16 path differs (K0).
+- **Fisher exact tests on whitespace counts** (k = 0, 400 per arm):
+
+  | arm | vs p50chook | vs p50c + p50chook pooled (29/800) |
+  |---|---|---|
+  | clampp5 | p = 0.16 | p = 0.045 |
+  | loopsel | p = 0.02 | p = 0.002 |
+  | a3 | p = 0.02 | p = 0.002 |
+  | clampmean | p < 0.001 | p < 0.001 |
+
+  With both samples: loopsel 8/800 vs p50chook 23/800, p = 0.01.
+
+Raw excerpts (screening, k = 0):
+- p50c, no box (gsm8k_test_115): `…If she buys for $10 and $16, she buys for $10 and $16.\n\nResult: 0` (finished, no `\boxed{}`).
+- p50c, cut after `</think>` (gsm8k_test_28). The answer phase keeps re-checking the wording until the cap:
+  `…One final check.\n"Before the end" -> "closer to the end".\nIf the end is 60.\nStop 2 is at 45.…`
+- clampp5, whitespace: `<~200 spaces>*   But in the context of the whole sentence: "The third friend pressed ... 10 times more than the fourth friend."`
+  Each new bullet is indented further, until about 1M spaces at the cap. It is the same pattern in every arm.
+- clampmean, unbroken loop (gsm8k_test_11): `Wait.\n    $4368 + 3960$.\n    $4368 + 3960$.\n    $4368 + 3960$.\n    $8+0=8$.…` repeated.
+- a3 (gsm8k_test_7): `Wait, why am I getting 180 minutes? … I will provide the answer 160 minutes.\n\nWait, let's check the math again.…`
+
+## Outcome per prediction (predictions above unchanged)
+
+| prediction | outcome |
+|---|---|
+| K0 hook = p50c (ratio ≤ 0.1) | **fail by a hair** (0.111; 0.112 after the fix). Residual is bf16 path noise. Handled by adding p50chook as the comparator (deviation, logged above) |
+| K1 pilot gate | **pass** |
+| P1 clampp5 loop_end ≤ ref + 0.05 per set | **pass** (0.055 / 0.095 vs 0.060 / 0.095) |
+| P1 loopsel loop_end ≤ ref + 0.05 per set | **fail, decisively** (0.290 / 0.495 vs 0.060 / 0.095). By the pre-registered rule, loopsel **cannot adjudicate H2** |
+| P2 (H2) loopsel SE1 and SE2 ≤ 0.5× | inadmissible (P1 failed). Raw: SE1 is *higher* (5/169 vs 2/224), SE2 lower (3 vs 13), cut-after-`</think>` far higher (0.27 vs 0.08) |
+| P3 (H1) clampp5 SE2 ≤ 0.5× ref; SE1 within ±30 % | **SE2 pass as stated** (6 vs 13 = 0.46×), but weak evidence: p = 0.16 vs p50chook, p = 0.045 vs pooled p50c-type arms. SE1 "unchanged" (2/213 vs 2/224) is uninformative: no-box is at floor at the 16k cap (see caveats) |
+| P4 loopsel paired acc ≥ ref + 0.03 | **fail** (0.880 vs 0.901, n = 142), and inadmissible anyway |
+| P5 a3 and clampmean loop_end ≥ ref + 0.10 on GSM8K; per-finished side effects ≤ ref | **pass** (a3 0.290, clampmean 0.265 vs 0.060). Side effects lower: whitespace 0–3, no-box 0–1 |
+| Reading rule | **H1 is weakly supported** for the whitespace side effect only. **H2 cannot be tested by neuron selection.** The loop-selective subset does not break loops, so the "collateral" neurons are part of the loop-breaking mechanism itself |
+
+## What this says
+1. **The side effects and the loop fix trade off along one axis.**
+   - Every variant that reduces the push enough to remove whitespace degeneration also stops breaking loops: clampmean, a3 and
+     loopsel all have loop_end 0.29–0.39 vs 0.08.
+   - Completion falls from 0.56 to 0.41–0.42, and acc_all from 0.46 to 0.38.
+   - The only variant that keeps loop-breaking is clampp5, which removes just the deepest overshoot (states pushed below the 5th
+     percentile of normal states). It halves whitespace degeneration (3.3–4.0 % → 1.5 %) at no measurable cost: completion
+     0.53, acc 0.45, paired acc equal.
+   - So the overshoot is mostly *needed*. Pushing loop states down only to the normal mean does not break loops (clampmean).
+     Only the extreme tail of the overshoot is dispensable, and that tail is linked to whitespace degeneration.
+2. **H2 as posed is not separable by neurons.**
+   - Matching the mean loop-position push with only the 31 + 35 loop-selective neurons (α ≈ 9.7 / 8.0) fails to break loops.
+   - The neurons that also fire during ordinary re-reading and self-checking are part of what breaks loops. Hypothesis, untested:
+     they fire at loop *onset*, before a verbatim 32-gram exists, and the edit must act there. Cheap test: onset-locked c_j per
+     neuron class on the test-3 base loop texts.
+3. **"Accuracy on completed drops" is selection, not damage.**
+   - On problems that both arms finish, accuracy is the same in every arm: paired acc within ±0.02 of p50chook for all five arms.
+   - The weaker arms have higher acc_on_completed (0.91–0.92 vs 0.82) only because they finish fewer, easier problems.
+   - This is consistent with xuanqi's jointly-completed result (0.952 vs 0.952).
+4. **At a 16k cap the no-box failure appears as "the answer phase never ends".**
+   - Finished-without-box is about 1 % in every arm here, vs 21 % on MATH-500 at 32k (xuanqi).
+   - What we see instead is 8 % of p50c samples that emit `</think>` and then keep re-checking the problem's wording until the cap.
+   - This rate is the same for clampp5 (9.5 %) and a3 (7 %). It does not track overshoot. It is higher wherever loops survive
+     (loopsel 27 %, clampmean 17 %, mostly loops inside the answer phase).
+
+## Caveats
+- **One sample per problem** in the main table (k = 0). Whitespace counts are small (6–16 events), so the clampp5 effect is
+  p = 0.045 against pooled references and p = 0.16 against p50chook alone. Treat it as suggestive.
+- **16k cap**, not Astra's 32k. The no-box side effect cannot be measured at this cap. Testing whether clampp5 reduces it needs 32k.
+- **clampp5 and clampmean are not weight edits** (nonlinear floors, implemented as hooks). loopsel and a3 are rank-1 weight edits.
+- **Floors and design numbers** come from base teacher-forced states (34 finished thinking-on texts). The L19 floor ignores the
+  upstream L15 change.
+- **Sample stream.** p50chook and loopsel ran with n = 2 per prompt, the other arms with n = 1. Sample k = 0 is not the same
+  random stream across these settings, only the same distribution.
+- **Hook vs weights.** The hook path differs from real weights by bf16 rounding (K0). For hook arms the comparator is p50chook.
+- **Classes are rule-based.** "Wrong answers" were not judged by an LLM.
+
+## GPU-hours (L40S, Killarney gpubase_interac)
+GPU_ROW
