@@ -117,3 +117,160 @@ With the fixed grader the 4B has only ~20 wrong first candidates in GSM8K + MATH
 is ±0.12. Added a harder held-out set: 400 MATH test problems at Level 5, not in MATH-500 (`scripts/expA_make_mathhard.py` →
 `data/expA_mathhard.jsonl`, seed 0), generated with the same harness for base 0.8B and 4B (p50c teacher-forced on the base traces).
 Results are reported per set and pooled; the pooled analysis controls for set (dataset dummies), log position and repetition.
+
+---
+
+## Results (written after all runs; the predictions above are unchanged)
+
+**Framing note (from the side-effect test on `yang/sidefx`).** The drop in "accuracy on completed" (0.94 → 0.75) is a selection
+effect: on the same problems, accuracy is unchanged. So this test does not explain an accuracy cost of the edit. The question it
+answers is the remaining one: **why does the 0.8B loop at all, and is its doubt tied to correctness?**
+
+### Data actually used
+| arm (model on traces) | traces | first candidates: correct / incorrect |
+|---|---|---|
+| base 0.8B on own thinking-on traces (GSM8K 500 + MATH-500 500, cap 12,288; 92 % cut) | `gen_base_p{0,1}` | 246 / 45 |
+| p50c teacher-forced on the same base prefixes | same | 246 / 45 |
+| p50c on own traces (56 % cut) | `gen_p50c_p{0,1}` | 359 / 129 |
+| Qwen3.5-4B on own traces (same 1000 problems, 13 % cut; + 200 MATH L5 at an 8k cap) | `gen_q4b_p{0,1}`, `gen_q4b_hard8k` | 631 / 20 |
+| cross: 0.8B on 4B traces, 4B on 0.8B traces, 0.8B on p50c traces; Astra's own logs; base on MATH L5 | see table 2 | |
+
+Qwen3.5-2B was planned but cancelled for budget (its jobs never started); the 4B is the larger-model arm.
+
+### Table 1 — AUC for separating incorrect (positive) from correct first candidate answers (95 % bootstrap CI)
+
+Columns: P(doubt) = next-token mass on the pre-registered DOUBT set; ratio = P(doubt)/(P(doubt)+P(wrap)); ext = broader DOUBT_EXT set
+(amendment 2); u15@hs16 etc. = resid·u; "resid" = AUC after regressing out log position, dataset and repetition (OLS residual);
+last column = median P(doubt) after correct / incorrect answers.
+
+| arm | n corr | n inc | P(doubt) | ratio | P(doubt) ext | u15 @ hs16 | u15 @ hs20 | u19 @ hs20 | real re-check | P(doubt) resid | u15@hs16 resid | median P(doubt) corr / inc |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| **base 0.8B, own traces** | 246 | 45 | **0.649** [0.55, 0.74] | 0.602 [0.51, 0.68] | 0.693 [0.60, 0.78] | **0.805** [0.73, 0.87] | 0.801 [0.74, 0.87] | 0.787 [0.71, 0.86] | 0.525 [0.47, 0.58] | 0.561 | 0.717 | 0.47 / 0.60 |
+| p50c on base prefixes | 246 | 45 | 0.663 [0.57, 0.76] | 0.628 [0.54, 0.71] | 0.713 [0.63, 0.80] | 0.602 [0.50, 0.70] | 0.590 [0.51, 0.68] | 0.580 [0.50, 0.66] | 0.525 | 0.577 | 0.546 | 0.44 / 0.58 |
+| **Qwen3.5-4B, own traces** | 631 | 20 | **0.520** [0.39, 0.66] | 0.545 [0.42, 0.67] | 0.631 [0.48, 0.77] | — | — | — | 0.474 [0.36, 0.59] | 0.402 | — | 0.15 / 0.16 |
+| p50c, own traces | 359 | 129 | 0.590 [0.53, 0.65] | 0.550 [0.49, 0.61] | 0.650 [0.59, 0.71] | 0.593 [0.53, 0.65] | 0.620 [0.57, 0.68] | 0.619 [0.56, 0.67] | 0.497 | 0.526 | 0.541 | 0.47 / 0.56 |
+
+### Table 2 — secondary arms
+| arm | n corr | n inc | P(doubt) | P(doubt) ext | u15 @ hs16 | u15@hs16 resid | median P(doubt) corr / inc |
+|---|---|---|---|---|---|---|---|
+| 0.8B on p50c's traces | 359 | 129 | 0.587 [0.52, 0.65] | 0.640 | **0.821** [0.78, 0.86] | 0.756 | 0.51 / 0.59 |
+| 0.8B on 4B's traces | 631 | 20 | 0.529 [0.38, 0.66] | 0.647 | **0.860** [0.76, 0.94] | 0.743 | 0.34 / 0.42 |
+| 4B on 0.8B's traces | 246 | 45 | 0.662 [0.56, 0.76] | 0.721 | — | — | 0.36 / 0.56 |
+| base 0.8B on MATH L5 (own) | 21 | 11 | 0.602 [0.40, 0.82] | 0.641 | 0.762 [0.55, 0.94] | 0.779 | 0.60 / 0.69 |
+| p50c on those prefixes | 21 | 11 | 0.619 | 0.667 | 0.610 | 0.589 | 0.56 / 0.69 |
+| base on Astra's base logs | 107 | 11 | 0.483 [0.31, 0.66] | 0.596 | 0.638 [0.46, 0.83] | 0.568 | 0.44 / 0.41 |
+| p50c on Astra's base logs | 107 | 11 | 0.429 | 0.572 | 0.384 | 0.325 | 0.42 / 0.35 |
+| p50c on Astra's p50c logs | 166 | 86 | 0.651 [0.58, 0.73] | 0.758 | 0.674 [0.59, 0.75] | 0.568 | 0.46 / 0.62 |
+
+Before amendment 3/4 (old detector and grader), the Astra-log arms gave base P(doubt) 0.58, u15@hs16 0.68 (`notes/expA_results_astra_preA3.json`).
+Full numbers incl. the first-3-candidates pool, per-dataset AUCs and paired shifts: `notes/expA_results_main.json`, `notes/expA_results_secondary.json`.
+Figure: `notes/fig/expA_pdoubt_main.png` (P(doubt) after the first candidate answer, correct vs incorrect, per arm).
+
+### What happens after the answer (real traces; exploratory classification of the next 300 characters)
+| arm | after correct: re-reads wording / re-computes / other / stops | after incorrect: wording / compute / other / stops |
+|---|---|---|
+| base 0.8B | 63 % / 13 % / 6 % / **18 %** | 64 % / 11 % / 11 % / 13 % |
+| p50c own | 64 % / 11 % / 4 % / 20 % | 55 % / 12 % / 12 % / 21 % |
+| 4B | 48 % / 13 % / 5 % / **35 %** | 45 % / 10 % / 5 % / 40 % |
+
+The 0.8B re-checks after 82 % of its *correct* first answers, and the dominant re-check is re-reading the problem's wording
+("Wait, what if 'reduced by 30 %' refers to…", "Is there any chance 'total' means…"), the same pattern the side-effect test found in
+p50c's wrong-but-completed answers. The 4B stops after a correct answer about twice as often (35 % vs 18 %).
+
+### Outcome per prediction
+- **P1 (base AUC ≤ 0.6): FAIL, narrowly.** AUC 0.649 [0.55, 0.74]. After controlling for position, dataset and repetition it is
+  0.56 [0.46, 0.66]. The kill rule (> 0.7) is not triggered. Reading: the 0.8B's next-token doubt is only weakly tied to correctness.
+  It doubts a lot after correct answers too (median P(doubt) 0.47 vs 0.60 after wrong ones).
+- **P2 (4B AUC ≥ 0.7 and clearly above the 0.8B): FAIL.** 4B AUC 0.52 [0.39, 0.66] on only 20 wrong first answers. The 4B reading the
+  0.8B's prefixes gives 0.66, the same as the 0.8B itself. The larger model is **not more calibrated in P(doubt)**; it doubts
+  **less overall** (median 0.15 vs 0.47 after correct answers) and stops more often. Caveat: the 4B is rarely wrong, so its CI is wide.
+- **P3 (p50c lowers P(doubt) by a similar factor; AUC within ±0.05): PASS, but the effect is tiny.** On the same prefixes p50c changes
+  median P(doubt) by ×0.94 (correct) and ×0.92 (incorrect); AUC 0.663 vs 0.649. At candidate-answer points the edit barely changes the
+  doubt-token distribution. Its effect is at loop positions (tests 2/5), not at answer points.
+- **P4 (resid·u shows the same pattern as P(doubt)): FAIL, in an informative way.**
+  - resid·u is **much better tied to correctness than P(doubt)**: AUC 0.80 [0.73, 0.87] at hs16, and 0.72 after the position, dataset
+    and repetition controls. It holds per dataset (GSM8K 0.77, MATH-500 0.88). The same 0.8B reading p50c's traces gives 0.82, and
+    reading the 4B's traces gives 0.86.
+  - The edit does **not** shift both groups equally. Median Δ(resid·u15 @ hs16) is −0.13 at correct and −0.37 at incorrect points.
+    The correctness signal in u drops from AUC 0.80 to 0.60.
+  - Across points, u and P(doubt) correlate only moderately (Spearman 0.42).
+
+### Follow-up (not pre-registered; asked for after the API labels): thinking on vs off at matched answer points
+Base 0.8B, thinking-off generations from test 8 (Astra's 200 GSM8K + 200 MATH-500 ids). The same text is teacher-forced under the
+no-think template and under the thinking template (`<think>` open). In the no-think traces the first answer is usually the final
+`\boxed{}`, so for those points the measurement is after the answer + a blank line (`EXPA_PAD_END`).
+
+| same text, template | n corr / inc | AUC P(doubt) | median P(doubt) corr / inc | real re-check in the no-think trace: corr / inc |
+|---|---|---|---|---|
+| thinking-off traces, **no-think template** (own mode) | 210 / 161 | **0.72** [0.67, 0.77] | **0.005 / 0.023** | 2 % / 21 % |
+| same thinking-off text, **thinking template** | 210 / 161 | 0.59 [0.52, 0.65] | **0.38 / 0.42** | (same text) |
+| only points where the no-think trace continued (no padding), no-think template | 21 / 60 | 0.76 [0.64, 0.87] | 0.014 / 0.163 | |
+| same, thinking template | 21 / 60 | 0.59 [0.44, 0.73] | 0.35 / 0.42 | |
+| thinking-on traces, no-think template | 246 / 45 | 0.56 | 0.46 / 0.64 | |
+| thinking-on traces, thinking template | 246 / 45 | 0.65 | 0.47 / 0.60 | |
+
+The logprobs agree with the API labels (thinking off: 15 % vs 52 % doubt; thinking on: 95–100 %).
+- With thinking off, the 0.8B's doubt **is** tied to correctness (AUC 0.72–0.76, and it rarely doubts a correct answer).
+- Putting the identical text inside `<think>` multiplies P(doubt) by about 70× after correct answers and 18× after wrong ones, and
+  calibration drops to 0.59.
+- Once the context is thinking-style text, the template matters little: the last two rows are within noise. So the doubt is carried
+  by the thinking-mode context, not by the template token alone.
+- resid·u at hs16 is *not* raised by the thinking template on the no-think text. It is slightly lower: median 0.16 (thinking) vs 0.23 (no-think) at correct points, 0.22 vs 0.25 at incorrect ones.
+  Hypothesis (untested): the thinking-mode doubt prior is added downstream of, or orthogonal to, u.
+
+**Sharpened statement.** "The 0.8B cannot calibrate doubt" is wrong as stated.
+- In no-think mode its doubt is calibrated.
+- In thinking mode a large, nearly correctness-independent doubt prior sits on top. After a correct answer the next line starts a
+  re-check about half the time (P(doubt) ≈ 0.47), and in the real traces 82 % of correct first answers are followed by a re-check,
+  mostly re-reading the wording.
+- Meanwhile the model's own state does separate right from wrong (resid·u AUC 0.80), so the information exists but is only weakly
+  read out into the decision to re-check. This matches Zhang et al. 2025 ("models know when they're right") at the level of one
+  named direction.
+- The 4B differs mainly by a lower doubt prior (it stops after correct answers twice as often), not by sharper calibration.
+
+Untested hypotheses and cheap tests:
+- (H1) Looping = this doubt prior + re-reading → copying.
+  Test: in thinking mode, subtract a constant from the DOUBT logits only at candidate-answer points (not elsewhere) and measure
+  completion and accuracy. This is a targeted version of NoWait.
+- (H2) Reading out u better would give calibrated stopping.
+  Test: gate the doubt logits on resid·u at answer points, e.g. suppress doubt when u is below the median of correct points, and
+  compare against uniform suppression.
+
+### Caveats
+- Candidate detection is a hand-written heuristic. It was refined four times (amendments 1–4), and two of those changes (3, 4) were made
+  after some AUCs on the fresh data had been printed. They fix clear errors (non-answers counted as answers, hedged values mis-graded)
+  and are applied to every arm alike, but they are post-hoc. Pre-amendment numbers are kept in `expA_results_astra_preA3.json` and
+  the log of interim runs (`/scratch/yang0531/blf_data/expA/interim/`).
+- The 0.8B has a candidate in only ~29 % of thinking-on traces (12k cap, most traces loop). The analysed points are a selected subset.
+- Wrong first candidates are few: 45 for the 0.8B and 20 for the 4B. The 4B's AUC CI is ±0.13. The hard MATH L5 set added only 82
+  4B points (8k cap; the 12k run timed out).
+- Position is a confound: wrong candidates come later (AUC 0.67 for log position). The u result survives a linear control
+  (0.72), but a nonlinear confound is not excluded.
+- Astra's own base logs (only 11 wrong first answers after the fixes) show a weaker u signal (0.64, CI 0.46–0.83). This does not
+  contradict the fresh data, but it is not a replication either.
+- In the no-think template, the padded measurement point (after `\boxed{}` + blank line) is off-distribution: the model would
+  normally stop right after the box. The un-padded subset (n = 81) gives the same picture.
+- One sample per problem, one seed. The token sets are hand-picked (pre-registered; the extended sets give the same ordering).
+
+### Compute
+Killarney L40S/H100, one GPU per job: **≈ 2.98 GPU-h**. That is pilot 0.28; generation + measurement 0.8B/p50c 0.97; 4B 0.32;
+cross 0.13; Astra-log arms 0.12; hard set 0.12 (base) + 0.59 (4B 12k run, **timed out, lost**) + 0.32 (4B 8k run); thinking on/off
+follow-up 0.15. Within the 3 GPU-h budget, including the lost run. No API calls.
+
+### Files
+- Scripts:
+  - `scripts/expA_common.py`: detector, grader, token sets
+  - `scripts/expA_gen.py`
+  - `scripts/expA_measure.py`
+  - `scripts/expA_analyze.py`
+  - `scripts/expA_make_mathhard.py`
+  - `scripts/expA_job.sh`
+- Results:
+  - `notes/expA_results_main.json`
+  - `notes/expA_results_secondary.json`
+  - `notes/expA_results_followup_onoff{,_nopad}.json`
+- Figures:
+  - `notes/fig/expA_pdoubt_main.png`
+  - `notes/fig/expA_pdoubt_secondary.png`
+  - `notes/fig/expA_pdoubt_followup_onoff*.png`
+- Per-point rows (with context snippets) and generations, not in git: `/scratch/yang0531/blf_data/expA/{gen,meas}_*.jsonl`.
