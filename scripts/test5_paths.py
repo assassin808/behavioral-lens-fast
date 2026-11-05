@@ -22,21 +22,24 @@ MAXT = int(sys.argv[2]) if len(sys.argv) > 2 else 4096
 TAG = sys.argv[3] if len(sys.argv) > 3 else f"n{N}_t{MAXT}"
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MODELS = os.environ.get("BLF_MODELS", "/scratch/yang0531/blf_models")
-DATA = os.environ.get("T5_DATA", "/home/yang0531/.claude/jobs/dcb4a01d/tmp/t5data"); os.makedirs(DATA, exist_ok=True)
+MB = os.environ.get("BLF_MODEL_BASE", f"{MODELS}/base"); ME = os.environ.get("BLF_MODEL_P50C", f"{MODELS}/p50c")
+DATA = os.environ.get("BLF_DATA") or os.environ.get("T5_DATA", "/home/yang0531/.claude/jobs/dcb4a01d/tmp/t5data")
+os.makedirs(DATA, exist_ok=True)
 INSTR = "Please reason step by step, and put your final answer within \\boxed{}."
-SF = "model.safetensors-00001-of-00001.safetensors"
 torch.manual_seed(0); np.random.seed(0)
 t0 = time.time()
 
-tok = AutoTokenizer.from_pretrained(f"{MODELS}/base")
-model = AutoModelForCausalLM.from_pretrained(f"{MODELS}/base", dtype=torch.bfloat16, attn_implementation="eager").to("cuda").eval()
+tok = AutoTokenizer.from_pretrained(MB)
+model = AutoModelForCausalLM.from_pretrained(MB, dtype=torch.bfloat16, attn_implementation="eager").to("cuda").eval()
 for p in model.parameters(): p.requires_grad_(False)
 inner = model.model; layers = inner.layers; lm_head = model.lm_head; fnorm = inner.norm
 FULL = [i for i, l in enumerate(layers) if hasattr(l, "self_attn")]
 print("full-attn layers", FULL, flush=True)
 
 # ---- edit weights; verify only L15/L19 down_proj differ
-sb, se = load_file(f"{MODELS}/base/{SF}"), load_file(f"{MODELS}/p50c/{SF}")
+def st(d):
+    fs = sorted(glob.glob(f"{d}/*.safetensors")); assert len(fs) == 1, fs; return load_file(fs[0])
+sb, se = st(MB), st(ME)
 diff = [k for k in sb if not torch.equal(sb[k], se[k])]
 print("tensors that differ:", diff, flush=True)
 NAME = "model.language_model.layers.{}.mlp.down_proj.weight"
