@@ -134,7 +134,7 @@ Accuracy decomposition: **acc_all = completion × acc_on_completed**.
 
 | arm | completion × acc_on_completed = acc_all | loop_end | whitespace (cut, all-whitespace tail) | no-box / finished | cut after `</think>` (answer phase never ends) | paired acc vs p50chook (n problems) | mean tokens |
 |---|---|---|---|---|---|---|---|
-| base (100 + 100) | BASE_ROW |
+| base (100 + 100, n = 200) | 0.095 × 0.947 = 0.100 | 0.890 | 0 | 0/19 | 0.000 | 1.000 / 1.000 (15) | 15,249 |
 | p50c (real weights) | 0.578 × 0.835 = **0.482** | 0.052 | 16 (4.0 %) | 3/231 | 0.080 | 0.873 / 0.862 (189) | 11,969 |
 | p50chook (α 6, hook) | 0.560 × 0.817 = **0.460** | 0.077 | 13 (3.3 %) | 2/224 | 0.080 | (reference) | 11,855 |
 | **clampp5** (no state below normal p5) | 0.532 × 0.845 = **0.453** | **0.075** | **6 (1.5 %)** | 2/213 | 0.095 | 0.871 / 0.854 (178) | 12,040 |
@@ -146,6 +146,7 @@ Per set (GSM8K / MATH-500):
 
 | arm | completion | acc_all | loop_end | whitespace |
 |---|---|---|---|---|
+| base (100 + 100) | 0.11 / 0.08 | 0.11 / 0.09 | 0.88 / 0.90 | 0 / 0 |
 | p50c | 0.815 / 0.340 | 0.650 / 0.315 | 0.030 / 0.075 | 7 / 9 |
 | p50chook | 0.760 / 0.360 | 0.585 / 0.335 | 0.060 / 0.095 | 7 / 6 |
 | clampp5 | 0.740 / 0.325 | 0.610 / 0.295 | 0.055 / 0.095 | 3 / 3 |
@@ -230,4 +231,13 @@ Raw excerpts (screening, k = 0):
 - **Classes are rule-based.** "Wrong answers" were not judged by an LLM.
 
 ## GPU-hours (L40S, Killarney gpubase_interac)
-GPU_ROW
+| job | what | wall |
+|---|---|---|
+| 7292209, 7292351 | K0 checks (run 1 and v2) | 8 min |
+| 7292422, 7292805 | pilots. The first was cancelled because 1 arm at a time was launch-bound; the second ran 7 concurrent arms | 36 min |
+| 7292687 | CUDA-graph test | 6 min |
+| 7293337 | single-arm job, cancelled when the QOS limit became clear | 3 min |
+| 7293441 | screening wave 1: p50chook, loopsel × 2 | 98 min |
+| 7294772 | screening: clampp5, p50c, clampmean, a3 × 1 | 100 min |
+| 7294773 | screening: base 100 + 100 × 1 | 16 min |
+| **total** | | **≈ 4.5 L40S GPU-h** (one GPU per job) |
