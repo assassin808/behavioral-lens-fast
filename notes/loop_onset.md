@@ -74,7 +74,29 @@ Primary data, GSM8K + MATH-500 pooled, one onset per looping trace.
 ---
 
 ## Amendments
-(none yet)
+
+### Amendment 1 (after reading the 30-trace pilot, `PILOT_fresh30.jsonl`, 28 loops, all GSM8K; before the full run; predictions unchanged)
+Reading the pilot showed two problems with the pre-registered measure. Both are kept as the **primary** analysis and are reported
+exactly as pre-registered. Two sensitivity analyses are added, are labelled as post-pilot, and do not change any pass/fail verdict.
+
+What the pilot showed. 23 of the 28 onsets were class (c). In most of these the model *had* already computed the right number, but it
+never said "the answer is"/`\boxed`. Examples: `Total = 3 + 4 + 0 = 7` (gold 7) → "Wait, did I miss something? Let's re-read the prompt";
+`Brandon = 4 * 2 = 8` (gold 8) → "Wait, let me double check the wording"; `Distance = 45 - 20 = 25` (gold 25) → "double check if there's any
+trick". The Exp A detector only finds explicit answer statements, so it pushes onsets toward (c). Also, the 32-gram ≥3 rule fires when
+the model quotes the problem statement verbatim for the 3rd time ("Let's re-read the prompt. 'Every day, Wendi feeds …'"), with the
+copies 1,000+ tokens apart. That is a re-reading habit, not a run-away loop.
+
+- **S1, computed-result detector.** A "computed result" is any line that ends in `= X` or `is X`, where X is the right-hand side after the
+  last `=` (or after `is`), has ≤ 40 characters, contains a digit or LaTeX command, and is `answer_like`. It is graded with the same
+  `grade_value`. Classes are then (a) the last computed result before onset is correct, (b) it is wrong, or (c) no computed result yet.
+  The detector is gold-blind and symmetric. It is crude, because intermediate steps count as "results" and push toward (b). Also
+  reported: "gold already reached" = any computed result before onset is correct.
+- **S2, onset variants.** (i) *no-quote onset*: 32-grams whose decoded text (whitespace-normalised) is a substring of the problem text are
+  ignored. (ii) *terminal onset*: test 8 runs (a token is in a loop if its ending 32-gram was seen before; a run start counts if it is
+  preceded by ≥ 64 non-loop tokens). The terminal onset is the last such run start, taken only in traces whose last 2,000 tokens are
+  ≥ 50 % loop tokens. This is the loop that ends the trace, which is the one the edit removes.
+The class tables, P1/P2/P4/kill quantities and the matched-depth null are reported for primary × {S1} × {S2-i, S2-ii}. The verdicts
+use only the primary (pre-registered detector + rule).
 
 ## Results
 (to be filled after the runs)
