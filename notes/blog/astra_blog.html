@@ -54,6 +54,14 @@ td.v.ok{color:var(--ink)}
 .checklist li{counter-increment:c; display:grid; grid-template-columns:28px 1fr; padding:12px 0; border-top:1px solid var(--line); font-size:16px; line-height:1.6; color:var(--body)}
 .checklist li:last-child{border-bottom:1px solid var(--line)}
 .checklist li::before{content:counter(c); color:var(--muted); font-size:14px; padding-top:2px}
+.flow{list-style:none; padding:0; margin:0; display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:10px; counter-reset:f}
+.flow li{counter-increment:f; position:relative; border:1px solid var(--line); border-radius:10px; padding:12px 12px 14px; background:var(--soft); font-size:13.5px; line-height:1.45; color:var(--body)}
+.flow li::before{content:counter(f); display:block; color:var(--muted); font-size:12px; margin-bottom:4px}
+.flow li b{display:block; color:var(--ink); font-weight:600; margin-bottom:4px}
+.flow li:not(:last-child)::after{content:"→"; position:absolute; right:-10px; top:50%; transform:translate(50%,-50%); color:var(--muted); font-size:13px}
+.flow li.key{border-color:var(--ink)}
+.flow-back{margin-top:10px; font-size:13px; color:var(--muted); border-top:1px dashed var(--mid); padding-top:8px}
+@media (max-width:700px){.flow{grid-template-columns:1fr} .flow li:not(:last-child)::after{content:"↓"; right:50%; top:auto; bottom:-10px; transform:translate(50%,50%)}}
 .pending{font-size:12px; color:var(--muted); border:1px solid var(--line); border-radius:999px; padding:1px 8px; white-space:nowrap}
 .end{margin-top:72px; padding-top:24px; border-top:1px solid var(--line)}
 .end p{font-size:14px; color:var(--muted)}
@@ -321,13 +329,19 @@ td.v.ok{color:var(--ink)}
     <h2>A working patch, and a call for rigor</h2>
     <p>Weight-space programming worked here. Astra found the right place and the right direction, and its edit fixes a real failure of small reasoning models. People have recently found similar sparse fixes by hand, flipping a single neuron to stop loops in Gemma 4 (<a href="https://arxiv.org/abs/2606.13705" target="_blank" rel="noopener">Lazaridis et al.</a>). The operation itself is also known: removing a direction from the weights is how a refusal direction was removed from chat models (<a href="https://arxiv.org/abs/2406.11717" target="_blank" rel="noopener">Arditi et al.</a>). Astra's version flips the direction instead of removing it. What the agent adds is the search.</p>
     <p>What it did not supply is a reliable account of why the edit works and what it costs, and neither did any single interpretability tool. Each view saw one part. Neuron descriptions saw re-reading, lenses saw a doubt axis, patching saw the attention path, probes saw the overshoot, and generation tests saw the cost. The account in this post exists only because these views were put together and each one was checked by changing the model.</p>
-    <p>As AI systems start writing edits that no person wrote or reviewed, interpretability has to meet a higher bar. It needs <b>complementary tools</b>, because each one sees only part of the mechanism. And it needs <b>rigor</b>: predictions written down before the experiment, causal tests rather than readouts alone, and failures reported as plainly as successes. Many of our own predictions failed, and those failures taught us the most. Concretely:</p>
-    <ol class="checklist">
-      <li>Compare against the simplest change outside the weights first, such as a stopping rule or turning thinking off.</li>
-      <li>Look with several tools at once, and treat any single readout as a hypothesis.</li>
-      <li>Confirm with an experiment that changes the model, and judge an edit by running it, not by a loss on old failure text.</li>
-      <li>Write predictions down first, and report what failed and what the edit costs.</li>
-    </ol>
+    <p>As AI systems start writing edits that no person wrote or reviewed, interpretability has to meet a higher bar. It needs <b>complementary tools</b>, because each one sees only part of the mechanism. And it needs <b>rigor</b>: predictions written down before the experiment, causal tests rather than readouts alone, and failures reported as plainly as successes. Many of our own predictions failed, and those failures taught us the most.</p>
+    <p>Put together, this is the pipeline we followed, and the one we suggest for checking any AI-written edit:</p>
+    <figure>
+      <ol class="flow">
+        <li><b>Establish the behaviour</b>Split the score into finishing and correctness. Compare with simple changes outside the weights.</li>
+        <li><b>Inspect the change</b>Which tensors, what rank, which direction, how strong.</li>
+        <li><b>Explain with several tools</b>Neurons, features, lenses, each with random controls. Their agreement is a hypothesis, not a vote.</li>
+        <li><b>Test by intervention</b>Steering, ablation, patching. Keep weight swaps and activation swaps apart.</li>
+        <li class="key"><b>Validate in generation</b>New problems, same budget. Report gains and side effects together.</li>
+      </ol>
+      <p class="flow-back">A failed test in step 4 or 5 sends you back to step 3.</p>
+      <figcaption><b>A multi-tool pipeline for checking weight edits.</b> Each step guards against a mistake we saw: a stopping rule mistaken for new ability (1), plausible labels on random neurons (3), a visible difference mistaken for its cause (4), and cheap scores that prefer the worse edit (5).</figcaption>
+    </figure>
   </section>
 
   <div class="end">
