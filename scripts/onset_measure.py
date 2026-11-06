@@ -15,11 +15,12 @@ source, ef, of = sys.argv[1], sys.argv[2], sys.argv[3]
 MAXN = int(sys.argv[4]) if len(sys.argv) > 4 else 10 ** 9
 assert not os.path.exists(of), f"refusing to overwrite {of}"
 MODEL = "/scratch/yang0531/blf_models/base"
+DEV = os.environ.get("ONSET_DEV", "cuda")
 E = {r["id"]: r for r in map(json.loads, open(ef))}
 rows = [r for r in load(source) if r["id"] in E][:MAXN]
 tok = AutoTokenizer.from_pretrained(MODEL)
-model = AutoModelForCausalLM.from_pretrained(MODEL, dtype=torch.bfloat16).to("cuda").eval()
-U = {L: torch.tensor(np.load(f"{REPO}/shared/u_L{L}.npy"), dtype=torch.float32, device="cuda") for L in (15, 19)}
+model = AutoModelForCausalLM.from_pretrained(MODEL, dtype=torch.bfloat16).to(DEV).eval()
+U = {L: torch.tensor(np.load(f"{REPO}/shared/u_L{L}.npy"), dtype=torch.float32, device=DEV) for L in (15, 19)}
 t0 = time.time(); nout = 0
 with open(of, "w") as f, torch.no_grad():
     for ri, r in enumerate(rows):
@@ -46,7 +47,7 @@ with open(of, "w") as f, torch.no_grad():
             js.append((ai, a, j))
         if not js: continue
         jmax = max(j for *_, j in js)
-        ids = torch.tensor([pid + gid[:jmax]], device="cuda")
+        ids = torch.tensor([pid + gid[:jmax]], device=DEV)
         out = model.model(ids, output_hidden_states=True)
         hs = out.hidden_states; P = len(pid)
         for ai, a, j in js:
