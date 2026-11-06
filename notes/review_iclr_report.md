@@ -43,8 +43,7 @@ choices and metric checks*.
 
 - **Figure 1** is a table of tool families. A first-time reader most needs the mechanism. Suggest a schematic as Figure 1:
   128 selected neurons in L15/L19 → write pushed hard along −u (α = 6 flips and enlarges the component) → later attention
-  (L16–23) copies the earlier token less → loops break, with the overshoot marked. The blog has a hand-drawn version we can
-  convert. The tool-family table can move to Methods or stay as Table 1.
+  (L16–23) copies the earlier token less → loops break, with the overshoot marked. The tool-family table can move to Methods or stay as Table 1.
 - **Define the edit once, early.** The intro gives "128 MLP output columns", but Eq. 1 and α = 6 only appear in Claim III.
   One sentence in the intro ("Astra pushes 64 columns per layer along −u with strength α = 6") makes Claims I and II easier
   to follow.
