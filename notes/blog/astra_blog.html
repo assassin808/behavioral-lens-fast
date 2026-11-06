@@ -91,7 +91,7 @@ td.v.ok{color:var(--ink)}
   <p class="lede">GPT-6 Astra rewrote 0.016% of Qwen3.5-0.8B's weights, and the model's math score went from 8% to 48%. We took the edit apart with ten interpretability tools to see what it actually changed.</p>
   <dl class="meta">
     <div><dt>Authors</dt><dd>HaoYang Shang (UBC), list to be confirmed</dd></div>
-    <div><dt>Reading time</dt><dd>10 min</dd></div>
+    <div><dt>Reading time</dt><dd>12 min</dd></div>
   </dl>
   <div class="actions">
     <a class="cta" href="https://github.com/assassin808/behavioral-lens-fast" target="_blank" rel="noopener">Code and data ↗</a>
@@ -102,6 +102,7 @@ td.v.ok{color:var(--ink)}
     <li><b>The edit fixes finishing, not reasoning.</b>The model could already solve these problems. It could not stop thinking. Turning thinking off scores just as well.</li>
     <li><b>It works by stopping the model from copying itself.</b>128 neurons that fire when the model re-reads or re-checks now push it towards "wrap up". Later attention stops copying earlier text, so loops break.</li>
     <li><b>The fix and its side effects are the same knob.</b>The push overshoots and causes new failures. Weaken it, and the loops come back.</li>
+    <li><b>Cheap scores can pick the worse edit.</b>An earlier Astra run found nearly the same direction but used it worse, and a quick loss on old loop text rated it higher. Only running the edited model shows the difference.</li>
     <li><b>Neither Astra's own explanation nor any single tool tells the whole story.</b>Astra's account is half right, and several standard tools gave confident, wrong readings. The picture only came together when different tools were combined and each was checked by changing the model.</li>
   </ul>
 
@@ -110,7 +111,7 @@ td.v.ok{color:var(--ink)}
     <li><a href="#s2"><span>02</span>128 neurons, one push</a></li>
     <li><a href="#s3"><span>03</span>Copying, cut</a></li>
     <li><a href="#s4"><span>04</span>One knob, two effects</a></li>
-    <li><a href="#s5"><span>05</span>Why training missed it</a></li>
+    <li><a href="#s5"><span>05</span>Right direction, wrong edit</a></li>
     <li><a href="#s6"><span>06</span>No single view</a></li>
     <li><a href="#s7"><span>07</span>A call for rigor</a></li>
   </ol>
@@ -201,6 +202,7 @@ td.v.ok{color:var(--ink)}
       </svg>
       <figcaption><b>The direction alone does the job, until you push too hard.</b> GSM8K accuracy when −u is added at the two edited layers during generation (100 problems, 8,192-token budget).</figcaption>
     </figure>
+    <p>Is <i>u</i> one concept or a blend? Sparse autoencoders split the hidden state into many features without being told anything about loops. After layer 19, one feature dominates the part of <i>u</i> that separates loops from normal text, and a blind explainer labels it as "Wait, if…" re-checking. Applying Astra's rule along that single feature, instead of <i>u</i>, recovers more than half of the gain. After layer 15 the picture is different: the same signal is spread over many features that restate the problem, copy text or format numbers. So the edit hits one re-checking feature in the later layer and a mixture in the earlier one.</p>
   </section>
 
   <section class="sec" id="s3">
@@ -209,6 +211,7 @@ td.v.ok{color:var(--ink)}
     <p>If the edited neurons simply wrote "stop now" into the output, their direct route to the output would carry the effect. It carries 3%.</p>
     <p>To find where the effect goes, we ran the edited model on looping text and restored one part at a time to its unedited behaviour. Restoring the attention layers after the edit (layers 16 to 23) removes 91% of the edit's effect, and 96% on texts we held out. The push along <i>−u</i> changes what later attention looks for.</p>
     <p>What it looks for is the earlier copy. To continue a repeated passage, a model looks back to where the current text appeared before and copies what came next; the attention heads that do this are called induction heads. After the edit, attention to that earlier copy falls by about a third in layer 23. The token the model was about to repeat becomes the most suppressed token in its vocabulary.</p>
+    <p>Why is this copying so hard to train away? In ordinary text, a passage that repeated once tends to repeat again, so copying is often the right prediction. Training scores each next token on human text, never on the model's own runaway output, and by that score a loop looks like excellent prediction: the unedited model predicts its own looped tokens almost perfectly. Loops like these are common in small reasoning models, and worse in models distilled from larger teachers (<a href="https://arxiv.org/abs/2512.12895" target="_blank" rel="noopener">Pipis et al.</a>).</p>
 
     <figure>
       <svg class="sketch" viewBox="0 0 660 250" role="img" aria-labelledby="f3t">
@@ -253,15 +256,38 @@ td.v.ok{color:var(--ink)}
     <p>The edit does not return looping states to normal. It pushes them past normal, far along <i>−u</i>, into a region the model never visits on its own. That shows up as failures the unedited model never has, such as answers that end in long runs of whitespace.</p>
     <p>The natural repair is to push less. We tried three ways: half the strength, a floor that stops the push at the normal average, and editing only the neurons most specific to loops. Each removed most of the whitespace failures, and each brought the loops back. Only one variant looks better: trimming just the deepest part of the overshoot. In two runs it kept the fix and roughly halved the whitespace failures. <span class="pending">larger test running</span></p>
     <p>The edit also removes the copying without removing the doubt. We had a language model read the edited model's failed answers. Seven in ten are still doubt: re-reading the wording of the question, or re-checking an answer that is already right. The text just no longer repeats word for word.</p>
+    <p>That doubt is not useless. Right after it states a first answer, the model's hidden state already tells right answers from wrong ones, as has been found in larger reasoning models (<a href="https://arxiv.org/abs/2504.05419" target="_blank" rel="noopener">Zhang et al.</a>); the position along <i>u</i> alone does this well. Yet with thinking on, it doubts a correct answer almost as often as a wrong one. Put the same text outside thinking mode, and it doubts a correct answer about 70 times less. Astra's edit pushes hardest at wrong answers, exactly where doubt was warranted.</p>
+    <p>We expected loops to start right after a correct answer, as re-checking gone wrong. They don't. In nine of ten loops, the model has not stated any answer yet when the loop begins. On easy problems it is still re-reading the question; on hard ones it is stuck redoing the same step. That fits the view that loops start at reasoning impasses (<a href="https://arxiv.org/abs/2601.05693" target="_blank" rel="noopener">Duan et al.</a>). Once a loop starts, the copying machinery keeps it going, and that is the part Astra's edit cuts. A better edit would cut the copying and keep the signal.</p>
   </section>
 
   <section class="sec" id="s5">
     <div class="bignum" aria-hidden="true">5</div>
-    <h2>Two habits that training rewards</h2>
-    <p>Loops like these are a known problem in small reasoning models, and they are worse in models distilled from larger teachers (<a href="https://arxiv.org/abs/2512.12895" target="_blank" rel="noopener">Pipis et al.</a>). Our measurements suggest why the bug survives both pretraining and fine-tuning.</p>
-    <p><b>Pretraining rewards copying.</b> In ordinary text, something that repeated once tends to repeat again, so copying the earlier passage is often the right prediction. Training scores each next token on human text, never on the model's own runaway output. By that score a loop looks like excellent prediction: the unedited model predicts its own looped tokens almost perfectly.</p>
-    <p><b>Long-thinking training rewards re-checking.</b> A small model can learn the habit without learning when to stop. Right after it states its first answer, its hidden state already tells right answers from wrong ones, as has been found in larger reasoning models (<a href="https://arxiv.org/abs/2504.05419" target="_blank" rel="noopener">Zhang et al.</a>). Yet with thinking on, it doubts a correct answer almost as often as a wrong one. Put the same text outside thinking mode, and it doubts a correct answer about 70 times less.</p>
-    <p>We expected loops to start right after a correct answer, as re-checking gone wrong. They don't. In nine of ten loops, the model has not stated any answer yet when the loop begins. On easy problems it is still re-reading the question; on hard ones it is stuck redoing the same step. That fits the view that loops start at reasoning impasses (<a href="https://arxiv.org/abs/2601.05693" target="_blank" rel="noopener">Duan et al.</a>). Once a loop starts, the copying machinery keeps it going, and that is the part Astra's edit cuts.</p>
+    <h2>The right direction is not enough, and cheap scores pick the worse edit</h2>
+    <p>Astra's logs include earlier attempts. After 10 rounds of search instead of 50, it had already found nearly the same direction, and the same dominant feature. But it applied that direction to every layer from 8 to 22, more gently, and the result scores 24% on GSM8K against the final edit's 57%. Move those same directions into the final edit's recipe, with its 128 neurons and its strength, and accuracy jumps to 49%. Where and how hard a direction is applied matters as much as the direction.</p>
+    <p>The way the search scores candidates makes this worse. A natural quick test, and the kind Astra relied on, is to measure how much an edit raises the model's loss on existing looping text. By that score the 10-round edit looks almost twice as good as the final one. A stronger version of it looks nearly five times as good, and in practice it scores below the unedited model.</p>
+
+    <figure>
+      <svg viewBox="0 0 560 186" role="img" aria-labelledby="f5t">
+        <title id="f5t">GSM8K accuracy of five edits next to their loop-loss scores</title>
+        <g font-size="11.5">
+          <text x="214" y="14" class="m">GSM8K accuracy</text>
+          <text x="552" y="14" text-anchor="end" class="m">loop-loss score</text>
+          <line x1="214" y1="24" x2="214" y2="160" stroke="var(--line)"/>
+          <line x1="294" y1="24" x2="294" y2="160" stroke="var(--line)"/>
+          <line x1="374" y1="24" x2="374" y2="160" stroke="var(--line)"/>
+          <line x1="454" y1="24" x2="454" y2="160" stroke="var(--line)"/>
+          <text x="214" y="176" class="m" text-anchor="middle">0</text><text x="294" y="176" class="m" text-anchor="middle">20</text><text x="374" y="176" class="m" text-anchor="middle">40</text><text x="454" y="176" class="m" text-anchor="middle">60%</text>
+          <text x="204" y="43" text-anchor="end" class="m">Unedited</text><rect x="214" y="32" width="60" height="14" fill="var(--mid)"/><text x="279" y="43" class="m">15</text><text x="552" y="43" text-anchor="end" class="m">0</text>
+          <text x="204" y="69" text-anchor="end">Final edit (50 rounds)</text><rect x="214" y="58" width="228" height="14" fill="var(--ink)"/><text x="447" y="69">57</text><text x="552" y="69" text-anchor="end">1.0×</text>
+          <text x="204" y="95" text-anchor="end" class="m">10-round edit</text><rect x="214" y="84" width="96" height="14" fill="var(--mid)"/><text x="315" y="95" class="m">24</text><text x="552" y="95" text-anchor="end" class="m">1.9×</text>
+          <text x="204" y="121" text-anchor="end" class="m">10-round edit, stronger</text><rect x="214" y="110" width="28" height="14" fill="var(--mid)"/><text x="247" y="121" class="m">7</text><text x="552" y="121" text-anchor="end" class="m">4.8×</text>
+          <text x="204" y="147" text-anchor="end" class="m">10-round directions,</text><text x="204" y="159" text-anchor="end" class="m">final recipe</text><rect x="214" y="136" width="196" height="14" fill="var(--mid)"/><text x="415" y="147" class="m">49</text><text x="552" y="147" text-anchor="end" class="m">1.0×</text>
+        </g>
+      </svg>
+      <figcaption><b>A score on old loops ranks edits backwards.</b> Loop-loss score: how much an edit raises the model's loss on 20 existing looping texts, relative to the final edit. Accuracy: GSM8K, 16,384-token budget, 400 samples.</figcaption>
+    </figure>
+
+    <p>Generating from the edited models shows why. Scoring old loops tests whether a model escapes a loop it is already in. It cannot see whether the model falls into new ones. The 10-round edit shortens loops but enters them twice as often, and the stronger version creates new kinds of loops that the old texts never contain. An agent that edits weights needs feedback that runs the edited model, not one that rescores the old model's failures.</p>
   </section>
 
   <section class="sec" id="s6">
@@ -279,7 +305,7 @@ td.v.ok{color:var(--ink)}
             <tr><td>Attention patterns</td><td>Copying is unchanged</td><td>Down a third, measured at the right position</td><td class="v">depends on setup</td></tr>
             <tr><td>Logit lens, middle layers</td><td>The edit raises the repeated token</td><td>The output lowers it</td><td class="v">misleads</td></tr>
             <tr><td>LLM neuron descriptions</td><td>Clear labels for Astra's neurons</td><td>Random neurons get labels just as good</td><td class="v">not specific</td></tr>
-            <tr><td>Cheap loss on loop text</td><td>Ranks edits by how well they break loops</td><td>Prefers an edit that scores 24% to one that scores 57%</td><td class="v">misranks edits</td></tr>
+            <tr><td>Cheap loss on loop text</td><td>Ranks edits by how well they break loops</td><td>Prefers an edit that scores 24% to one that scores 57% (section 5)</td><td class="v">misranks edits</td></tr>
             <tr><td>Steering and patching</td><td>A doubt axis, an attention path</td><td>Agree with each other and with the edit</td><td class="v ok">trust</td></tr>
           </tbody>
         </table>
@@ -287,13 +313,13 @@ td.v.ok{color:var(--ink)}
       <figcaption><b>Tools that only observe can mislead; tools that intervene held up.</b> "Cheap loss" is the kind of quick signal an agent might use to choose between edits: the model's loss on existing looping text.</figcaption>
     </figure>
     <p>Two of Astra's other experiments make the same point more sharply. Astra also edited Gemma 3 270M for math, with no clear accuracy gain. The tools still produced convincing stories about those edits: neuron descriptions that matched Astra's reasoning and scored above random neurons. A good-looking explanation can sit on top of an edit that does nothing.</p>
-    <p>In a sycophancy experiment, Astra correctly picked out which of two fine-tuned models gives in to a user's wrong guess, and pointed to one attention head as where they differ. The difference in that head is real. But copying that head's weights from the honest model into the sycophantic one changes no answers, while copying the MLPs closes the whole gap. Finding the right model and explaining it are different achievements.</p>
+    <p>In a sycophancy experiment, Astra correctly picked out which of two fine-tuned models gives in to a user's wrong guess, and pointed to one attention head as where they differ. The difference in that head is real. But copying that head's weights from the honest model into the sycophantic one changes no answers, and neither does copying every component Astra named, while copying all the MLPs closes the whole gap. Swapping activations instead of weights shows the path: the difference is made in many early MLPs and passes through middle-layer attention, where the head shows it. Tools that look for one average direction fail here, because the answer being copied changes from prompt to prompt. Finding the right model and explaining it are different achievements.</p>
   </section>
 
   <section class="sec" id="s7">
     <div class="bignum" aria-hidden="true">7</div>
     <h2>A working patch, and a call for rigor</h2>
-    <p>Weight-space programming worked here. Astra found the right place and the right direction, and its edit fixes a real failure of small reasoning models. People have recently found similar sparse fixes by hand, flipping a single neuron to stop loops in Gemma 4 (<a href="https://arxiv.org/abs/2606.13705" target="_blank" rel="noopener">Lazaridis et al.</a>). What the agent adds is the search.</p>
+    <p>Weight-space programming worked here. Astra found the right place and the right direction, and its edit fixes a real failure of small reasoning models. People have recently found similar sparse fixes by hand, flipping a single neuron to stop loops in Gemma 4 (<a href="https://arxiv.org/abs/2606.13705" target="_blank" rel="noopener">Lazaridis et al.</a>). The operation itself is also known: removing a direction from the weights is how a refusal direction was removed from chat models (<a href="https://arxiv.org/abs/2406.11717" target="_blank" rel="noopener">Arditi et al.</a>). Astra's version flips the direction instead of removing it. What the agent adds is the search.</p>
     <p>What it did not supply is a reliable account of why the edit works and what it costs, and neither did any single interpretability tool. Each view saw one part. Neuron descriptions saw re-reading, lenses saw a doubt axis, patching saw the attention path, probes saw the overshoot, and generation tests saw the cost. The account in this post exists only because these views were put together and each one was checked by changing the model.</p>
     <p>As AI systems start writing edits that no person wrote or reviewed, interpretability has to meet a higher bar. It needs <b>complementary tools</b>, because each one sees only part of the mechanism. And it needs <b>rigor</b>: predictions written down before the experiment, causal tests rather than readouts alone, and failures reported as plainly as successes. Many of our own predictions failed, and those failures taught us the most. Concretely:</p>
     <ol class="checklist">
