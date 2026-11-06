@@ -146,6 +146,26 @@ We take the 400 screening problems and list the ones p50c solves with thinking o
 - **Reference for sampling noise.** For problems solved by p50c with thinking off, which behaves like base, the same "failed in both" share is 8% (GSM8K) and 10% (MATH-500).
 - **Conclusion.** Problems that only the edited thinking-on model solves occur no more often than sampling noise. The edit rescues problems the model could already solve, which supports "no new reasoning" at the problem level. The reverse does not hold: on MATH-500 problems that base thinking-off solves in both samples, p50c thinking-on gets only 0.54.
 
+
+## 6g. Where do loops start? (branch `yang/onset`, `notes/loop_onset.md`)
+
+**The "doubt after success" hypothesis failed; the kill rule fired.** Most loops start before the model has stated any answer, which fits the impasse account (Duan et al. 2026). Data: 941 looping base traces (Exp A fresh traces, 12k cap), replicated on Astra's logs (378) and MATH Level 5 (395). GPU: 0.07 h.
+
+| source | after a correct answer | after a wrong answer | no answer yet |
+|---|---|---|---|
+| fresh GSM8K | 75 | 6 | 389 |
+| fresh MATH-500 | 25 | 2 | 444 |
+| Astra logs (both) | 33 | 3 | 342 |
+| MATH Level 5 | 3 | 4 | 388 |
+
+- **No answer yet:** 89% of onsets (Astra 90%, Level 5 98%). P2 fails.
+- **After-correct onsets are not over-represented.** Onsets follow a correct answer *less* often than loop-free positions at the same depth (0.11 vs 0.17). P4 fails with the opposite sign.
+- **When an answer was stated before onset, it is usually correct** (93%), but this covers only 108 of 941 onsets.
+- **Caveat on detection.** The model often computes the right value without stating it ("Total = 3 + 4 + 0 = 7. Wait, did I miss something? Let's re-read the prompt"). Counting any computed value, the correct value appears before 48% of onsets. No base rate was computed, so this is only an upper bound.
+- **What the loops look like** (54 read by eye). On GSM8K, onsets with no answer yet are re-interpretation spirals ("Let's re-read the prompt", "Is it possible that…"). On MATH they are real impasses: the model redoes the same computation.
+- **Hidden state.** Correct answers that are followed by a loop sit further to the "doubt" side of u than correct answers in finishing traces (AUC 0.71). The reason is untested. P3 could not be tested (too few wrong answers in finishing traces).
+- **Consequence for the story.** "The model knows it is right, doubts, and then copies" is *not* how most loops start in this model. Exp A's finding (it can tell right from wrong, but doubt barely uses that) stands. The loops themselves mostly begin while the model is still re-reading or stuck.
+
 ## 6b. Untested hypotheses
 
 - Why do the late MLPs counteract the edit?

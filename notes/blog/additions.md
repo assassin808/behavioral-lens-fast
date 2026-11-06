@@ -20,4 +20,6 @@ Loops like these are common in small reasoning models, and worse in students dis
 
 ## ⏳ E. Can the side effects be trimmed without losing the fix? (32k-token rerun of the tail clamp)
 
-## ⏳ F. Where do loops start: after a correct answer, or at an impasse?
+## ✅ F. Where do loops start?
+
+We expected loops to start right after the model had found the right answer, as an urge to re-check gone wrong. That is not what happens. In nine of ten loops, the model has not yet stated any answer when the loop begins. On grade-school problems it is still re-reading the question ("Let's re-read the prompt", "Is it possible that…"). On harder problems it is stuck, redoing the same computation. This matches the view that loops start at reasoning impasses (Duan et al. 2026). The model's ability to tell right from wrong, and its failure to use it, is a separate problem from what starts the loops.
