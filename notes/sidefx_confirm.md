@@ -74,3 +74,23 @@ whitespace), no-box among finished (`pred is None` and not cut), cut-after-`</th
 
 ## Outcome
 (to be filled after the runs; everything above stays unedited)
+
+### KP pilot gate (job 7303535; 10 + 10 problems × 1, 16k, seed 1; files `/scratch/yang0531/blf_data/sidefx/confirm_pilot/`) — **pass**
+- **Hooks.** Both arms print `HOOKS`: L15 / L19 cols = 64, α = 6.000, identical sum|coef| (11.7541 / 9.2215). floor is None
+  (p50chook) vs 0.0901 / 0.3457 (clampp5).
+- **Coherent text** in both arms. p50chook loop_end is 1/20, so the loop fix is present.
+- **Counts (n = 20 per arm; noise-level, not data):**
+
+  | arm | completion | acc | loop_end | whitespace |
+  |---|---|---|---|---|
+  | p50chook | 11/20 | 7/20 | 1/20 | 1 |
+  | clampp5 | 10/20 | 7/20 | 3/20 | 1 |
+
+- **Labels checked by eye.**
+  - The whitespace samples really are about 1M-space runaway indentation.
+  - The `cut_repetitive` sample really is a loop ("Wait, I'll check if there is any other interpretation …" × N).
+- **Observation (not a criterion).** Some `cut_still_reasoning` samples are runaway indentation that has not yet filled the last
+  2,000 characters (e.g. gsm8k_test_8 clampp5, precalculus/927 p50chook). The registered whitespace metric therefore undercounts
+  indentation drift a little, equally in both arms. Kept as registered.
+- `token_ids` saved: length = n_tokens.
+- **Stage 1 submitted.** Job 7303913 runs MATH-500 (2 slots, 250-problem chunks). Job 7303916 runs GSM8K, afterok.
