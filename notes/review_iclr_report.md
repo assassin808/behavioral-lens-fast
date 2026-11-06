@@ -87,5 +87,5 @@ Also:
 ## Smaller items
 
 - TL;DR: good. Consider one concrete number so it is not abstract: "turning thinking off recovers most of the 8→48% gain".
-- L23–24: "26 of 73 held fully" is good to keep; it signals rigor up front.
+- L29: "26 of 73 held fully" is good to keep; it signals rigor up front.
 - Figure 4 caption (sycophancy) is long; panels c and d could share one sentence.
