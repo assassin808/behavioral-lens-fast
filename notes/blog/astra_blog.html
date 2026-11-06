@@ -60,7 +60,7 @@ td.v.ok{color:var(--ink)}
 .end p b{color:var(--ink)}
 .cta{display:inline-block; font-size:14px; padding:10px 16px; border:1px solid var(--ink); border-radius:999px; text-decoration:none; margin-top:8px}
 .cta:hover{background:var(--ink); color:var(--bg)}
-.meta{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:16px; margin:0 0 28px; padding:16px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line)}
+.meta{display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:16px; margin:0 0 28px; padding:16px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line)}
 .meta div{min-width:0}
 .meta dt{font-size:12px; color:var(--muted); margin:0 0 2px}
 .meta dd{margin:0; font-size:14px; color:var(--ink)}
@@ -88,9 +88,8 @@ td.v.ok{color:var(--ink)}
   <a class="back" href="https://assassin808.github.io" target="_blank" rel="noopener">← HaoYang Shang</a>
   <p class="kicker">Interpretability · Research note</p>
   <h1>What did Astra's weight edit actually program?</h1>
-  <p class="lede">An AI agent rewrote 0.016% of a small model's weights, and its math score went from 8% to 48%. We took the edit apart with ten interpretability tools to see what it actually changed.</p>
+  <p class="lede">GPT-6 Astra rewrote 0.016% of Qwen3.5-0.8B's weights, and the model's math score went from 8% to 48%. We took the edit apart with ten interpretability tools to see what it actually changed.</p>
   <dl class="meta">
-    <div><dt>Published</dt><dd>Nov 6, 2026 · draft</dd></div>
     <div><dt>Authors</dt><dd>HaoYang Shang (UBC), list to be confirmed</dd></div>
     <div><dt>Reading time</dt><dd>10 min</dd></div>
   </dl>
@@ -103,7 +102,7 @@ td.v.ok{color:var(--ink)}
     <li><b>The edit fixes finishing, not reasoning.</b>The model could already solve these problems. It could not stop thinking. Turning thinking off scores just as well.</li>
     <li><b>It works by stopping the model from copying itself.</b>128 neurons that fire when the model re-reads or re-checks now push it towards "wrap up". Later attention stops copying earlier text, so loops break.</li>
     <li><b>The fix and its side effects are the same knob.</b>The push overshoots and causes new failures. Weaken it, and the loops come back.</li>
-    <li><b>Several standard tools told a confident, wrong story.</b>Only experiments that change the model caught them.</li>
+    <li><b>Neither Astra's own explanation nor any single tool tells the whole story.</b>Astra's account is half right, and several standard tools gave confident, wrong readings. The picture only came together when different tools were combined and each was checked by changing the model.</li>
   </ul>
 
   <ol class="toc" aria-label="Contents">
@@ -112,8 +111,8 @@ td.v.ok{color:var(--ink)}
     <li><a href="#s3"><span>03</span>Copying, cut</a></li>
     <li><a href="#s4"><span>04</span>One knob, two effects</a></li>
     <li><a href="#s5"><span>05</span>Why training missed it</a></li>
-    <li><a href="#s6"><span>06</span>Tools that mislead</a></li>
-    <li><a href="#s7"><span>07</span>A patch, not an explanation</a></li>
+    <li><a href="#s6"><span>06</span>No single view</a></li>
+    <li><a href="#s7"><span>07</span>A call for rigor</a></li>
   </ol>
 
   <section class="sec">
@@ -267,8 +266,9 @@ td.v.ok{color:var(--ink)}
 
   <section class="sec" id="s6">
     <div class="bignum" aria-hidden="true">6</div>
-    <h2>Several tools told a confident, wrong story</h2>
-    <p>Because we knew the true change, we could grade the tools. Most pointed the right way. Several gave readings that sounded convincing and were wrong, and only an experiment that changed the model caught them.</p>
+    <h2>Neither the editor nor any one tool explains the edit</h2>
+    <p>Astra explained its own edit, and we brought ten tools. Every one of these views was partial. Astra's report says the edit counteracts "measured repetition directions". That is right, but it misses the attention path and the overshoot. It also argues that the edit is not "simply forcing early termination"; our controls show that forcing termination does about as well.</p>
+    <p>The tools did no better on their own. Because we knew the true change, we could grade them. Most pointed the right way. Several gave readings that sounded convincing and were wrong, and only an experiment that changed the model caught them.</p>
     <figure>
       <div class="table-wrap">
         <table>
@@ -292,15 +292,15 @@ td.v.ok{color:var(--ink)}
 
   <section class="sec" id="s7">
     <div class="bignum" aria-hidden="true">7</div>
-    <h2>A working patch, not yet an explanation</h2>
+    <h2>A working patch, and a call for rigor</h2>
     <p>Weight-space programming worked here. Astra found the right place and the right direction, and its edit fixes a real failure of small reasoning models. People have recently found similar sparse fixes by hand, flipping a single neuron to stop loops in Gemma 4 (<a href="https://arxiv.org/abs/2606.13705" target="_blank" rel="noopener">Lazaridis et al.</a>). What the agent adds is the search.</p>
-    <p>What it did not supply is an account of why the edit works and what it costs. Astra's own report says the edit counteracts "measured repetition directions", which is right but misses the attention path and the overshoot. It also argues the edit is not "simply forcing early termination"; our controls show that forcing termination does about as well.</p>
-    <p>Edits written by AI systems will need the same debugging as code. For anyone building or checking them:</p>
+    <p>What it did not supply is a reliable account of why the edit works and what it costs, and neither did any single interpretability tool. Each view saw one part. Neuron descriptions saw re-reading, lenses saw a doubt axis, patching saw the attention path, probes saw the overshoot, and generation tests saw the cost. The account in this post exists only because these views were put together and each one was checked by changing the model.</p>
+    <p>As AI systems start writing edits that no person wrote or reviewed, interpretability has to meet a higher bar. It needs <b>complementary tools</b>, because each one sees only part of the mechanism. And it needs <b>rigor</b>: predictions written down before the experiment, causal tests rather than readouts alone, and failures reported as plainly as successes. Many of our own predictions failed, and those failures taught us the most. Concretely:</p>
     <ol class="checklist">
       <li>Compare against the simplest change outside the weights first, such as a stopping rule or turning thinking off.</li>
-      <li>Treat any readout as a hypothesis, and confirm it with an experiment that changes the model.</li>
-      <li>Judge an edit by running the model, not by a loss on old failure text. New edits create new failures.</li>
-      <li>Report what the edit costs next to what it fixes.</li>
+      <li>Look with several tools at once, and treat any single readout as a hypothesis.</li>
+      <li>Confirm with an experiment that changes the model, and judge an edit by running it, not by a loss on old failure text.</li>
+      <li>Write predictions down first, and report what failed and what the edit costs.</li>
     </ol>
   </section>
 
