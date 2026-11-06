@@ -92,7 +92,8 @@ copies 1,000+ tokens apart. That is a re-reading habit, not a run-away loop.
   The detector is gold-blind and symmetric. It is crude, because intermediate steps count as "results" and push toward (b). Also
   reported: "gold already reached" = any computed result before onset is correct.
 - **S2, onset variants.** (i) *no-quote onset*: 32-grams whose decoded text (whitespace-normalised) is a substring of the problem text are
-  ignored. (ii) *terminal onset*: test 8 runs (a token is in a loop if its ending 32-gram was seen before; a run start counts if it is
+  ignored. [Pilot fix: the onset 32-gram usually straddles the end of a quote, so the implemented test is "contains a run of ≥ 8 words
+  that occurs in the problem"; 12 words still let quoted sentences through.] (ii) *terminal onset*: test 8 runs (a token is in a loop if its ending 32-gram was seen before; a run start counts if it is
   preceded by ≥ 64 non-loop tokens). The terminal onset is the last such run start, taken only in traces whose last 2,000 tokens are
   ≥ 50 % loop tokens. This is the loop that ends the trace, which is the one the edit removes.
 The class tables, P1/P2/P4/kill quantities and the matched-depth null are reported for primary × {S1} × {S2-i, S2-ii}. The verdicts
