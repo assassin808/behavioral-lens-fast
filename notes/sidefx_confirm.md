@@ -94,3 +94,17 @@ whitespace), no-box among finished (`pred is None` and not cut), cut-after-`</th
   indentation drift a little, equally in both arms. Kept as registered.
 - `token_ids` saved: length = n_tokens.
 - **Stage 1 submitted.** Job 7303913 runs MATH-500 (2 slots, 250-problem chunks). Job 7303916 runs GSM8K, afterok.
+
+### Deviations (logged after the fact; pre-registration above unchanged)
+- **Stage-1 job 7303913 hit its 3 h limit.** It completed MATH-500 problems 0–249 × 2 for both arms. The o250 chunks were
+  killed mid-run, and output is written only at the end, so nothing was saved from them. GSM8K job 7303916 (afterok) was
+  therefore cancelled.
+  - Cause: throughput was about 1.0k tok/s per arm (2 concurrent arms), half the screen's 1.8k. MATH-only batches are
+    longer-context than the screen's mixed GSM8K + MATH batches.
+  - 3.25 GPU-h had been used by then (pilot 0.24, job A 3.0).
+- **Budget raised by the lead to 8 GPU-h total.** The **32k extension (stage 2) is dropped (budget).** No 32k accuracy is reported.
+- **Resubmitted** in 125-problem chunks, GSM8K first, because that order was set when the budget was tight:
+  - job 7321422: GSM8K 0–499, both arms;
+  - job 7321423: MATH-500 250–374, both arms.
+  - MATH-500 375–499 runs only if the budget allows.
+- Missing chunks, if any, are listed with the results. The criteria are evaluated on whatever completed, labelled as such.
