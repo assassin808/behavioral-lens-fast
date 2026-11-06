@@ -93,7 +93,7 @@ Only Claude and open-weight models were reachable on the gateway. The non-Anthro
 | p50c, thinking on (failures) | 42% | 27% | 10% | 13% | 5% |
 | base, thinking off (failures) | 20% | 2% | 2% | 6% | 69% |
 
-  **The edit removes the copying, not the doubting.** p50c's failures are still doubt: re-interpreting the question, or re-checking an answer that is already right. It is just no longer verbatim. Paraphrase cycling is present in 90% of capped non-looping outputs, but it is the form; the content is doubt. Thinking-off failures are ordinary reasoning errors.
+  **The edit removes the copying, not the doubting.** p50c's failures are still doubt: re-interpreting the question, or re-checking an answer that is already right. It is just no longer verbatim. Paraphrase cycling is present in 90% of capped non-looping outputs, but Exp B (§6e) finds it just as common in correct generations, so it is not specific to failure. Thinking-off failures are ordinary reasoning errors.
 - **Doubt vs correctness (label view).** With thinking off, base doubts its first answer 15% of the time when it is right and 52% when it is wrong, so doubt is tied to correctness. With thinking on, doubt happens 95–100% of the time whatever the first answer. So the 0.8B model *can* calibrate doubt; thinking mode makes it doubt always. (Exp A gives the logprob view.)
 
 
@@ -117,6 +117,25 @@ We measured P(next token starts a doubt / re-check) right after the model's firs
   - Two detector/grader amendments were made after some AUCs had been seen; they apply to all arms, and the pre-fix numbers are kept.
   - Wrong answers come later in the trace. The result survives a linear control, but a nonlinear confound is not ruled out.
   - Astra's own logs show a weaker u signal (0.64, only 11 wrong answers).
+
+
+## 6e. Exp B: are the long unfinished outputs paraphrase loops? (branch `yang/expB`, `notes/expB_paraphrase_loops.md`)
+
+**Prediction failed; kill rule triggered.** The 12% "cut at the cap, still reasoning" class (24 texts, all MATH-500, Astra's 32k logs) does not paraphrase-repeat more than p50c's *correct* generations.
+
+| group | embedding PR rate (τ 0.70) | lexical PR rate (Jaccard ≥ 0.5) |
+|---|---|---|
+| p50c, still reasoning (target) | 0.84 | 0.24 |
+| p50c, correct | 0.85 | 0.08 |
+| p50c, finished wrong / no `\boxed{}` | 0.92 / 0.86 | 0.24 / 0.30 |
+| base thinking-on, before its verbatim loop | 0.90 | 0.12 |
+| base thinking-off | 0.69 | 0.03 |
+
+- **P2 failed.** Target vs correct: ratio 0.98, CI of the difference [−0.07, +0.03]. **P3 failed:** 0.96× base pre-loop.
+- **The embedding detector saturates**, at 84–92% in every thinking-on class. The lexical detector separates the classes, but mostly by position. Matched by position (5k–10k words, exploratory), the rates are 0.28 for the target vs 0.21 for correct, while finished-wrong (0.40) and no-`\boxed{}` (0.43) are higher.
+- **Hypothesis (untested):** re-checking in other words is normal late in this model's long thinking, before and after the edit. Base then locks into a verbatim loop; p50c only blocks that step. A test: continue base and p50c from the same prefixes and compare at matched positions.
+- **Correction to §6c:** the API labels found paraphrase cycling in ~90% of capped non-looping outputs, but had no control. It is just as common in successful generations, so it is not specific to failure. The content claim (doubt, re-checking) stands.
+- **Compute:** ~0.1 L40S-h (CPU work).
 
 ## 6b. Untested hypotheses
 
