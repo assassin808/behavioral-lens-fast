@@ -60,15 +60,37 @@ td.v.ok{color:var(--ink)}
 .end p b{color:var(--ink)}
 .cta{display:inline-block; font-size:14px; padding:10px 16px; border:1px solid var(--ink); border-radius:999px; text-decoration:none; margin-top:8px}
 .cta:hover{background:var(--ink); color:var(--bg)}
+.meta{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:16px; margin:0 0 28px; padding:16px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line)}
+.meta div{min-width:0}
+.meta dt{font-size:12px; color:var(--muted); margin:0 0 2px}
+.meta dd{margin:0; font-size:14px; color:var(--ink)}
+.actions{display:flex; flex-wrap:wrap; gap:10px; margin:0 0 48px}
+.toc{list-style:none; margin:48px 0 0; padding:0}
+.toc li{border-top:1px solid var(--line)}
+.toc li:last-child{border-bottom:1px solid var(--line)}
+.toc a{display:grid; grid-template-columns:40px 1fr; padding:10px 0; text-decoration:none; font-size:15px; color:var(--body)}
+.toc a span{color:var(--muted); font-variant-numeric:tabular-nums}
+.toc a:hover{color:var(--ink)}
+.bignum{font-size:72px; font-weight:400; line-height:1; letter-spacing:-.04em; color:var(--mid); margin:0 0 14px; font-variant-numeric:tabular-nums}
+.sec{scroll-margin-top:24px}
+@media (max-width:520px){.meta{grid-template-columns:1fr 1fr} .bignum{font-size:56px}}
 @media (max-width:820px){.back{margin-bottom:56px} h1{font-size:30px}}
 </style>
 
 <main class="post">
   <a class="back" href="https://assassin808.github.io" target="_blank" rel="noopener">← HaoYang Shang</a>
-  <p class="kicker">For fun · research note</p>
+  <p class="kicker">Interpretability · Research note</p>
   <h1>What did Astra's weight edit actually program?</h1>
-  <p class="byline">HaoYang Shang · University of British Columbia · November 2026 · draft, full author list to be confirmed</p>
   <p class="lede">An AI agent rewrote 0.016% of a small model's weights, and its math score went from 8% to 48%. We took the edit apart with ten interpretability tools to see what it actually changed.</p>
+  <dl class="meta">
+    <div><dt>Published</dt><dd>Nov 6, 2026 · draft</dd></div>
+    <div><dt>Authors</dt><dd>HaoYang Shang (UBC), list to be confirmed</dd></div>
+    <div><dt>Reading time</dt><dd>10 min</dd></div>
+  </dl>
+  <div class="actions">
+    <a class="cta" href="https://github.com/assassin808/behavioral-lens-fast" target="_blank" rel="noopener">Code and data ↗</a>
+    <a class="cta" href="https://rikiyat.github.io/blog/weight-space-programming/" target="_blank" rel="noopener">Astra's original post ↗</a>
+  </div>
 
   <ul class="short">
     <li><b>The edit fixes finishing, not reasoning.</b>The model could already solve these problems. It could not stop thinking. Turning thinking off scores just as well.</li>
@@ -77,13 +99,23 @@ td.v.ok{color:var(--ink)}
     <li><b>Several standard tools told a confident, wrong story.</b>Only experiments that change the model caught them.</li>
   </ul>
 
+  <ol class="toc" aria-label="Contents">
+    <li><a href="#s1"><span>01</span>The model can solve the problems. It cannot stop.</a></li>
+    <li><a href="#s2"><span>02</span>128 "go back and check" neurons, pushed hard the other way</a></li>
+    <li><a href="#s3"><span>03</span>The weights change in the MLPs. The effect travels through attention.</a></li>
+    <li><a href="#s4"><span>04</span>The push overshoots, and the fix and the damage are one knob</a></li>
+    <li><a href="#s5"><span>05</span>Two habits that training rewards</a></li>
+    <li><a href="#s6"><span>06</span>Several tools told a confident, wrong story</a></li>
+    <li><a href="#s7"><span>07</span>A working patch, not yet an explanation</a></li>
+  </ol>
+
   <section class="sec">
     <p>In <a href="https://rikiyat.github.io/blog/weight-space-programming/" target="_blank" rel="noopener">Sparks of Weight-Space Programming</a>, Takehi, Teoh, Zhang and Khattab show GPT-6 Astra editing another network's weights directly, with no gradient descent. Their most striking example: Astra changes 131,072 numbers in Qwen3.5-0.8B, and the model's MATH-500 score rises from 7.9% to 48.1%.</p>
     <p>We know exactly which numbers changed. That makes this edit unusually good to study. Interpretability tools normally explain a model whose true mechanism nobody knows; here every reading can be checked against the real change. We rebuilt the edited model from the released code, reproduced the result (7.6% to 51.9% under the same protocol), and followed the change from the weights to the output.</p>
   </section>
 
-  <section class="sec">
-    <p class="sec-label">1 · The problem</p>
+  <section class="sec" id="s1">
+    <div class="bignum" aria-hidden="true">1</div>
     <h2>The model can solve the problems. It cannot stop.</h2>
     <p>Give the unedited model a grade-school math problem with its thinking mode on, and most of the time it never answers. In our screen it finishes only 12% of GSM8K problems within 16,384 tokens. When it does finish, it is right 94% of the time. The rest of the time it falls into a loop, copying its own earlier text word for word until the budget runs out.</p>
     <p>So did the edit make the model smarter, or just help it get an answer out? Simple controls answer this. Force the model to stop thinking at 8k tokens, and most of the gain returns. Turn thinking off, a switch every user has, and the unedited model scores 56% on GSM8K and 51% on MATH-500: as good as the edit on GSM8K, and better on MATH-500. With thinking off, adding the edit does nothing.</p>
@@ -136,8 +168,8 @@ td.v.ok{color:var(--ink)}
     <p>The original post is careful here too: it attributes the gain to fixing loops, not to new mathematical ability. The interesting question is how a change to 128 neurons breaks a loop that happens many layers later.</p>
   </section>
 
-  <section class="sec">
-    <p class="sec-label">2 · What Astra changed</p>
+  <section class="sec" id="s2">
+    <div class="bignum" aria-hidden="true">2</div>
     <h2>128 "go back and check" neurons, pushed hard the other way</h2>
     <p>Astra edited 64 neurons in each of two layers, 15 and 19. For each neuron it took the part of its output along one direction in the model's hidden state, call it <i>u</i>, flipped its sign and made it five times larger. Nothing else about the neurons changed.</p>
     <p>What do these neurons do? Their strongest activations are mostly not inside loops. About half of the layer-15 neurons fire when the model goes back to re-read the problem, quote it, or check its work. Astra picked well: rank every neuron by how much more it writes along <i>u</i> in loops than in normal text, and 44 of Astra's 64 in layer 15 land in our top 64. Chance would be about one.</p>
@@ -165,8 +197,8 @@ td.v.ok{color:var(--ink)}
     </figure>
   </section>
 
-  <section class="sec">
-    <p class="sec-label">3 · Why it works</p>
+  <section class="sec" id="s3">
+    <div class="bignum" aria-hidden="true">3</div>
     <h2>The weights change in the MLPs. The effect travels through attention.</h2>
     <p>If the edited neurons simply wrote "stop now" into the output, their direct route to the output would carry the effect. It carries 3%.</p>
     <p>To find where the effect goes, we ran the edited model on looping text and restored one part at a time to its unedited behaviour. Restoring the attention layers after the edit (layers 16 to 23) removes 91% of the edit's effect, and 96% on texts we held out. The push along <i>−u</i> changes what later attention looks for.</p>
@@ -209,16 +241,16 @@ td.v.ok{color:var(--ink)}
     </figure>
   </section>
 
-  <section class="sec">
-    <p class="sec-label">4 · The cost</p>
+  <section class="sec" id="s4">
+    <div class="bignum" aria-hidden="true">4</div>
     <h2>The push overshoots, and the fix and the damage are one knob</h2>
     <p>The edit does not return looping states to normal. It pushes them past normal, far along <i>−u</i>, into a region the model never visits on its own. That shows up as failures the unedited model never has, such as answers that end in long runs of whitespace.</p>
     <p>The natural repair is to push less. We tried three ways: half the strength, a floor that stops the push at the normal average, and editing only the neurons most specific to loops. Each removed most of the whitespace failures, and each brought the loops back. Only one variant looks better: trimming just the deepest part of the overshoot. In two runs it kept the fix and roughly halved the whitespace failures. <span class="pending">larger test running</span></p>
     <p>The edit also removes the copying without removing the doubt. We had a language model read the edited model's failed answers. Seven in ten are still doubt: re-reading the wording of the question, or re-checking an answer that is already right. The text just no longer repeats word for word.</p>
   </section>
 
-  <section class="sec">
-    <p class="sec-label">5 · Why training never fixed this</p>
+  <section class="sec" id="s5">
+    <div class="bignum" aria-hidden="true">5</div>
     <h2>Two habits that training rewards</h2>
     <p>Loops like these are a known problem in small reasoning models, and they are worse in models distilled from larger teachers (<a href="https://arxiv.org/abs/2512.12895" target="_blank" rel="noopener">Pipis et al.</a>). Our measurements suggest why the bug survives both pretraining and fine-tuning.</p>
     <p><b>Pretraining rewards copying.</b> In ordinary text, something that repeated once tends to repeat again, so copying the earlier passage is often the right prediction. Training scores each next token on human text, never on the model's own runaway output. By that score a loop looks like excellent prediction: the unedited model predicts its own looped tokens almost perfectly.</p>
@@ -226,8 +258,8 @@ td.v.ok{color:var(--ink)}
     <p>We expected loops to start right after a correct answer, as re-checking gone wrong. They don't. In nine of ten loops, the model has not stated any answer yet when the loop begins. On easy problems it is still re-reading the question; on hard ones it is stuck redoing the same step. That fits the view that loops start at reasoning impasses (<a href="https://arxiv.org/abs/2601.05693" target="_blank" rel="noopener">Duan et al.</a>). Once a loop starts, the copying machinery keeps it going, and that is the part Astra's edit cuts.</p>
   </section>
 
-  <section class="sec">
-    <p class="sec-label">6 · Which tools to trust</p>
+  <section class="sec" id="s6">
+    <div class="bignum" aria-hidden="true">6</div>
     <h2>Several tools told a confident, wrong story</h2>
     <p>Because we knew the true change, we could grade the tools. Most pointed the right way. Several gave readings that sounded convincing and were wrong, and only an experiment that changed the model caught them.</p>
     <figure>
@@ -251,8 +283,8 @@ td.v.ok{color:var(--ink)}
     <p>In a sycophancy experiment, Astra correctly picked out which of two fine-tuned models gives in to a user's wrong guess, and pointed to one attention head as where they differ. The difference in that head is real. But copying that head's weights from the honest model into the sycophantic one changes no answers, while copying the MLPs closes the whole gap. Finding the right model and explaining it are different achievements.</p>
   </section>
 
-  <section class="sec">
-    <p class="sec-label">7 · What this means</p>
+  <section class="sec" id="s7">
+    <div class="bignum" aria-hidden="true">7</div>
     <h2>A working patch, not yet an explanation</h2>
     <p>Weight-space programming worked here. Astra found the right place and the right direction, and its edit fixes a real failure of small reasoning models. People have recently found similar sparse fixes by hand, flipping a single neuron to stop loops in Gemma 4 (<a href="https://arxiv.org/abs/2606.13705" target="_blank" rel="noopener">Lazaridis et al.</a>). What the agent adds is the search.</p>
     <p>What it did not supply is an account of why the edit works and what it costs. Astra's own report says the edit counteracts "measured repetition directions", which is right but misses the attention path and the overshoot. It also argues the edit is not "simply forcing early termination"; our controls show that forcing termination does about as well.</p>
