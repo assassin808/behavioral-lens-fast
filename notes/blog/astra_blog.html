@@ -74,6 +74,14 @@ td.v.ok{color:var(--ink)}
 .bignum{font-size:72px; font-weight:400; line-height:1; letter-spacing:-.04em; color:var(--mid); margin:0 0 14px; font-variant-numeric:tabular-nums}
 .sec{scroll-margin-top:24px}
 @media (max-width:520px){.meta{grid-template-columns:1fr 1fr} .bignum{font-size:56px}}
+@media (min-width:1240px){
+  .post{max-width:1172px; display:grid; grid-template-columns:220px 680px 160px; column-gap:56px; align-items:start}
+  .post > *{grid-column:2}
+  .post > .toc{grid-column:1; grid-row:1 / span 40; position:sticky; top:calc(env(safe-area-inset-top, 0px) + 40px); margin:0; align-self:start}
+  .toc::before{content:"Contents"; display:block; font-size:12px; color:var(--muted); padding-bottom:8px}
+  .toc a{grid-template-columns:26px 1fr; font-size:13px; line-height:1.4; padding:8px 0}
+  figure{margin-right:-216px}
+}
 @media (max-width:820px){.back{margin-bottom:56px} h1{font-size:30px}}
 </style>
 
