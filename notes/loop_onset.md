@@ -99,5 +99,84 @@ copies 1,000+ tokens apart. That is a re-reading habit, not a run-away loop.
 The class tables, P1/P2/P4/kill quantities and the matched-depth null are reported for primary × {S1} × {S2-i, S2-ii}. The verdicts
 use only the primary (pre-registered detector + rule).
 
-## Results
-(to be filled after the runs)
+## Results (written after the runs; predictions above unchanged)
+
+Runs: extraction (CPU) for fresh on the login node (single-threaded; identical code), astra + hard + resid·u in Slurm job 7305022
+(L40S, 4 min 21 s). **GPU-h: 0.07.** Numbers: `notes/onset_results_v1.json` (script `scripts/onset_analyze.py`); per-trace rows
+`$BLF_DATA/onset/extract_{fresh,astra,hard}.jsonl`, `meas_{fresh,astra,hard}.jsonl`.
+
+Data: fresh 1000 traces, 941 loop (53 finish without a loop); Astra 400, 378 loop (21 finish); MATH L5 400, 395 loop. All onsets are
+inside the thinking part.
+
+### Primary (pre-registered detector + onset rule), one onset per looping trace
+
+| source | ds | onsets | (a) after-correct | (b) after-wrong | (c) no answer yet | a/(a+b) | c share | b+c | matched-null a share | P4 diff [95 % CI] |
+|---|---|---|---|---|---|---|---|---|---|---|
+| fresh | gsm8k | 470 | 75 | 6 | 389 | 0.93 | 0.83 | 0.84 | 0.26 | −0.10 [−0.13, −0.07] |
+| fresh | math500 | 471 | 25 | 2 | 444 | 0.93 | 0.94 | 0.95 | 0.09 | −0.04 [−0.06, −0.02] |
+| **fresh** | **all** | **941** | **100** | **8** | **833** | **0.93** [0.88, 0.97] | **0.89** [0.87, 0.91] | **0.89** | 0.17 | **−0.06** [−0.08, −0.04] |
+| astra | gsm8k | 187 | 23 | 2 | 162 | 0.92 | 0.87 | 0.88 | 0.19 | −0.07 |
+| astra | math500 | 191 | 10 | 1 | 180 | 0.91 | 0.94 | 0.95 | 0.11 | −0.06 |
+| astra | all | 378 | 33 | 3 | 342 | 0.92 | 0.90 | 0.91 | 0.15 | −0.06 [−0.09, −0.04] |
+| hard (MATH L5) | all | 395 | 3 | 4 | 388 | 0.43 | 0.98 | 0.99 | 0.02 | −0.01 |
+
+- Median distance from the last answer to onset (a): 625 tokens (fresh), 704 (Astra).
+- Difficulty (fresh, ids with thinking-off data): when base thinking-off solves the problem, a = 31/237 (13 %) and c = 86 %. When it
+  does not, a = 4/135 (3 %) and c = 96 %.
+
+**Verdicts.**
+- **P1 holds numerically but describes a minority.** 0.93 [0.88, 0.97], but the base is only 108 of 941 onsets, because an explicit
+  stated answer before onset is rare.
+- **P2 fails.** (c) is 89 % of onsets (Astra 90 %, L5 98 %), and (c) is the largest class in every stratum. As pre-registered:
+  **the impasse-like account wins for this model** under this detector.
+- **P4 fails, with the opposite sign.** Onsets are *less* likely than loop-free positions at the same depth in other traces to follow a
+  stated correct answer (0.11 vs 0.17).
+- **Kill rule fires.** b + c = 0.89 ≥ 0.60 (Astra 0.91). **Doubt-after-success, as pre-registered, fails for this model.**
+
+### Sensitivity (amendment 1, post-pilot; no verdict changes)
+| variant (fresh, all) | onsets | a / b / c | c share | a/(a+b) | null a | P4 diff |
+|---|---|---|---|---|---|---|
+| no-quote onset | 935 | 110 / 11 / 814 | 0.87 | 0.91 | 0.18 | −0.06 |
+| terminal onset | 827 | 170 / 30 / 627 | 0.76 | 0.85 | 0.20 | +0.00 [−0.02, 0.03] |
+| S1 computed results, primary onset | 941 | 193 / 678 / 70 | 0.07 | 0.22 | 0.24 | −0.04 |
+| S1 computed results, terminal onset | 827 | 211 / 614 / 2 | 0.00 | 0.26 | 0.21 | +0.04 [0.01, 0.07] |
+
+(Astra matches within a few points; see the JSON.)
+
+- With the gold-blind "computed result" detector, (c) almost disappears, because the model is always computing something. But the
+  last computed value before onset is usually an intermediate quantity that differs from gold: a/(a+b) = 0.22, the same as the
+  matched null 0.24.
+- The gold value has already been computed somewhere before onset in 48 % of fresh onsets (GSM8K 59 %, MATH-500 36 %; Astra 52 %).
+  No null was computed for this number.
+- The loop-content rule labels almost everything "recheck" (a 83 %, c 94 %), because one loop period is long and nearly always
+  contains "wait"/"check", so it does not discriminate.
+
+### Hidden-state signal (u15 @ hs16; positive = incorrect)
+| set | n corr / inc (traces) | AUC [95 % CI] |
+|---|---|---|
+| fresh, all answers before onset | 370 / 26 (108) | 0.69 [0.51, 0.86] (log-pos residual 0.64; hs20·u15 0.71) |
+| fresh, last answer before onset | 100 / 8 | 0.70 [0.43, 0.93] |
+| fresh, answers in finishing traces | 126 / 0 | — |
+| Astra, before onset | 202 / 7 (36) | 0.38 [0.09, 0.80] |
+| Astra, finishing | 78 / 2 | 0.47 [0.06, 1.0] |
+| hard, before onset | 22 / 5 (7) | 0.32 |
+
+- **P3 is not testable as pre-registered.** Finishing traces contain 0 incorrect answers (fresh), 2 when pooled with Astra, and the
+  fallback (non-looping traces) adds none. The pre-onset AUC (0.69, CI down to 0.51) is not shown to be below Exp A's 0.80, and is
+  not shown to equal it.
+- Secondary, among *correct* answers only: answers that precede a loop onset sit **higher** on u (the doubt/incorrect side) than
+  correct answers in finishing traces. AUC 0.71 fresh (log-pos residual 0.72); Astra 0.79. Medians 0.69 vs 0.55 (fresh). So
+  correct answers that are followed by a loop are marked *less* confidently correct by the state, which is again the opposite of the
+  hypothesis's "already marks as correct". *Hypothesis, untested:* this reflects trace-level context, e.g. the problem already looks
+  ambiguous to the model at that point.
+
+### What reading the traces showed (38 pilot traces + 6 after-correct + 10 MATH-500)
+- **GSM8K (c) onsets** are mostly re-interpretation spirals: "Let's re-read the prompt", "Is it possible that … ?", or re-quoting a
+  sentence of the problem. These often come after the right number has been computed but never stated as the answer, e.g.
+  `Total = 3 + 4 + 0 = 7` → "Wait, did I miss something? Let's re-read the prompt". That case is closer to doubt-after-success than
+  the primary detector can show. The S1 numbers bound it at most at about half of onsets, with no null.
+- **MATH-500 / L5 (c) onsets** are mostly genuine impasses: the model is stuck inside a computation and keeps redoing the same step,
+  e.g. "Wait, $x^3+3x^2$ at $x=1$ is 4 … Manual gives −2".
+- **(a) onsets** look like the hypothesis says: a correct answer, then "Let's double check with a different interpretation", which
+  is recopied until it loops. They are 11 % of onsets.
+
