@@ -108,7 +108,7 @@ def main():
     ap.add_argument("--n", type=int, default=20); ap.add_argument("--offset", type=int, default=0); ap.add_argument("--samples", type=int, default=1)
     ap.add_argument("--max-tokens", type=int, default=16384); ap.add_argument("--mem", type=float, default=0.85)
     ap.add_argument("--max-seqs", type=int, default=256); ap.add_argument("--seed", type=int, default=0)
-    ap.add_argument("--cudagraph", default="none"); ap.add_argument("--outdir", default=f"{REPO}/notes/sidefx")
+    ap.add_argument("--save-ids", action="store_true"); ap.add_argument("--cudagraph", default="none"); ap.add_argument("--outdir", default=f"{REPO}/notes/sidefx")
     a = ap.parse_args()
     os.makedirs(a.outdir, exist_ok=True)
     outp = f"{a.outdir}/{a.tag}.jsonl"
@@ -136,7 +136,8 @@ def main():
             allrecs.append(dict(set=name, id=r["id"], k=k, gold=r["answer"], pred=pred, correct=ok,
                                 correct_lenient=grade_lenient(text, r["answer"]), n_tokens=n, cut=cut, closed="</think>" in text,
                                 loop_end=bool(ls["verbatim_loop_end"] or ls["repetitive_end"]),
-                                cls=classify(text, ok, pred, cut, loop_signals), text=text))
+                                cls=classify(text, ok, pred, cut, loop_signals), text=text,
+                                **({"prompt_ids": list(o.prompt_token_ids), "token_ids": list(s.token_ids)} if a.save_ids else {})))
     dt = time.time() - t0
     with open(outp, "w") as f:
         for x in allrecs: f.write(json.dumps(x) + "\n")
