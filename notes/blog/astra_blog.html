@@ -2,272 +2,273 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Caveat:wght@500&display=swap">
 <style>
-/* Layout: one reading column (~66ch) with figures that may widen to 860px; a slim notebook-like margin label marks each section. */
-:root{
-  --bg:#f7f8fa; --surface:#ffffff; --ink:#18202b; --muted:#5b6574; --rule:#d9dee6;
-  --edit:#b4233c; --edit-soft:#f6e3e7; --base:#8b94a3; --control:#2f6f9f; --control-soft:#e2edf6;
-  --font-display:"Archivo", "Helvetica Neue", Arial, sans-serif;
-  --font-body:"Source Serif 4", Georgia, "Times New Roman", serif;
-  --font-mono:"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
-}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#12161c; --surface:#1a2028; --ink:#e6e9ee; --muted:#a3acb9; --rule:#2e3642;
-  --edit:#ef6b80; --edit-soft:#3a1f26; --base:#7d8796; --control:#7fb3dc; --control-soft:#1d2d3b; color-scheme:dark}}
-:root[data-theme="dark"]{
-  --bg:#12161c; --surface:#1a2028; --ink:#e6e9ee; --muted:#a3acb9; --rule:#2e3642;
-  --edit:#ef6b80; --edit-soft:#3a1f26; --base:#7d8796; --control:#7fb3dc; --control-soft:#1d2d3b; color-scheme:dark}
-body{background:var(--bg); color:var(--ink); font-family:var(--font-body); font-size:18px; line-height:1.62;}
-.page{max-width:860px; margin:0 auto; padding-left:max(16px, env(safe-area-inset-left, 0px)); padding-right:max(16px, env(safe-area-inset-right, 0px)); padding-block:48px 80px;}
-.col{max-width:40rem; margin:0 auto;}
-h1,h2,h3{font-family:var(--font-display); text-wrap:balance; line-height:1.15; color:var(--ink);}
-h1{font-size:clamp(2rem, 5.2vw, 3.1rem); font-weight:800; letter-spacing:-0.02em; margin:0 0 18px;}
-h2{font-size:1.5rem; font-weight:700; margin:56px 0 12px; letter-spacing:-0.01em;}
-p{margin:0 0 1.05em;}
-a{color:var(--control);}
-a:focus-visible{outline:2px solid var(--control); outline-offset:2px;}
-.kicker{font-family:var(--font-mono); font-size:.78rem; letter-spacing:.08em; text-transform:uppercase; color:var(--edit); margin-bottom:14px;}
-.dek{font-size:1.25rem; color:var(--muted); margin-bottom:22px;}
-.byline{font-family:var(--font-display); font-size:.9rem; color:var(--muted); border-top:1px solid var(--rule); padding-top:12px;}
-.sec-label{font-family:var(--font-mono); font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin-top:56px;}
-.sec-label + h2{margin-top:6px;}
-.num{font-family:var(--font-mono); font-size:.92em; font-variant-numeric:tabular-nums;}
-.tldr{background:var(--surface); border:1px solid var(--rule); border-left:4px solid var(--edit); border-radius:4px; padding:18px 22px; margin:30px 0 8px;}
-.tldr h3{font-size:.95rem; text-transform:uppercase; letter-spacing:.06em; margin:0 0 10px; color:var(--edit);}
-.tldr ul{margin:0; padding-left:1.1em;}
-.tldr li{margin:0 0 .5em;}
-figure{margin:34px 0; background:var(--surface); border:1px solid var(--rule); border-radius:4px; padding:20px;}
-figcaption{font-family:var(--font-display); font-size:.86rem; line-height:1.45; color:var(--muted); margin-top:12px;}
-figcaption b{color:var(--ink);}
-.pair{display:grid; grid-template-columns:1fr 1fr; gap:20px;}
-.pair > div{min-width:0;}
-@media (max-width:640px){.pair{grid-template-columns:1fr;}}
-svg text{font-family:var(--font-display); fill:var(--ink);}
-svg .muted{fill:var(--muted);}
-svg .mono{font-family:var(--font-mono);}
-.chain{display:grid; gap:10px;}
-.step{display:grid; grid-template-columns:7.5rem 1fr; gap:14px; align-items:start; padding:12px 14px; border:1px solid var(--rule); border-radius:4px; background:var(--bg);}
-.step.hot{border-color:var(--edit); background:var(--edit-soft);}
-.step .where{font-family:var(--font-mono); font-size:.75rem; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; padding-top:3px;}
-.step .what{font-family:var(--font-display); font-size:.95rem; line-height:1.4; min-width:0;}
-.step .what b{color:var(--edit);}
-.arrow{font-family:var(--font-mono); color:var(--muted); text-align:center; font-size:.9rem; line-height:1;}
-@media (max-width:520px){.step{grid-template-columns:1fr; gap:4px;}}
-.table-wrap{overflow-x:auto;}
-table{border-collapse:collapse; width:100%; font-family:var(--font-display); font-size:.88rem; line-height:1.4;}
-th{text-align:left; font-weight:700; border-bottom:2px solid var(--ink); padding:8px 10px 8px 0; vertical-align:bottom;}
-td{border-bottom:1px solid var(--rule); padding:9px 10px 9px 0; vertical-align:top;}
-.verdict{font-family:var(--font-mono); font-size:.75rem; white-space:nowrap; padding:2px 6px; border-radius:3px;}
-.v-bad{background:var(--edit-soft); color:var(--edit);}
-.v-ok{background:var(--control-soft); color:var(--control);}
-blockquote{margin:22px 0; padding:2px 0 2px 18px; border-left:3px solid var(--rule); color:var(--muted); font-style:italic;}
-.checklist{counter-reset:c; list-style:none; padding:0; margin:0 0 1em;}
-.checklist li{counter-increment:c; position:relative; padding-left:2.2em; margin-bottom:.7em;}
-.checklist li::before{content:counter(c); position:absolute; left:0; top:.1em; font-family:var(--font-mono); font-size:.8rem; color:var(--edit); border:1px solid var(--edit); border-radius:50%; width:1.5em; height:1.5em; display:grid; place-items:center;}
-.endnote{font-family:var(--font-display); font-size:.88rem; color:var(--muted); border-top:1px solid var(--rule); margin-top:56px; padding-top:18px;}
-.endnote p{margin-bottom:.6em;}
-.pending{font-family:var(--font-mono); font-size:.72rem; color:var(--control); border:1px solid var(--control); border-radius:3px; padding:1px 5px; white-space:nowrap;}
-@media (prefers-reduced-motion: reduce){*{scroll-behavior:auto;}}
+/* Layout: the house style of assassin808.github.io project pages: one 680px column, hairline rules, Inter 400/500, greys only, hand-drawn sketches in Caveat. */
+:root{ --ink:#111; --body:#333; --muted:#777; --line:#eaeaea; --bg:#fff; --soft:#f5f5f5; --mid:#b5b5b5;
+  --font:Inter,-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif; --hand:Caveat,"Comic Sans MS",cursive; }
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){ --ink:#eee; --body:#ccc; --muted:#888; --line:#262626; --bg:#111; --soft:#1b1b1b; --mid:#555; color-scheme:dark }}
+:root[data-theme="dark"]{ --ink:#eee; --body:#ccc; --muted:#888; --line:#262626; --bg:#111; --soft:#1b1b1b; --mid:#555; color-scheme:dark }
+*{box-sizing:border-box}
+body{background:var(--bg); color:var(--ink); font:400 15px/1.6 var(--font); -webkit-font-smoothing:antialiased}
+a{color:inherit; text-decoration:underline; text-decoration-color:var(--mid); text-underline-offset:3px}
+a:hover{text-decoration-color:var(--ink)}
+a:focus-visible{outline:2px solid var(--ink); outline-offset:2px}
+.post{max-width:680px; margin:0 auto; padding-block:64px 120px; padding-left:max(24px, env(safe-area-inset-left, 0px)); padding-right:max(24px, env(safe-area-inset-right, 0px))}
+.back{display:inline-block; font-size:14px; color:var(--muted); margin-bottom:96px; text-decoration:none}
+.back:hover{text-decoration:underline}
+.kicker{font-size:13px; color:var(--muted); margin:0 0 16px}
+h1{font-size:40px; font-weight:500; line-height:1.15; letter-spacing:-.025em; margin:0 0 16px; text-wrap:balance}
+.byline{font-size:14px; color:var(--muted); margin:0 0 48px; padding-bottom:24px; border-bottom:1px solid var(--line)}
+.lede{font-size:18px; line-height:1.65; color:var(--body); margin:0 0 40px}
+h2{font-size:22px; font-weight:500; letter-spacing:-.015em; line-height:1.3; margin:0 0 14px; text-wrap:balance}
+.sec{margin-top:72px}
+.sec-label{font-size:13px; color:var(--muted); margin:0 0 8px}
+p{font-size:16px; line-height:1.7; color:var(--body); margin:0 0 1.1em}
+p b{color:var(--ink); font-weight:500}
+.short{list-style:none; margin:0 0 8px; padding:0}
+.short li{padding:16px 0; border-top:1px solid var(--line); font-size:16px; line-height:1.6; color:var(--body)}
+.short li:last-child{border-bottom:1px solid var(--line)}
+.short li b{display:block; color:var(--ink); font-weight:500; font-size:17px; letter-spacing:-.01em; margin-bottom:2px}
+figure{margin:44px 0}
+figcaption{font-size:13px; line-height:1.55; color:var(--muted); margin-top:14px}
+figcaption b{color:var(--ink); font-weight:500}
+.pair{display:grid; grid-template-columns:1fr 1fr; gap:28px}
+.pair > div{min-width:0}
+@media (max-width:600px){.pair{grid-template-columns:1fr}}
+svg{display:block; width:100%; height:auto}
+svg text{font-family:var(--font); fill:var(--ink)}
+svg .m{fill:var(--muted)}
+.sketch path,.sketch rect,.sketch ellipse,.sketch line{fill:none; stroke:var(--ink); stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round}
+.sketch .faint{stroke:var(--muted); stroke-dasharray:4 5}
+.sketch text{font-family:var(--hand); font-weight:500}
+.sketch .small{font-family:var(--font); font-size:12px; fill:var(--muted)}
+.table-wrap{overflow-x:auto}
+table{border-collapse:collapse; width:100%; font-size:14px; line-height:1.45}
+th{text-align:left; font-weight:500; color:var(--muted); font-size:13px; padding:0 14px 10px 0; border-bottom:1px solid var(--line)}
+td{padding:12px 14px 12px 0; border-bottom:1px solid var(--line); vertical-align:top; color:var(--body)}
+td:first-child{color:var(--ink); font-weight:500}
+td.v{white-space:nowrap; color:var(--muted)}
+td.v.ok{color:var(--ink)}
+.checklist{list-style:none; padding:0; margin:0 0 1.2em; counter-reset:c}
+.checklist li{counter-increment:c; display:grid; grid-template-columns:28px 1fr; padding:12px 0; border-top:1px solid var(--line); font-size:16px; line-height:1.6; color:var(--body)}
+.checklist li:last-child{border-bottom:1px solid var(--line)}
+.checklist li::before{content:counter(c); color:var(--muted); font-size:14px; padding-top:2px}
+.pending{font-size:12px; color:var(--muted); border:1px solid var(--line); border-radius:999px; padding:1px 8px; white-space:nowrap}
+.end{margin-top:72px; padding-top:24px; border-top:1px solid var(--line)}
+.end p{font-size:14px; color:var(--muted)}
+.end p b{color:var(--ink)}
+.cta{display:inline-block; font-size:14px; padding:10px 16px; border:1px solid var(--ink); border-radius:999px; text-decoration:none; margin-top:8px}
+.cta:hover{background:var(--ink); color:var(--bg)}
+@media (max-width:820px){.back{margin-bottom:56px} h1{font-size:30px}}
 </style>
 
-<main class="page">
-<div class="col">
-  <div class="kicker">Research note · November 2026</div>
+<main class="post">
+  <a class="back" href="https://assassin808.github.io" target="_blank" rel="noopener">← HaoYang Shang</a>
+  <p class="kicker">For fun · research note</p>
   <h1>What did Astra's weight edit actually program?</h1>
-  <p class="dek">An AI agent rewrote 0.016% of a small model's weights and its math score went from 8% to 48%. We took the edit apart with ten interpretability tools to see what it changed.</p>
-  <div class="byline">HaoYang Shang · University of British Columbia · draft, full author list to be confirmed</div>
+  <p class="byline">HaoYang Shang · University of British Columbia · November 2026 · draft, full author list to be confirmed</p>
+  <p class="lede">An AI agent rewrote 0.016% of a small model's weights, and its math score went from 8% to 48%. We took the edit apart with ten interpretability tools to see what it actually changed.</p>
 
-  <div class="tldr">
-    <h3>The short version</h3>
-    <ul>
-      <li><b>The edit fixes finishing, not reasoning.</b> The model could already solve these problems. It could not stop thinking. Turning thinking off scores just as well.</li>
-      <li><b>It works by stopping the model from copying itself.</b> 128 neurons that fire when the model re-reads or re-checks now push it towards "wrap up". Later attention stops copying earlier text, so loops break.</li>
-      <li><b>The fix and its side effects are the same knob.</b> The push overshoots and causes new failures. Weaken it, and the loops come back.</li>
-      <li><b>Several standard tools told a confident, wrong story.</b> Only experiments that change the model caught them.</li>
-    </ul>
-  </div>
+  <ul class="short">
+    <li><b>The edit fixes finishing, not reasoning.</b>The model could already solve these problems. It could not stop thinking. Turning thinking off scores just as well.</li>
+    <li><b>It works by stopping the model from copying itself.</b>128 neurons that fire when the model re-reads or re-checks now push it towards "wrap up". Later attention stops copying earlier text, so loops break.</li>
+    <li><b>The fix and its side effects are the same knob.</b>The push overshoots and causes new failures. Weaken it, and the loops come back.</li>
+    <li><b>Several standard tools told a confident, wrong story.</b>Only experiments that change the model caught them.</li>
+  </ul>
 
-  <p>In <a href="https://rikiyat.github.io/blog/weight-space-programming/" target="_blank" rel="noopener">"Sparks of Weight-Space Programming"</a>, Takehi, Teoh, Zhang and Khattab show GPT-6 Astra editing another network's weights directly, with no gradient descent. Their most striking example: Astra changes 131,072 numbers in Qwen3.5-0.8B, and the model's MATH-500 score rises from 7.9% to 48.1%.</p>
-  <p>We know exactly which numbers changed. That makes this edit unusually good to study. Interpretability tools normally explain a model whose true mechanism nobody knows. Here we can check every reading against the real change. We rebuilt the edited model from the released code, reproduced the result (7.6% to 51.9% under the same protocol), and followed the change from the weights to the output.</p>
+  <section class="sec">
+    <p>In <a href="https://rikiyat.github.io/blog/weight-space-programming/" target="_blank" rel="noopener">Sparks of Weight-Space Programming</a>, Takehi, Teoh, Zhang and Khattab show GPT-6 Astra editing another network's weights directly, with no gradient descent. Their most striking example: Astra changes 131,072 numbers in Qwen3.5-0.8B, and the model's MATH-500 score rises from 7.9% to 48.1%.</p>
+    <p>We know exactly which numbers changed. That makes this edit unusually good to study. Interpretability tools normally explain a model whose true mechanism nobody knows; here every reading can be checked against the real change. We rebuilt the edited model from the released code, reproduced the result (7.6% to 51.9% under the same protocol), and followed the change from the weights to the output.</p>
+  </section>
 
-  <div class="sec-label">1 · The problem</div>
-  <h2>The model can solve the problems. It cannot stop.</h2>
-  <p>Give the unedited model a grade-school math problem with its thinking mode on, and most of the time it never answers. In our screen it finishes only 12% of GSM8K problems within 16,384 tokens. But when it does finish, it is right 94% of the time. The rest of the time it falls into a loop, copying its own earlier text word for word until the budget runs out.</p>
-  <p>So the obvious question is whether the edit made the model smarter, or just helped it get an answer out. Simple controls answer it. Force the model to stop thinking at 8k tokens, and most of the gain returns. Turn thinking off, a switch every user has, and the unedited model scores 56% on GSM8K and 51% on MATH-500. That is as good as the edit on GSM8K and better on MATH-500. With thinking off, adding the edit does nothing.</p>
-</div>
+  <section class="sec">
+    <p class="sec-label">1 · The problem</p>
+    <h2>The model can solve the problems. It cannot stop.</h2>
+    <p>Give the unedited model a grade-school math problem with its thinking mode on, and most of the time it never answers. In our screen it finishes only 12% of GSM8K problems within 16,384 tokens. When it does finish, it is right 94% of the time. The rest of the time it falls into a loop, copying its own earlier text word for word until the budget runs out.</p>
+    <p>So did the edit make the model smarter, or just help it get an answer out? Simple controls answer this. Force the model to stop thinking at 8k tokens, and most of the gain returns. Turn thinking off, a switch every user has, and the unedited model scores 56% on GSM8K and 51% on MATH-500: as good as the edit on GSM8K, and better on MATH-500. With thinking off, adding the edit does nothing.</p>
 
-<figure>
-  <div class="pair">
-    <div>
-      <svg viewBox="0 0 330 210" role="img" aria-labelledby="f1a">
-        <title id="f1a">GSM8K accuracy by condition</title>
-        <text x="0" y="14" font-size="13" font-weight="700">GSM8K</text>
-        <g font-size="11">
-          <line x1="140" y1="24" x2="140" y2="190" stroke="var(--rule)"/>
-          <line x1="193.3" y1="24" x2="193.3" y2="190" stroke="var(--rule)" stroke-dasharray="2 3"/>
-          <line x1="246.7" y1="24" x2="246.7" y2="190" stroke="var(--rule)" stroke-dasharray="2 3"/>
-          <line x1="300" y1="24" x2="300" y2="190" stroke="var(--rule)" stroke-dasharray="2 3"/>
-          <text x="140" y="204" class="muted mono" text-anchor="middle">0</text>
-          <text x="193.3" y="204" class="muted mono" text-anchor="middle">20</text>
-          <text x="246.7" y="204" class="muted mono" text-anchor="middle">40</text>
-          <text x="300" y="204" class="muted mono" text-anchor="middle">60%</text>
-          <text x="132" y="42" text-anchor="end">Unedited</text><rect x="140" y="31" width="39.5" height="15" fill="var(--base)"/><text x="184" y="43" class="mono">15</text>
-          <text x="132" y="68" text-anchor="end">Astra's edit</text><rect x="140" y="57" width="152" height="15" fill="var(--edit)"/><text x="296" y="69" class="mono">57</text>
-          <text x="132" y="94" text-anchor="end">Stop at 8k tokens</text><rect x="140" y="83" width="143.5" height="15" fill="var(--control)"/><text x="288" y="95" class="mono">54</text>
-          <text x="132" y="120" text-anchor="end">Thinking off</text><rect x="140" y="109" width="149.3" height="15" fill="var(--control)"/><text x="294" y="121" class="mono">56</text>
-          <text x="132" y="146" text-anchor="end">Thinking off + edit</text><rect x="140" y="135" width="139.2" height="15" fill="none" stroke="var(--edit)" stroke-width="1.5"/><text x="284" y="147" class="mono">52</text>
-          <text x="132" y="172" text-anchor="end">Repetition penalty</text><rect x="140" y="161" width="2.7" height="15" fill="var(--base)"/><text x="147" y="173" class="mono">1</text>
+    <figure>
+      <div class="pair">
+        <div>
+          <svg viewBox="0 0 330 214" role="img" aria-labelledby="f1a">
+            <title id="f1a">GSM8K accuracy by condition</title>
+            <text x="0" y="13" font-size="13" font-weight="500">GSM8K</text>
+            <g font-size="11.5">
+              <line x1="140" y1="24" x2="140" y2="190" stroke="var(--line)"/>
+              <line x1="193.3" y1="24" x2="193.3" y2="190" stroke="var(--line)"/>
+              <line x1="246.7" y1="24" x2="246.7" y2="190" stroke="var(--line)"/>
+              <line x1="300" y1="24" x2="300" y2="190" stroke="var(--line)"/>
+              <text x="140" y="206" class="m" text-anchor="middle">0</text><text x="193.3" y="206" class="m" text-anchor="middle">20</text><text x="246.7" y="206" class="m" text-anchor="middle">40</text><text x="300" y="206" class="m" text-anchor="middle">60%</text>
+              <text x="132" y="43" text-anchor="end" class="m">Unedited</text><rect x="140" y="32" width="39.5" height="14" fill="var(--mid)"/><text x="184" y="43" class="m">15</text>
+              <text x="132" y="69" text-anchor="end">Astra's edit</text><rect x="140" y="58" width="152" height="14" fill="var(--ink)"/><text x="296" y="69">57</text>
+              <text x="132" y="95" text-anchor="end" class="m">Stop at 8k tokens</text><rect x="140" y="84" width="143.5" height="14" fill="var(--mid)"/><text x="288" y="95" class="m">54</text>
+              <text x="132" y="121" text-anchor="end" class="m">Thinking off</text><rect x="140" y="110" width="149.3" height="14" fill="var(--mid)"/><text x="294" y="121" class="m">56</text>
+              <text x="132" y="147" text-anchor="end" class="m">Thinking off + edit</text><rect x="140.8" y="136.8" width="138.4" height="12.4" fill="none" stroke="var(--ink)" stroke-width="1.5"/><text x="284" y="147" class="m">52</text>
+              <text x="132" y="173" text-anchor="end" class="m">Repetition penalty</text><rect x="140" y="162" width="2.7" height="14" fill="var(--mid)"/><text x="147" y="173" class="m">1</text>
+            </g>
+          </svg>
+        </div>
+        <div>
+          <svg viewBox="0 0 330 214" role="img" aria-labelledby="f1b">
+            <title id="f1b">MATH-500 accuracy by condition</title>
+            <text x="0" y="13" font-size="13" font-weight="500">MATH-500</text>
+            <g font-size="11.5">
+              <line x1="140" y1="24" x2="140" y2="190" stroke="var(--line)"/>
+              <line x1="193.3" y1="24" x2="193.3" y2="190" stroke="var(--line)"/>
+              <line x1="246.7" y1="24" x2="246.7" y2="190" stroke="var(--line)"/>
+              <line x1="300" y1="24" x2="300" y2="190" stroke="var(--line)"/>
+              <text x="140" y="206" class="m" text-anchor="middle">0</text><text x="193.3" y="206" class="m" text-anchor="middle">20</text><text x="246.7" y="206" class="m" text-anchor="middle">40</text><text x="300" y="206" class="m" text-anchor="middle">60%</text>
+              <text x="132" y="43" text-anchor="end" class="m">Unedited</text><rect x="140" y="32" width="19.2" height="14" fill="var(--mid)"/><text x="164" y="43" class="m">7</text>
+              <text x="132" y="69" text-anchor="end">Astra's edit</text><rect x="140" y="58" width="83.2" height="14" fill="var(--ink)"/><text x="228" y="69">31</text>
+              <text x="132" y="95" text-anchor="end" class="m">Stop at 8k tokens</text><rect x="140" y="84" width="91.2" height="14" fill="var(--mid)"/><text x="236" y="95" class="m">34</text>
+              <text x="132" y="121" text-anchor="end" class="m">Thinking off</text><rect x="140" y="110" width="136" height="14" fill="var(--mid)"/><text x="281" y="121" class="m">51</text>
+              <text x="132" y="147" text-anchor="end" class="m">Thinking off + edit</text><rect x="140.8" y="136.8" width="129.3" height="12.4" fill="none" stroke="var(--ink)" stroke-width="1.5"/><text x="275" y="147" class="m">49</text>
+              <text x="132" y="173" text-anchor="end" class="m">Repetition penalty</text><rect x="140" y="162" width="3.2" height="14" fill="var(--mid)"/><text x="148" y="173" class="m">1</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <figcaption><b>Simple decoding changes recover the edit's gain.</b> Accuracy with a 16,384-token budget, 200 problems per benchmark, two samples each. Black: Astra's edit. Grey: the unedited model, decoded differently. The repetition penalty (1.2) collapses accuracy, because digits and the answer box have to repeat too. Astra's headline 48.1% uses a 32k budget.</figcaption>
+    </figure>
+
+    <p>One more check settles it. We took every problem the edited model solves and asked whether the unedited model, with thinking off, also solves it. It fails both of its tries on only 12% of them (GSM8K) and 8% (MATH-500), the same rate you get from sampling noise alone. The edit rescues problems the model could already do. It does not create new ones.</p>
+    <p>The original post is careful here too: it attributes the gain to fixing loops, not to new mathematical ability. The interesting question is how a change to 128 neurons breaks a loop that happens many layers later.</p>
+  </section>
+
+  <section class="sec">
+    <p class="sec-label">2 · What Astra changed</p>
+    <h2>128 "go back and check" neurons, pushed hard the other way</h2>
+    <p>Astra edited 64 neurons in each of two layers, 15 and 19. For each neuron it took the part of its output along one direction in the model's hidden state, call it <i>u</i>, flipped its sign and made it five times larger. Nothing else about the neurons changed.</p>
+    <p>What do these neurons do? Their strongest activations are mostly not inside loops. About half of the layer-15 neurons fire when the model goes back to re-read the problem, quote it, or check its work. Astra picked well: rank every neuron by how much more it writes along <i>u</i> in loops than in normal text, and 44 of Astra's 64 in layer 15 land in our top 64. Chance would be about one.</p>
+    <p>To find out what <i>u</i> means, we added it to the model's real hidden states and let the rest of the network run. Adding <i>+u</i> makes the model more likely to say <i>Wait</i>, <i>maybe</i>, <i>Actually</i>. Adding <i>−u</i> favours <i>Final</i>, a paragraph break, and the end of thinking. So <i>u</i> runs from "doubt, go back" to "wrap up, move on", and the edit pushes towards wrap-up. Its whole effect on the model's output matches adding <i>−u</i> after layer 15 almost exactly (correlation 0.98).</p>
+    <p>You do not even need to change the weights. Adding <i>−u</i> to the hidden state while the model generates raises GSM8K accuracy from 8% to 46%. Push twice as hard, and 90% of answers finish, but only 3% are right.</p>
+
+    <figure>
+      <svg viewBox="0 0 560 222" role="img" aria-labelledby="f2t">
+        <title id="f2t">GSM8K accuracy as the push along minus u grows</title>
+        <g font-size="11.5">
+          <line x1="60" y1="180" x2="540" y2="180" stroke="var(--line)"/>
+          <line x1="60" y1="116" x2="540" y2="116" stroke="var(--line)"/>
+          <line x1="60" y1="52" x2="540" y2="52" stroke="var(--line)"/>
+          <text x="52" y="184" text-anchor="end" class="m">0</text><text x="52" y="120" text-anchor="end" class="m">20</text><text x="52" y="56" text-anchor="end" class="m">40%</text>
+          <rect x="95" y="154.4" width="70" height="25.6" fill="var(--mid)"/><text x="130" y="147" text-anchor="middle" class="m">8%</text>
+          <rect x="215" y="64.8" width="70" height="115.2" fill="var(--ink)" opacity=".55"/><text x="250" y="58" text-anchor="middle">36%</text>
+          <rect x="335" y="32.8" width="70" height="147.2" fill="var(--ink)"/><text x="370" y="26" text-anchor="middle">46%</text>
+          <rect x="455" y="170.4" width="70" height="9.6" fill="var(--mid)"/><text x="490" y="163" text-anchor="middle">3%</text>
+          <text x="490" y="124" text-anchor="middle" class="m">90% finish,</text><text x="490" y="139" text-anchor="middle" class="m">almost all wrong</text>
+          <text x="130" y="199" text-anchor="middle" class="m">no push</text><text x="250" y="199" text-anchor="middle" class="m">half</text><text x="370" y="199" text-anchor="middle" class="m">full</text><text x="490" y="199" text-anchor="middle" class="m">double</text>
+          <text x="300" y="218" text-anchor="middle" class="m">push along −u while the model generates (weights untouched)</text>
         </g>
       </svg>
-    </div>
-    <div>
-      <svg viewBox="0 0 330 210" role="img" aria-labelledby="f1b">
-        <title id="f1b">MATH-500 accuracy by condition</title>
-        <text x="0" y="14" font-size="13" font-weight="700">MATH-500</text>
-        <g font-size="11">
-          <line x1="140" y1="24" x2="140" y2="190" stroke="var(--rule)"/>
-          <line x1="193.3" y1="24" x2="193.3" y2="190" stroke="var(--rule)" stroke-dasharray="2 3"/>
-          <line x1="246.7" y1="24" x2="246.7" y2="190" stroke="var(--rule)" stroke-dasharray="2 3"/>
-          <line x1="300" y1="24" x2="300" y2="190" stroke="var(--rule)" stroke-dasharray="2 3"/>
-          <text x="140" y="204" class="muted mono" text-anchor="middle">0</text>
-          <text x="193.3" y="204" class="muted mono" text-anchor="middle">20</text>
-          <text x="246.7" y="204" class="muted mono" text-anchor="middle">40</text>
-          <text x="300" y="204" class="muted mono" text-anchor="middle">60%</text>
-          <text x="132" y="42" text-anchor="end">Unedited</text><rect x="140" y="31" width="19.2" height="15" fill="var(--base)"/><text x="164" y="43" class="mono">7</text>
-          <text x="132" y="68" text-anchor="end">Astra's edit</text><rect x="140" y="57" width="83.2" height="15" fill="var(--edit)"/><text x="228" y="69" class="mono">31</text>
-          <text x="132" y="94" text-anchor="end">Stop at 8k tokens</text><rect x="140" y="83" width="91.2" height="15" fill="var(--control)"/><text x="236" y="95" class="mono">34</text>
-          <text x="132" y="120" text-anchor="end">Thinking off</text><rect x="140" y="109" width="136" height="15" fill="var(--control)"/><text x="281" y="121" class="mono">51</text>
-          <text x="132" y="146" text-anchor="end">Thinking off + edit</text><rect x="140" y="135" width="130.1" height="15" fill="none" stroke="var(--edit)" stroke-width="1.5"/><text x="275" y="147" class="mono">49</text>
-          <text x="132" y="172" text-anchor="end">Repetition penalty</text><rect x="140" y="161" width="3.2" height="15" fill="var(--base)"/><text x="148" y="173" class="mono">1</text>
+      <figcaption><b>The direction alone does the job, until you push too hard.</b> GSM8K accuracy when −u is added at the two edited layers during generation (100 problems, 8,192-token budget).</figcaption>
+    </figure>
+  </section>
+
+  <section class="sec">
+    <p class="sec-label">3 · Why it works</p>
+    <h2>The weights change in the MLPs. The effect travels through attention.</h2>
+    <p>If the edited neurons simply wrote "stop now" into the output, their direct route to the output would carry the effect. It carries 3%.</p>
+    <p>To find where the effect goes, we ran the edited model on looping text and restored one part at a time to its unedited behaviour. Restoring the attention layers after the edit (layers 16 to 23) removes 91% of the edit's effect, and 96% on texts we held out. The push along <i>−u</i> changes what later attention looks for.</p>
+    <p>What it looks for is the earlier copy. To continue a repeated passage, a model looks back to where the current text appeared before and copies what came next; the attention heads that do this are called induction heads. After the edit, attention to that earlier copy falls by about a third in layer 23. The token the model was about to repeat becomes the most suppressed token in its vocabulary.</p>
+
+    <figure>
+      <svg class="sketch" viewBox="0 0 660 250" role="img" aria-labelledby="f3t">
+        <title id="f3t">Sketch of the chain: re-check neurons push along minus u, later attention copies less, the loop breaks; the push also overshoots and causes whitespace failures.</title>
+        <defs>
+          <filter id="rough"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="4"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter>
+          <marker id="tip" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1 L8 5 L1 9"/></marker>
+        </defs>
+        <g filter="url(#rough)">
+          <rect x="8" y="30" width="138" height="78" rx="10"/>
+          <rect x="178" y="30" width="138" height="78" rx="10"/>
+          <rect x="348" y="30" width="138" height="78" rx="10"/>
+          <rect x="518" y="30" width="134" height="78" rx="10"/>
+          <path d="M148 69 C 158 62, 166 62, 174 69" marker-end="url(#tip)"/>
+          <path d="M318 69 C 328 62, 336 62, 344 69" marker-end="url(#tip)"/>
+          <path d="M488 69 C 498 62, 506 62, 514 69" marker-end="url(#tip)"/>
+          <path d="M247 110 C 250 140, 262 160, 290 176" marker-end="url(#tip)"/>
+          <ellipse cx="380" cy="196" rx="92" ry="30"/>
         </g>
+        <text x="77" y="62" font-size="21" text-anchor="middle">128 re-check</text>
+        <text x="77" y="86" font-size="21" text-anchor="middle">neurons</text>
+        <text x="247" y="62" font-size="21" text-anchor="middle">push hard</text>
+        <text x="247" y="86" font-size="21" text-anchor="middle">along −u</text>
+        <text x="417" y="62" font-size="21" text-anchor="middle">attention</text>
+        <text x="417" y="86" font-size="21" text-anchor="middle">copies less</text>
+        <text x="585" y="62" font-size="21" text-anchor="middle">loop</text>
+        <text x="585" y="86" font-size="21" text-anchor="middle">breaks</text>
+        <text x="380" y="192" font-size="21" text-anchor="middle">overshoot:</text>
+        <text x="380" y="214" font-size="21" text-anchor="middle">new failures</text>
+        <text x="77" y="16" class="small" text-anchor="middle">layers 15, 19</text>
+        <text x="247" y="16" class="small" text-anchor="middle">"doubt" → "wrap up"</text>
+        <text x="417" y="16" class="small" text-anchor="middle">layers 16–23 · 91%</text>
+        <text x="585" y="16" class="small" text-anchor="middle">1,801 → 70 tokens</text>
       </svg>
-    </div>
-  </div>
-  <figcaption><b>Fig. 1. Simple decoding changes recover the edit's gain.</b> Accuracy with a 16,384-token budget, 200 problems per benchmark, two samples each. Red: Astra's edit. Blue: decoding changes to the unedited model. The repetition penalty (1.2) collapses accuracy, because digits and the answer box have to repeat too. Astra's headline 48.1% uses a 32k budget; this screen compares conditions under one budget.</figcaption>
-</figure>
+      <figcaption><b>From weights to behaviour.</b> Each link was tested by changing the model, not just by observing it. 91% is the share of the edit's effect on repeated-token loss that disappears when attention in layers 16–23 is restored; the direct route carries 3%. Repeats still start in the edited model, but end after 70 tokens on average instead of 1,801.</figcaption>
+    </figure>
+  </section>
 
-<div class="col">
-  <p>One more check settles it. We took every problem the edited model solves and asked whether the unedited model, with thinking off, also solves it. It fails both of its tries on only 12% of them (GSM8K) and 8% (MATH-500). That is the same rate you get from sampling noise alone. The edit rescues problems the model could already do. It does not create new ones.</p>
-  <p>The original post is careful on this point too: it says the gain comes from fixing loops, not from new mathematical ability. The interesting question is how a change to 128 neurons breaks a loop that happens many layers later.</p>
+  <section class="sec">
+    <p class="sec-label">4 · The cost</p>
+    <h2>The push overshoots, and the fix and the damage are one knob</h2>
+    <p>The edit does not return looping states to normal. It pushes them past normal, far along <i>−u</i>, into a region the model never visits on its own. That shows up as failures the unedited model never has, such as answers that end in long runs of whitespace.</p>
+    <p>The natural repair is to push less. We tried three ways: half the strength, a floor that stops the push at the normal average, and editing only the neurons most specific to loops. Each removed most of the whitespace failures, and each brought the loops back. Only one variant looks better: trimming just the deepest part of the overshoot. In two runs it kept the fix and roughly halved the whitespace failures. <span class="pending">larger test running</span></p>
+    <p>The edit also removes the copying without removing the doubt. We had a language model read the edited model's failed answers. Seven in ten are still doubt: re-reading the wording of the question, or re-checking an answer that is already right. The text just no longer repeats word for word.</p>
+  </section>
 
-  <div class="sec-label">2 · What Astra changed</div>
-  <h2>128 "go back and check" neurons, pushed hard the other way</h2>
-  <p>Astra edited 64 neurons in each of two layers, 15 and 19. For each neuron it took the part of its output along one direction in the model's hidden state, call it <i>u</i>, flipped its sign and made it five times larger. Nothing else about the neurons changed. In each layer the change is a single rank-one correction.</p>
-  <p>What do these neurons do? Their strongest activations are not inside loops. About half of the layer-15 neurons fire when the model goes back to re-read the problem, quote it, or check its work. Astra picked well: if we rank every neuron by how much more it writes along <i>u</i> in loops than in normal text, 44 of Astra's 64 in layer 15 are in our top 64 (chance would be about one).</p>
-  <p>To find out what <i>u</i> means, we added it to the model's real hidden states and let the rest of the network run. Adding <i>+u</i> makes the model more likely to say <i>Wait</i>, <i>maybe</i>, <i>Actually</i>. Adding <i>−u</i> favours <i>Final</i>, a paragraph break, and the end of thinking. So <i>u</i> runs from "doubt, go back" to "wrap up, move on", and the edit pushes towards wrap-up. Its whole effect on the model's output matches adding <i>−u</i> after layer 15 almost exactly (correlation 0.98).</p>
-  <p>You do not even need to change the weights. Adding <i>−u</i> to the hidden state during generation raises GSM8K accuracy from 8% to 46%. Push twice as hard, and 90% of answers finish but only 3% are right.</p>
-</div>
+  <section class="sec">
+    <p class="sec-label">5 · Why training never fixed this</p>
+    <h2>Two habits that training rewards</h2>
+    <p>Loops like these are a known problem in small reasoning models, and they are worse in models distilled from larger teachers (<a href="https://arxiv.org/abs/2512.12895" target="_blank" rel="noopener">Pipis et al.</a>). Our measurements suggest why the bug survives both pretraining and fine-tuning.</p>
+    <p><b>Pretraining rewards copying.</b> In ordinary text, something that repeated once tends to repeat again, so copying the earlier passage is often the right prediction. Training scores each next token on human text, never on the model's own runaway output. By that score a loop looks like excellent prediction: the unedited model predicts its own looped tokens almost perfectly.</p>
+    <p><b>Long-thinking training rewards re-checking.</b> A small model can learn the habit without learning when to stop. Right after it states its first answer, its hidden state already tells right answers from wrong ones, as has been found in larger reasoning models (<a href="https://arxiv.org/abs/2504.05419" target="_blank" rel="noopener">Zhang et al.</a>). Yet with thinking on, it doubts a correct answer almost as often as a wrong one. Put the same text outside thinking mode, and it doubts a correct answer about 70 times less.</p>
+    <p>We expected loops to start right after a correct answer, as re-checking gone wrong. They don't. In nine of ten loops, the model has not stated any answer yet when the loop begins. On easy problems it is still re-reading the question; on hard ones it is stuck redoing the same step. That fits the view that loops start at reasoning impasses (<a href="https://arxiv.org/abs/2601.05693" target="_blank" rel="noopener">Duan et al.</a>). Once a loop starts, the copying machinery keeps it going, and that is the part Astra's edit cuts.</p>
+  </section>
 
-<figure>
-  <svg viewBox="0 0 560 220" role="img" aria-labelledby="f2t">
-    <title id="f2t">GSM8K accuracy as the push along minus u grows</title>
-    <g font-size="11">
-      <line x1="60" y1="20" x2="60" y2="180" stroke="var(--rule)"/>
-      <line x1="60" y1="180" x2="540" y2="180" stroke="var(--rule)"/>
-      <line x1="60" y1="116" x2="540" y2="116" stroke="var(--rule)" stroke-dasharray="2 3"/>
-      <line x1="60" y1="52" x2="540" y2="52" stroke="var(--rule)" stroke-dasharray="2 3"/>
-      <text x="52" y="184" text-anchor="end" class="muted mono">0</text>
-      <text x="52" y="120" text-anchor="end" class="muted mono">20</text>
-      <text x="52" y="56" text-anchor="end" class="muted mono">40%</text>
-      <rect x="95" y="154.4" width="70" height="25.6" fill="var(--base)"/>
-      <text x="130" y="147" text-anchor="middle" class="mono">8%</text>
-      <rect x="215" y="64.8" width="70" height="115.2" fill="var(--edit)" opacity=".55"/>
-      <text x="250" y="58" text-anchor="middle" class="mono">36%</text>
-      <rect x="335" y="32.8" width="70" height="147.2" fill="var(--edit)"/>
-      <text x="370" y="26" text-anchor="middle" class="mono">46%</text>
-      <rect x="455" y="170.4" width="70" height="9.6" fill="var(--edit)" opacity=".35"/>
-      <text x="490" y="163" text-anchor="middle" class="mono">3%</text>
-      <text x="490" y="122" text-anchor="middle" class="muted">90% finish,</text>
-      <text x="490" y="136" text-anchor="middle" class="muted">almost all wrong</text>
-      <text x="130" y="198" text-anchor="middle">no push</text>
-      <text x="250" y="198" text-anchor="middle">half</text>
-      <text x="370" y="198" text-anchor="middle">full</text>
-      <text x="490" y="198" text-anchor="middle">double</text>
-      <text x="300" y="215" text-anchor="middle" class="muted">push along −u during generation (no weight change)</text>
-    </g>
-  </svg>
-  <figcaption><b>Fig. 2. The direction alone does the job, until you push too hard.</b> GSM8K accuracy when −u is added to the hidden state at the two edited layers while the model generates (100 problems, 8,192-token budget). The weights are never touched.</figcaption>
-</figure>
+  <section class="sec">
+    <p class="sec-label">6 · Which tools to trust</p>
+    <h2>Several tools told a confident, wrong story</h2>
+    <p>Because we knew the true change, we could grade the tools. Most pointed the right way. Several gave readings that sounded convincing and were wrong, and only an experiment that changed the model caught them.</p>
+    <figure>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Tool</th><th>What it suggested</th><th>What a causal test showed</th><th>Verdict</th></tr></thead>
+          <tbody>
+            <tr><td>Probe weights</td><td>Loops have little to do with <i>u</i></td><td><i>u</i> alone separates loops almost perfectly</td><td class="v">misleads</td></tr>
+            <tr><td>Geometry</td><td>Little of the change lies along <i>u</i></td><td>The change acts almost exactly like <i>−u</i></td><td class="v">misleads</td></tr>
+            <tr><td>Attention patterns</td><td>Copying is unchanged</td><td>Down a third, measured at the right position</td><td class="v">depends on setup</td></tr>
+            <tr><td>Logit lens, middle layers</td><td>The edit raises the repeated token</td><td>The output lowers it</td><td class="v">misleads</td></tr>
+            <tr><td>LLM neuron descriptions</td><td>Clear labels for Astra's neurons</td><td>Random neurons get labels just as good</td><td class="v">not specific</td></tr>
+            <tr><td>Cheap loss on loop text</td><td>Ranks edits by how well they break loops</td><td>Prefers an edit that scores 24% to one that scores 57%</td><td class="v">misranks edits</td></tr>
+            <tr><td>Steering and patching</td><td>A doubt axis, an attention path</td><td>Agree with each other and with the edit</td><td class="v ok">trust</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <figcaption><b>Tools that only observe can mislead; tools that intervene held up.</b> "Cheap loss" is the kind of quick signal an agent might use to choose between edits: the model's loss on existing looping text.</figcaption>
+    </figure>
+    <p>Two of Astra's other experiments make the same point more sharply. Astra also edited Gemma 3 270M for math, with no clear accuracy gain. The tools still produced convincing stories about those edits: neuron descriptions that matched Astra's reasoning and scored above random neurons. A good-looking explanation can sit on top of an edit that does nothing.</p>
+    <p>In a sycophancy experiment, Astra correctly picked out which of two fine-tuned models gives in to a user's wrong guess, and pointed to one attention head as where they differ. The difference in that head is real. But copying that head's weights from the honest model into the sycophantic one changes no answers, while copying the MLPs closes the whole gap. Finding the right model and explaining it are different achievements.</p>
+  </section>
 
-<div class="col">
-  <div class="sec-label">3 · Why it works</div>
-  <h2>The weights change in the MLPs. The effect travels through attention.</h2>
-  <p>If the edited neurons simply wrote "stop now" into the output, their direct route to the output would carry the effect. It carries 3%.</p>
-  <p>To find where the effect goes, we ran the edited model on looping text and restored one part at a time to its unedited behaviour. Restoring the attention layers that come after the edit (layers 16 to 23) removes 91% of the edit's effect, and 96% on texts we held out. The push along <i>−u</i> changes what later attention looks for.</p>
-  <p>What it looks for is the earlier copy. To continue a repeated passage, a model looks back to where the current text appeared before and copies what came next. These are known as induction heads. After the edit, attention to that earlier copy falls by about a third in layer 23. The token the model was about to repeat becomes the most suppressed token in its vocabulary.</p>
-</div>
+  <section class="sec">
+    <p class="sec-label">7 · What this means</p>
+    <h2>A working patch, not yet an explanation</h2>
+    <p>Weight-space programming worked here. Astra found the right place and the right direction, and its edit fixes a real failure of small reasoning models. People have recently found similar sparse fixes by hand, flipping a single neuron to stop loops in Gemma 4 (<a href="https://arxiv.org/abs/2606.13705" target="_blank" rel="noopener">Lazaridis et al.</a>). What the agent adds is the search.</p>
+    <p>What it did not supply is an account of why the edit works and what it costs. Astra's own report says the edit counteracts "measured repetition directions", which is right but misses the attention path and the overshoot. It also argues the edit is not "simply forcing early termination"; our controls show that forcing termination does about as well.</p>
+    <p>Edits written by AI systems will need the same debugging as code. For anyone building or checking them:</p>
+    <ol class="checklist">
+      <li>Compare against the simplest change outside the weights first, such as a stopping rule or turning thinking off.</li>
+      <li>Treat any readout as a hypothesis, and confirm it with an experiment that changes the model.</li>
+      <li>Judge an edit by running the model, not by a loss on old failure text. New edits create new failures.</li>
+      <li>Report what the edit costs next to what it fixes.</li>
+    </ol>
+  </section>
 
-<figure>
-  <div class="chain">
-    <div class="step hot"><div class="where">Layers 15, 19</div><div class="what">128 neurons that fire on re-reading and re-checking now write a large push along <b>−u</b>, from "doubt" towards "wrap up".</div></div>
-    <div class="arrow">↓</div>
-    <div class="step"><div class="where">Layers 16–23</div><div class="what">Later attention looks back at the earlier copy of the text <b>a third less</b>. 91% of the effect goes this way; 3% goes straight to the output.</div></div>
-    <div class="arrow">↓</div>
-    <div class="step"><div class="where">Output</div><div class="what">The token about to be repeated is pushed down hardest. Late MLPs partly fight back.</div></div>
-    <div class="arrow">↓</div>
-    <div class="step hot"><div class="where">Behaviour</div><div class="what">Repeats still start, but end after <b>70 tokens</b> on average instead of 1,801. Problems get finished.</div></div>
-  </div>
-  <figcaption><b>Fig. 3. The chain from weights to behaviour.</b> Each link was tested by changing the model, not just by observing it. Percentages are shares of the edit's effect on the loss of the repeated token in fixed looping texts, not shares of the benchmark gain.</figcaption>
-</figure>
-
-<div class="col">
-  <div class="sec-label">4 · The cost</div>
-  <h2>The push overshoots, and the fix and the damage are one knob</h2>
-  <p>The edit does not return looping states to normal. It pushes them past normal, far along <i>−u</i>, into a region the model never visits on its own. That shows up as failures the unedited model never has, such as answers that end in long runs of whitespace.</p>
-  <p>The natural repair is to push less. We tried three ways: half the strength, a floor that stops the push at the normal average, and editing only the neurons most specific to loops. Each removed most of the whitespace failures, and each brought the loops back. Only one variant looks better: trimming just the deepest part of the overshoot. In two runs it kept the fix and roughly halved the whitespace failures. <span class="pending">larger test running</span></p>
-  <p>The edit also removes the copying without removing the doubt. We had a language model read the edited model's failed answers. Seven in ten are still doubt: re-reading the wording of the question, or re-checking an answer that is already right. The text just no longer repeats word for word.</p>
-
-  <div class="sec-label">5 · Why training never fixed this</div>
-  <h2>Two habits that training rewards</h2>
-  <p>Loops like these are a known problem in small reasoning models, and they are worse in models distilled from larger teachers (<a href="https://arxiv.org/abs/2512.12895" target="_blank" rel="noopener">Pipis et al.</a>). Our measurements suggest why the bug survives both pretraining and fine-tuning.</p>
-  <p><b>Pretraining rewards copying.</b> In ordinary text, things that repeated once tend to repeat again, so copying the earlier passage is often the right prediction. Training scores each next token on human text and never on the model's own runaway output. By that score, a loop looks like excellent prediction: the unedited model predicts its own looped tokens almost perfectly.</p>
-  <p><b>Long-thinking training rewards re-checking.</b> A small model can learn the habit without learning when to stop. Right after it states its first answer, its hidden state already tells right answers from wrong ones well, as has been found in larger reasoning models (<a href="https://arxiv.org/abs/2504.05419" target="_blank" rel="noopener">Zhang et al.</a>). Yet with thinking on, it doubts a correct answer almost as often as a wrong one. Put the same text outside thinking mode, and it doubts a correct answer about 70 times less.</p>
-  <p>We expected loops to start right after a correct answer, as re-checking gone wrong. They don't. In nine of ten loops, the model has not stated any answer yet when the loop begins. On easy problems it is still re-reading the question; on hard ones it is stuck redoing the same step. That fits the view that loops start at reasoning impasses (<a href="https://arxiv.org/abs/2601.05693" target="_blank" rel="noopener">Duan et al.</a>). Once a loop starts, the copying machinery keeps it going, and that is the part Astra's edit cuts.</p>
-
-  <div class="sec-label">6 · Which tools to trust</div>
-  <h2>Several tools told a confident, wrong story</h2>
-  <p>Because we knew the true change, we could grade the tools. Most pointed the right way. Several gave readings that sounded convincing and were wrong, and only an experiment that changed the model caught them.</p>
-</div>
-
-<figure>
-  <div class="table-wrap">
-  <table>
-    <thead><tr><th>Tool</th><th>What it suggested</th><th>What a causal test showed</th><th>Verdict</th></tr></thead>
-    <tbody>
-      <tr><td>Probe weights</td><td>Loops have little to do with <i>u</i></td><td><i>u</i> alone separates loops almost perfectly</td><td><span class="verdict v-bad">misleads</span></td></tr>
-      <tr><td>Geometry</td><td>Little of the change lies along <i>u</i></td><td>The change acts almost exactly like <i>−u</i></td><td><span class="verdict v-bad">misleads</span></td></tr>
-      <tr><td>Attention patterns</td><td>Copying is unchanged</td><td>Down a third, measured at the right position</td><td><span class="verdict v-bad">depends on setup</span></td></tr>
-      <tr><td>Logit lens, middle layers</td><td>The edit raises the repeated token</td><td>The output lowers it</td><td><span class="verdict v-bad">misleads</span></td></tr>
-      <tr><td>Neuron descriptions by an LLM</td><td>Clear labels for Astra's neurons</td><td>Random neurons get labels just as good</td><td><span class="verdict v-bad">not specific</span></td></tr>
-      <tr><td>Cheap loss on loop text</td><td>Ranks edits by how well they break loops</td><td>Picks an edit that scores 24% over one that scores 57%</td><td><span class="verdict v-bad">misranks edits</span></td></tr>
-      <tr><td>Steering and patching</td><td>A doubt axis, an attention path</td><td>Agree with each other and with the edit</td><td><span class="verdict v-ok">trust</span></td></tr>
-    </tbody>
-  </table>
-  </div>
-  <figcaption><b>Fig. 4. Tools that only observe can mislead; tools that intervene held up.</b> "Cheap loss" is the kind of quick signal an agent might use to choose between edits: the model's loss on existing looping text.</figcaption>
-</figure>
-
-<div class="col">
-  <p>Two of Astra's other experiments make the same point more sharply. Astra also edited a smaller model, Gemma 3 270M, with no clear accuracy gain. The tools still produced convincing stories about those edits: neuron descriptions that matched Astra's reasoning and scored above random neurons. A good-looking explanation can sit on top of an edit that does nothing.</p>
-  <p>In a sycophancy experiment, Astra correctly picked out which of two fine-tuned models gives in to a user's wrong guess, and pointed to one attention head as the place where they differ. The difference in that head is real. But copying that head's weights from the honest model into the sycophantic one changes no answers. Copying the MLPs closes the whole gap. Finding the right model and explaining it are different achievements.</p>
-
-  <div class="sec-label">7 · What this means</div>
-  <h2>A working patch, not yet an explanation</h2>
-  <p>Weight-space programming worked here. Astra found the right place and the right direction, and its edit fixes a real failure of small reasoning models. People have recently found similar sparse fixes by hand, flipping a single neuron to stop loops in Gemma 4 (<a href="https://arxiv.org/abs/2606.13705" target="_blank" rel="noopener">Lazaridis et al.</a>). What the agent adds is the search.</p>
-  <p>What it did not supply is an account of why the edit works and what it costs. Astra's own report says the edit counteracts "measured repetition directions", which is right but misses the attention path and the overshoot. It also argues the edit is not "simply forcing early termination". Our controls show that forcing termination does about as well.</p>
-  <p>Edits written by AI systems will need the same debugging as code. For anyone building or checking them, we suggest:</p>
-  <ol class="checklist">
-    <li>Compare against the simplest change outside the weights first, such as a stopping rule or turning thinking off.</li>
-    <li>Treat any readout as a hypothesis, and confirm it with an experiment that changes the model.</li>
-    <li>Judge an edit by running the model, not by a loss on old failure text. New edits create new failures.</li>
-    <li>Report what the edit costs next to what it fixes.</li>
-  </ol>
-
-  <div class="endnote">
-    <p><b>Full report.</b> Every number here, with methods, pre-registered predictions (many of which failed) and additional experiments, is in the full technical report.</p>
+  <div class="end">
+    <p><b>Full report.</b> Every number here, with methods, pre-registered predictions (many of which failed) and further experiments, is in the full technical report.</p>
     <p><b>Code and data.</b> <a href="https://github.com/assassin808/behavioral-lens-fast" target="_blank" rel="noopener">github.com/assassin808/behavioral-lens-fast</a>. Astra's edits and logs: <a href="https://github.com/RikiyaT/lm_understand-logs" target="_blank" rel="noopener">RikiyaT/lm_understand-logs</a> (CC BY 4.0).</p>
-    <p><b>Original work.</b> Takehi, Teoh, Zhang and Khattab, <a href="https://rikiyat.github.io/blog/weight-space-programming/" target="_blank" rel="noopener">Sparks of Weight-Space Programming</a>, MIT CSAIL, 2026.</p>
+    <p><b>Original work.</b> Takehi, Teoh, Zhang and Khattab, Sparks of Weight-Space Programming, MIT CSAIL, 2026.</p>
+    <a class="cta" href="https://rikiyat.github.io/blog/weight-space-programming/" target="_blank" rel="noopener">Read the original post ↗</a>
   </div>
-</div>
 </main>
