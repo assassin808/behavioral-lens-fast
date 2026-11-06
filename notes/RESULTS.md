@@ -137,6 +137,15 @@ We measured P(next token starts a doubt / re-check) right after the model's firs
 - **Correction to §6c:** the API labels found paraphrase cycling in ~90% of capped non-looping outputs, but had no control. It is just as common in successful generations, so it is not specific to failure. The content claim (doubt, re-checking) stands.
 - **Compute:** ~0.1 L40S-h (CPU work).
 
+
+## 6f. Does the edit solve problems the unedited model cannot? (per-problem overlap, no new runs)
+
+We take the 400 screening problems and list the ones p50c solves with thinking on (16k cap, k = 0). Then we ask how often unedited thinking-off solves them (2 samples).
+- GSM8K: unedited thinking-off solves 0.74 of them (0.56 overall). Only 12% are problems it fails in both samples.
+- MATH-500: 0.80 (0.51 overall); 8% failed in both.
+- **Reference for sampling noise.** For problems solved by p50c with thinking off, which behaves like base, the same "failed in both" share is 8% (GSM8K) and 10% (MATH-500).
+- **Conclusion.** Problems that only the edited thinking-on model solves occur no more often than sampling noise. The edit rescues problems the model could already solve, which supports "no new reasoning" at the problem level. The reverse does not hold: on MATH-500 problems that base thinking-off solves in both samples, p50c thinking-on gets only 0.54.
+
 ## 6b. Untested hypotheses
 
 - Why do the late MLPs counteract the edit?
