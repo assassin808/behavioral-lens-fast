@@ -1,0 +1,1482 @@
+{
+ "cos>=0.7": {
+  "table": {
+   "p50c_think | correct": {
+    "n": 214,
+    "n_elig": 197,
+    "pr_rate": 0.8542492307610856,
+    "frac_cycling": 0.9847715736040609,
+    "vb_rate": 0.11732442534690851,
+    "pr_per_1k": 6.300980864683054,
+    "pr_rate_pos": 0.8563789507348687
+   },
+   "p50c_think | ALL": {
+    "n": 400,
+    "n_elig": 382,
+    "pr_rate": 0.8606206510397815,
+    "frac_cycling": 0.9895287958115183,
+    "vb_rate": 0.21658412836003532,
+    "pr_per_1k": 6.3384941598079605,
+    "pr_rate_pos": 0.8602709323929634
+   },
+   "p50c_think | finished: no \\boxed{}": {
+    "n": 55,
+    "n_elig": 54,
+    "pr_rate": 0.8618269066115098,
+    "frac_cycling": 1.0,
+    "vb_rate": 0.4060757027614504,
+    "pr_per_1k": 6.2790479406499475,
+    "pr_rate_pos": 0.8433923329756662
+   },
+   "p50c_think | finished: wrong answer": {
+    "n": 71,
+    "n_elig": 71,
+    "pr_rate": 0.9216208811781574,
+    "frac_cycling": 1.0,
+    "vb_rate": 0.2568114476361879,
+    "pr_per_1k": 7.256396755646129,
+    "pr_rate_pos": 0.9369855887461522
+   },
+   "p50c_think | cut: repetitive (paraphrase)": {
+    "n": 9,
+    "n_elig": 9,
+    "pr_rate": 0.7698284976087315,
+    "frac_cycling": 1.0,
+    "vb_rate": 0.462998063702697,
+    "pr_per_1k": 4.851927974544012,
+    "pr_rate_pos": 0.8158730158730159
+   },
+   "p50c_think | cut: still reasoning": {
+    "n": 24,
+    "n_elig": 24,
+    "pr_rate": 0.8364267972665239,
+    "frac_cycling": 1.0,
+    "vb_rate": 0.3898965320513095,
+    "pr_per_1k": 4.817780776940669,
+    "pr_rate_pos": 0.7486797924297924
+   },
+   "p50c_think | cut: verbatim loop": {
+    "n": 7,
+    "n_elig": 7,
+    "pr_rate": 0.4853656765140754,
+    "frac_cycling": 0.8571428571428571,
+    "vb_rate": 0.6278930781690509,
+    "pr_per_1k": 5.47711767558959,
+    "pr_rate_pos": 0.7229024943310657
+   },
+   "p50c_think | cut: degenerate whitespace": {
+    "n": 20,
+    "n_elig": 20,
+    "pr_rate": 0.9047997684059149,
+    "frac_cycling": 1.0,
+    "vb_rate": 0.0770386809582895,
+    "pr_per_1k": 6.440101917389437,
+    "pr_rate_pos": 0.8738095238095239
+   },
+   "base_think_preloop | cut: verbatim loop": {
+    "n": 351,
+    "n_elig": 328,
+    "pr_rate": 0.9023303927106043,
+    "frac_cycling": 0.9969512195121951,
+    "vb_rate": 0.1683898292413476,
+    "pr_per_1k": 5.569599775552527,
+    "pr_rate_pos": 0.8970436547985771
+   },
+   "base_think_preloop | ALL": {
+    "n": 400,
+    "n_elig": 369,
+    "pr_rate": 0.8954899477929884,
+    "frac_cycling": 0.994579945799458,
+    "vb_rate": 0.15784966852608692,
+    "pr_per_1k": 5.568198109967877,
+    "pr_rate_pos": 0.8892795834566959
+   },
+   "base_think_preloop | cut: repetitive (paraphrase)": {
+    "n": 1,
+    "n_elig": 1,
+    "pr_rate": 0.9473684210526315,
+    "frac_cycling": 1.0,
+    "vb_rate": 0.3684210526315789,
+    "pr_per_1k": 6.568974229408792,
+    "pr_rate_pos": 0.9333333333333333
+   },
+   "base_think_preloop | cut: still reasoning": {
+    "n": 9,
+    "n_elig": 9,
+    "pr_rate": 0.9190201648002159,
+    "frac_cycling": 1.0,
+    "vb_rate": 0.08942023238698432,
+    "pr_per_1k": 4.076414967711666,
+    "pr_rate_pos": 0.8713471713471714
+   },
+   "base_think_preloop | correct": {
+    "n": 38,
+    "n_elig": 31,
+    "pr_rate": 0.8146087749122564,
+    "frac_cycling": 0.967741935483871,
+    "vb_rate": 0.05940195325321377,
+    "pr_per_1k": 5.890259366701653,
+    "pr_rate_pos": 0.810915795036438
+   },
+   "base_think_preloop | finished: wrong answer": {
+    "n": 1,
+    "n_elig": 0,
+    "pr_rate": null,
+    "frac_cycling": null,
+    "vb_rate": null,
+    "pr_per_1k": 5.2631578947368425,
+    "pr_rate_pos": null
+   },
+   "base_nothink | ALL": {
+    "n": 800,
+    "n_elig": 264,
+    "pr_rate": 0.6920292132415281,
+    "frac_cycling": 0.9166666666666666,
+    "vb_rate": 0.1389972471771903,
+    "pr_per_1k": 2.901745628545622,
+    "pr_rate_pos": 0.6898446727798684
+   },
+   "p50c_nothink | ALL": {
+    "n": 800,
+    "n_elig": 288,
+    "pr_rate": 0.6595501875474648,
+    "frac_cycling": 0.9548611111111112,
+    "vb_rate": 0.06318503555980841,
+    "pr_per_1k": 2.89071281648031,
+    "pr_rate_pos": 0.643322556937323
+   }
+  },
+  "P2_tests": {
+   "base_nothink | ALL": {
+    "diff_ci": [
+     0.08900311772815844,
+     0.19755237867870665
+    ],
+    "ratio": 1.2086582202919214
+   },
+   "p50c_think | correct": {
+    "diff_ci": [
+     -0.06890676096088688,
+     0.031100842232578425
+    ],
+    "ratio": 0.9791367286585871
+   },
+   "p50c_nothink | ALL": {
+    "diff_ci": [
+     0.12272864596072619,
+     0.2266227453200487
+    ],
+    "ratio": 1.2681776353923486
+   },
+   "base_think_preloop | ALL": {
+    "diff_ci": [
+     -0.10723632061321259,
+     -0.011745287196398028
+    ],
+    "ratio": 0.9340437593163042
+   }
+  },
+  "P3": {
+   "ratio": 0.9610612080692303,
+   "diff_ci": [
+    -0.05571512584190321,
+    -0.013594202299166741
+   ]
+  }
+ },
+ "cos>=0.7 strict12": {
+  "table": {
+   "p50c_think | correct": {
+    "n": 214,
+    "n_elig": 197,
+    "pr_rate": 0.8469802793427379,
+    "frac_cycling": 0.9847715736040609,
+    "vb_rate": 0.11732442534690851,
+    "pr_per_1k": 6.280985723809164,
+    "pr_rate_pos": 0.8546743433419961
+   },
+   "p50c_think | ALL": {
+    "n": 400,
+    "n_elig": 382,
+    "pr_rate": 0.8429730750392153,
+    "frac_cycling": 0.9869109947643979,
+    "vb_rate": 0.21658412836003532,
+    "pr_per_1k": 6.313867911488224,
+    "pr_rate_pos": 0.8570089845745019
+   },
+   "p50c_think | finished: no \\boxed{}": {
+    "n": 55,
+    "n_elig": 54,
+    "pr_rate": 0.8234862240278059,
+    "frac_cycling": 1.0,
+    "vb_rate": 0.4060757027614504,
+    "pr_per_1k": 6.2249838049508135,
+    "pr_rate_pos": 0.8406450802284136
+   },
+   "p50c_think | finished: wrong answer": {
+    "n": 71,
+    "n_elig": 71,
+    "pr_rate": 0.8912486918081122,
+    "frac_cycling": 1.0,
+    "vb_rate": 0.2568114476361879,
+    "pr_per_1k": 7.23621813708957,
+    "pr_rate_pos": 0.9321566149030936
+   },
+   "p50c_think | cut: repetitive (paraphrase)": {
+    "n": 9,
+    "n_elig": 9,
+    "pr_rate": 0.7362741020123,
+    "frac_cycling": 1.0,
+    "vb_rate": 0.462998063702697,
+    "pr_per_1k": 4.844751644949546,
+    "pr_rate_pos": 0.8158730158730159
+   },
+   "p50c_think | cut: still reasoning": {
+    "n": 24,
+    "n_elig": 24,
+    "pr_rate": 0.8303347822985723,
+    "frac_cycling": 1.0,
+    "vb_rate": 0.3898965320513095,
+    "pr_per_1k": 4.806893563372319,
+    "pr_rate_pos": 0.7397512210012209
+   },
+   "p50c_think | cut: verbatim loop": {
+    "n": 7,
+    "n_elig": 7,
+    "pr_rate": 0.41720794830651337,
+    "frac_cycling": 0.7142857142857143,
+    "vb_rate": 0.6278930781690509,
+    "pr_per_1k": 5.427889704546947,
+    "pr_rate_pos": 0.7126984126984127
+   },
+   "p50c_think | cut: degenerate whitespace": {
+    "n": 20,
+    "n_elig": 20,
+    "pr_rate": 0.8969364543580699,
+    "frac_cycling": 1.0,
+    "vb_rate": 0.0770386809582895,
+    "pr_per_1k": 6.415359221858187,
+    "pr_rate_pos": 0.8671428571428572
+   },
+   "base_think_preloop | cut: verbatim loop": {
+    "n": 351,
+    "n_elig": 328,
+    "pr_rate": 0.8941964789994425,
+    "frac_cycling": 0.9969512195121951,
+    "vb_rate": 0.1683898292413476,
+    "pr_per_1k": 5.518667210474638,
+    "pr_rate_pos": 0.891330820884524
+   },
+   "base_think_preloop | ALL": {
+    "n": 400,
+    "n_elig": 369,
+    "pr_rate": 0.8879005183760866,
+    "frac_cycling": 0.994579945799458,
+    "vb_rate": 0.15784966852608692,
+    "pr_per_1k": 5.5200961234786385,
+    "pr_rate_pos": 0.8839551427664016
+   },
+   "base_think_preloop | cut: repetitive (paraphrase)": {
+    "n": 1,
+    "n_elig": 1,
+    "pr_rate": 0.9473684210526315,
+    "frac_cycling": 1.0,
+    "vb_rate": 0.3684210526315789,
+    "pr_per_1k": 6.568974229408792,
+    "pr_rate_pos": 0.9333333333333333
+   },
+   "base_think_preloop | cut: still reasoning": {
+    "n": 9,
+    "n_elig": 9,
+    "pr_rate": 0.9190201648002159,
+    "frac_cycling": 1.0,
+    "vb_rate": 0.08942023238698432,
+    "pr_per_1k": 4.076414967711666,
+    "pr_rate_pos": 0.8713471713471714
+   },
+   "base_think_preloop | correct": {
+    "n": 38,
+    "n_elig": 31,
+    "pr_rate": 0.810332137571103,
+    "frac_cycling": 0.967741935483871,
+    "vb_rate": 0.05940195325321377,
+    "pr_per_1k": 5.854378728455442,
+    "pr_rate_pos": 0.80798324371679
+   },
+   "base_think_preloop | finished: wrong answer": {
+    "n": 1,
+    "n_elig": 0,
+    "pr_rate": null,
+    "frac_cycling": null,
+    "vb_rate": null,
+    "pr_per_1k": 5.2631578947368425,
+    "pr_rate_pos": null
+   },
+   "base_nothink | ALL": {
+    "n": 800,
+    "n_elig": 264,
+    "pr_rate": 0.6871031545079668,
+    "frac_cycling": 0.9090909090909091,
+    "vb_rate": 0.1389972471771903,
+    "pr_per_1k": 2.894357891418456,
+    "pr_rate_pos": 0.6865553558876104
+   },
+   "p50c_nothink | ALL": {
+    "n": 800,
+    "n_elig": 288,
+    "pr_rate": 0.6557262121257121,
+    "frac_cycling": 0.9548611111111112,
+    "vb_rate": 0.06318503555980841,
+    "pr_per_1k": 2.885378059053827,
+    "pr_rate_pos": 0.6397776901934431
+   }
+  },
+  "P2_tests": {
+   "base_nothink | ALL": {
+    "diff_ci": [
+     0.08665397256018009,
+     0.198035224935793
+    ],
+    "ratio": 1.2084572408828096
+   },
+   "p50c_think | correct": {
+    "diff_ci": [
+     -0.07045764045861866,
+     0.03439825645525331
+    ],
+    "ratio": 0.980347243672447
+   },
+   "p50c_nothink | ALL": {
+    "diff_ci": [
+     0.11813629245839723,
+     0.22604369015873096
+    ],
+    "ratio": 1.2662827365202005
+   },
+   "base_think_preloop | ALL": {
+    "diff_ci": [
+     -0.10872441141777396,
+     -0.008724335554603852
+    ],
+    "ratio": 0.9351664574058381
+   }
+  },
+  "P3": {
+   "ratio": 0.9494003636589369,
+   "diff_ci": [
+    -0.06628005381772287,
+    -0.02277597508672125
+   ]
+  }
+ },
+ "cos>=0.75": {
+  "table": {
+   "p50c_think | correct": {
+    "n": 214,
+    "n_elig": 197,
+    "pr_rate": 0.7413518650062271,
+    "frac_cycling": 0.9644670050761421,
+    "vb_rate": 0.11732442534690851,
+    "pr_per_1k": 5.5410568174173775,
+    "pr_rate_pos": 0.7355431336842417
+   },
+   "p50c_think | ALL": {
+    "n": 400,
+    "n_elig": 382,
+    "pr_rate": 0.7643926647892273,
+    "frac_cycling": 0.9764397905759162,
+    "vb_rate": 0.21658412836003532,
+    "pr_per_1k": 5.735473593835951,
+    "pr_rate_pos": 0.7442586010551934
+   },
+   "p50c_think | finished: no \\boxed{}": {
+    "n": 55,
+    "n_elig": 54,
+    "pr_rate": 0.7868852380438125,
+    "frac_cycling": 1.0,
+    "vb_rate": 0.4060757027614504,
+    "pr_per_1k": 5.8615217732733615,
+    "pr_rate_pos": 0.7320859695859696
+   },
+   "p50c_think | finished: wrong answer": {
+    "n": 71,
+    "n_elig": 71,
+    "pr_rate": 0.857136781385267,
+    "frac_cycling": 1.0,
+    "vb_rate": 0.2568114476361879,
+    "pr_per_1k": 6.858408716844038,
+    "pr_rate_pos": 0.8490229840581954
+   },
+   "p50c_think | cut: repetitive (paraphrase)": {
+    "n": 9,
+    "n_elig": 9,
+    "pr_rate": 0.6821572580649632,
+    "frac_cycling": 0.8888888888888888,
+    "vb_rate": 0.462998063702697,
+    "pr_per_1k": 4.544262058403332,
+    "pr_rate_pos": 0.6391534391534391
+   },
+   "p50c_think | cut: still reasoning": {
+    "n": 24,
+    "n_elig": 24,
+    "pr_rate": 0.7354212495550486,
+    "frac_cycling": 1.0,
+    "vb_rate": 0.3898965320513095,
+    "pr_per_1k": 4.484966252871963,
+    "pr_rate_pos": 0.6289453601953602
+   },
+   "p50c_think | cut: verbatim loop": {
+    "n": 7,
+    "n_elig": 7,
+    "pr_rate": 0.42482025828409853,
+    "frac_cycling": 0.8571428571428571,
+    "vb_rate": 0.6278930781690509,
+    "pr_per_1k": 5.028634506279895,
+    "pr_rate_pos": 0.5519274376417233
+   },
+   "p50c_think | cut: degenerate whitespace": {
+    "n": 20,
+    "n_elig": 20,
+    "pr_rate": 0.7919949545321868,
+    "frac_cycling": 1.0,
+    "vb_rate": 0.0770386809582895,
+    "pr_per_1k": 5.766728602129182,
+    "pr_rate_pos": 0.7440476190476191
+   },
+   "base_think_preloop | cut: verbatim loop": {
+    "n": 351,
+    "n_elig": 328,
+    "pr_rate": 0.8214816801618232,
+    "frac_cycling": 0.975609756097561,
+    "vb_rate": 0.1683898292413476,
+    "pr_per_1k": 4.930323863142663,
+    "pr_rate_pos": 0.8104215499659084
+   },
+   "base_think_preloop | ALL": {
+    "n": 400,
+    "n_elig": 369,
+    "pr_rate": 0.8133287717245077,
+    "frac_cycling": 0.975609756097561,
+    "vb_rate": 0.15784966852608692,
+    "pr_per_1k": 4.9077928017978145,
+    "pr_rate_pos": 0.8007776794812085
+   },
+   "base_think_preloop | cut: repetitive (paraphrase)": {
+    "n": 1,
+    "n_elig": 1,
+    "pr_rate": 0.9473684210526315,
+    "frac_cycling": 1.0,
+    "vb_rate": 0.3684210526315789,
+    "pr_per_1k": 6.568974229408792,
+    "pr_rate_pos": 0.9333333333333333
+   },
+   "base_think_preloop | cut: still reasoning": {
+    "n": 9,
+    "n_elig": 9,
+    "pr_rate": 0.8902300383118799,
+    "frac_cycling": 1.0,
+    "vb_rate": 0.08942023238698432,
+    "pr_per_1k": 3.9014624232396447,
+    "pr_rate_pos": 0.7854700854700855
+   },
+   "base_think_preloop | correct": {
+    "n": 38,
+    "n_elig": 31,
+    "pr_rate": 0.7004157066905089,
+    "frac_cycling": 0.967741935483871,
+    "vb_rate": 0.05940195325321377,
+    "pr_per_1k": 4.884951337440752,
+    "pr_rate_pos": 0.6989074592639958
+   },
+   "base_think_preloop | finished: wrong answer": {
+    "n": 1,
+    "n_elig": 0,
+    "pr_rate": null,
+    "frac_cycling": null,
+    "vb_rate": null,
+    "pr_per_1k": 5.2631578947368425,
+    "pr_rate_pos": null
+   },
+   "base_nothink | ALL": {
+    "n": 800,
+    "n_elig": 264,
+    "pr_rate": 0.5258879518211579,
+    "frac_cycling": 0.7651515151515151,
+    "vb_rate": 0.1389972471771903,
+    "pr_per_1k": 2.1854129452264415,
+    "pr_rate_pos": 0.5116691487535668
+   },
+   "p50c_nothink | ALL": {
+    "n": 800,
+    "n_elig": 288,
+    "pr_rate": 0.46256102568716984,
+    "frac_cycling": 0.7361111111111112,
+    "vb_rate": 0.06318503555980841,
+    "pr_per_1k": 2.1151360710600096,
+    "pr_rate_pos": 0.44496438175273745
+   }
+  },
+  "P2_tests": {
+   "base_nothink | ALL": {
+    "diff_ci": [
+     0.13902130699430004,
+     0.27625708199267357
+    ],
+    "ratio": 1.398437151884301
+   },
+   "p50c_think | correct": {
+    "diff_ci": [
+     -0.07394421788407696,
+     0.06026005685487636
+    ],
+    "ratio": 0.9920002690609963
+   },
+   "p50c_nothink | ALL": {
+    "diff_ci": [
+     0.20376246154973865,
+     0.33578188309441265
+    ],
+    "ratio": 1.5898902171070812
+   },
+   "base_think_preloop | ALL": {
+    "diff_ci": [
+     -0.14106278957246562,
+     -0.013766877284590378
+    ],
+    "ratio": 0.9042115256733496
+   }
+  },
+  "P3": {
+   "ratio": 0.939832317954865,
+   "diff_ci": [
+    -0.0766510389313933,
+    -0.020228080528416303
+   ]
+  }
+ },
+ "cos>=0.75 strict12": {
+  "table": {
+   "p50c_think | correct": {
+    "n": 214,
+    "n_elig": 197,
+    "pr_rate": 0.7302692992604366,
+    "frac_cycling": 0.9644670050761421,
+    "vb_rate": 0.11732442534690851,
+    "pr_per_1k": 5.512618216627579,
+    "pr_rate_pos": 0.7322149665459822
+   },
+   "p50c_think | ALL": {
+    "n": 400,
+    "n_elig": 382,
+    "pr_rate": 0.7405752143626617,
+    "frac_cycling": 0.9738219895287958,
+    "vb_rate": 0.21658412836003532,
+    "pr_per_1k": 5.68767095775296,
+    "pr_rate_pos": 0.7370117783094486
+   },
+   "p50c_think | finished: no \\boxed{}": {
+    "n": 55,
+    "n_elig": 54,
+    "pr_rate": 0.7365449083660681,
+    "frac_cycling": 1.0,
+    "vb_rate": 0.4060757027614504,
+    "pr_per_1k": 5.785249152297245,
+    "pr_rate_pos": 0.7163316621649956
+   },
+   "p50c_think | finished: wrong answer": {
+    "n": 71,
+    "n_elig": 71,
+    "pr_rate": 0.8161237400842484,
+    "frac_cycling": 1.0,
+    "vb_rate": 0.2568114476361879,
+    "pr_per_1k": 6.781758180845901,
+    "pr_rate_pos": 0.839163829128618
+   },
+   "p50c_think | cut: repetitive (paraphrase)": {
+    "n": 9,
+    "n_elig": 9,
+    "pr_rate": 0.646794693525944,
+    "frac_cycling": 0.8888888888888888,
+    "vb_rate": 0.462998063702697,
+    "pr_per_1k": 4.518710002077862,
+    "pr_rate_pos": 0.6312169312169312
+   },
+   "p50c_think | cut: still reasoning": {
+    "n": 24,
+    "n_elig": 24,
+    "pr_rate": 0.7281926973962324,
+    "frac_cycling": 1.0,
+    "vb_rate": 0.3898965320513095,
+    "pr_per_1k": 4.471115346891913,
+    "pr_rate_pos": 0.6200167887667888
+   },
+   "p50c_think | cut: verbatim loop": {
+    "n": 7,
+    "n_elig": 7,
+    "pr_rate": 0.3532974243443211,
+    "frac_cycling": 0.7142857142857143,
+    "vb_rate": 0.6278930781690509,
+    "pr_per_1k": 4.7786963451151525,
+    "pr_rate_pos": 0.5417233560090703
+   },
+   "p50c_think | cut: degenerate whitespace": {
+    "n": 20,
+    "n_elig": 20,
+    "pr_rate": 0.7773805192414104,
+    "frac_cycling": 1.0,
+    "vb_rate": 0.0770386809582895,
+    "pr_per_1k": 5.7124258883281245,
+    "pr_rate_pos": 0.7338095238095239
+   },
+   "base_think_preloop | cut: verbatim loop": {
+    "n": 351,
+    "n_elig": 328,
+    "pr_rate": 0.8052987071239744,
+    "frac_cycling": 0.975609756097561,
+    "vb_rate": 0.1683898292413476,
+    "pr_per_1k": 4.838319549523906,
+    "pr_rate_pos": 0.7955603513148066
+   },
+   "base_think_preloop | ALL": {
+    "n": 400,
+    "n_elig": 369,
+    "pr_rate": 0.7986247804351256,
+    "frac_cycling": 0.975609756097561,
+    "vb_rate": 0.15784966852608692,
+    "pr_per_1k": 4.8221467810432905,
+    "pr_rate_pos": 0.7870703002370047
+   },
+   "base_think_preloop | cut: repetitive (paraphrase)": {
+    "n": 1,
+    "n_elig": 1,
+    "pr_rate": 0.8947368421052632,
+    "frac_cycling": 1.0,
+    "vb_rate": 0.3684210526315789,
+    "pr_per_1k": 6.316321374431531,
+    "pr_rate_pos": 0.8666666666666667
+   },
+   "base_think_preloop | cut: still reasoning": {
+    "n": 9,
+    "n_elig": 9,
+    "pr_rate": 0.8902300383118799,
+    "frac_cycling": 1.0,
+    "vb_rate": 0.08942023238698432,
+    "pr_per_1k": 3.8976726926515926,
+    "pr_rate_pos": 0.7854700854700855
+   },
+   "base_think_preloop | correct": {
+    "n": 38,
+    "n_elig": 31,
+    "pr_rate": 0.6983148663543743,
+    "frac_cycling": 0.967741935483871,
+    "vb_rate": 0.05940195325321377,
+    "pr_per_1k": 4.840789921878745,
+    "pr_rate_pos": 0.6951370361387339
+   },
+   "base_think_preloop | finished: wrong answer": {
+    "n": 1,
+    "n_elig": 0,
+    "pr_rate": null,
+    "frac_cycling": null,
+    "vb_rate": null,
+    "pr_per_1k": 5.2631578947368425,
+    "pr_rate_pos": null
+   },
+   "base_nothink | ALL": {
+    "n": 800,
+    "n_elig": 264,
+    "pr_rate": 0.5181433117160243,
+    "frac_cycling": 0.7575757575757576,
+    "vb_rate": 0.1389972471771903,
+    "pr_per_1k": 2.170155779194319,
+    "pr_rate_pos": 0.5057824185247314
+   },
+   "p50c_nothink | ALL": {
+    "n": 800,
+    "n_elig": 288,
+    "pr_rate": 0.457802524528995,
+    "frac_cycling": 0.7256944444444444,
+    "vb_rate": 0.06318503555980841,
+    "pr_per_1k": 2.105349023076785,
+    "pr_rate_pos": 0.4405783278395453
+   }
+  },
+  "P2_tests": {
+   "base_nothink | ALL": {
+    "diff_ci": [
+     0.13896955269128622,
+     0.27706367808294685
+    ],
+    "ratio": 1.4053885883126647
+   },
+   "p50c_think | correct": {
+    "diff_ci": [
+     -0.07065405014566688,
+     0.06485653337321734
+    ],
+    "ratio": 0.9971563889289783
+   },
+   "p50c_nothink | ALL": {
+    "diff_ci": [
+     0.20089929719888897,
+     0.33450866210815533
+    ],
+    "ratio": 1.5906262162827198
+   },
+   "base_think_preloop | ALL": {
+    "diff_ci": [
+     -0.13546092566742998,
+     -0.006031356698819035
+    ],
+    "ratio": 0.9118082924993652
+   }
+  },
+  "P3": {
+   "ratio": 0.9273130918366496,
+   "diff_ci": [
+    -0.08606470445823108,
+    -0.028047961958477835
+   ]
+  }
+ },
+ "lex>=0.5": {
+  "table": {
+   "p50c_think | correct": {
+    "n": 214,
+    "n_elig": 197,
+    "pr_rate": 0.07522439271294622,
+    "frac_cycling": 0.05583756345177665,
+    "vb_rate": 0.11732442534690851,
+    "pr_per_1k": 0.6821966985432134,
+    "pr_rate_pos": 0.01679188904303235
+   },
+   "p50c_think | ALL": {
+    "n": 400,
+    "n_elig": 382,
+    "pr_rate": 0.15802999665500259,
+    "frac_cycling": 0.21204188481675393,
+    "vb_rate": 0.21658412836003532,
+    "pr_per_1k": 1.4266642351983736,
+    "pr_rate_pos": 0.03009389644461695
+   },
+   "p50c_think | finished: no \\boxed{}": {
+    "n": 55,
+    "n_elig": 54,
+    "pr_rate": 0.3034707166725917,
+    "frac_cycling": 0.48148148148148145,
+    "vb_rate": 0.4060757027614504,
+    "pr_per_1k": 2.7580948364297657,
+    "pr_rate_pos": 0.0634920634920635
+   },
+   "p50c_think | finished: wrong answer": {
+    "n": 71,
+    "n_elig": 71,
+    "pr_rate": 0.24158243021815562,
+    "frac_cycling": 0.39436619718309857,
+    "vb_rate": 0.2568114476361879,
+    "pr_per_1k": 2.294357139698052,
+    "pr_rate_pos": 0.029853479853479855
+   },
+   "p50c_think | cut: repetitive (paraphrase)": {
+    "n": 9,
+    "n_elig": 9,
+    "pr_rate": 0.2748819186835394,
+    "frac_cycling": 0.5555555555555556,
+    "vb_rate": 0.462998063702697,
+    "pr_per_1k": 2.424950835203,
+    "pr_rate_pos": 0.060317460317460325
+   },
+   "p50c_think | cut: still reasoning": {
+    "n": 24,
+    "n_elig": 24,
+    "pr_rate": 0.2407587399870493,
+    "frac_cycling": 0.3333333333333333,
+    "vb_rate": 0.3898965320513095,
+    "pr_per_1k": 2.1030891520453605,
+    "pr_rate_pos": 0.027844551282051284
+   },
+   "p50c_think | cut: verbatim loop": {
+    "n": 7,
+    "n_elig": 7,
+    "pr_rate": 0.18510240547857815,
+    "frac_cycling": 0.2857142857142857,
+    "vb_rate": 0.6278930781690509,
+    "pr_per_1k": 2.9663049160997756,
+    "pr_rate_pos": 0.10612244897959185
+   },
+   "p50c_think | cut: degenerate whitespace": {
+    "n": 20,
+    "n_elig": 20,
+    "pr_rate": 0.12303091228802474,
+    "frac_cycling": 0.05,
+    "vb_rate": 0.0770386809582895,
+    "pr_per_1k": 0.8509098045144461,
+    "pr_rate_pos": 0.03428571428571429
+   },
+   "base_think_preloop | cut: verbatim loop": {
+    "n": 351,
+    "n_elig": 328,
+    "pr_rate": 0.12906683411485378,
+    "frac_cycling": 0.13109756097560976,
+    "vb_rate": 0.1683898292413476,
+    "pr_per_1k": 0.6419050030725311,
+    "pr_rate_pos": 0.0819998841510206
+   },
+   "base_think_preloop | ALL": {
+    "n": 400,
+    "n_elig": 369,
+    "pr_rate": 0.11783251408233097,
+    "frac_cycling": 0.11924119241192412,
+    "vb_rate": 0.15784966852608692,
+    "pr_per_1k": 0.5853840470034196,
+    "pr_rate_pos": 0.07578481826763937
+   },
+   "base_think_preloop | cut: repetitive (paraphrase)": {
+    "n": 1,
+    "n_elig": 1,
+    "pr_rate": 0.3157894736842105,
+    "frac_cycling": 1.0,
+    "vb_rate": 0.3684210526315789,
+    "pr_per_1k": 1.7685699848408287,
+    "pr_rate_pos": 0.26666666666666666
+   },
+   "base_think_preloop | cut: still reasoning": {
+    "n": 9,
+    "n_elig": 9,
+    "pr_rate": 0.041275632579980404,
+    "frac_cycling": 0.0,
+    "vb_rate": 0.08942023238698432,
+    "pr_per_1k": 0.31954121992492585,
+    "pr_rate_pos": 0.04497354497354497
+   },
+   "base_think_preloop | correct": {
+    "n": 38,
+    "n_elig": 31,
+    "pr_rate": 0.014806643219485313,
+    "frac_cycling": 0.0,
+    "vb_rate": 0.05940195325321377,
+    "pr_per_1k": 0.1105400462827443,
+    "pr_rate_pos": 0.01281314089663236
+   },
+   "base_think_preloop | finished: wrong answer": {
+    "n": 1,
+    "n_elig": 0,
+    "pr_rate": null,
+    "frac_cycling": null,
+    "vb_rate": null,
+    "pr_per_1k": 0.0,
+    "pr_rate_pos": null
+   },
+   "base_nothink | ALL": {
+    "n": 800,
+    "n_elig": 264,
+    "pr_rate": 0.034272940347710494,
+    "frac_cycling": 0.015151515151515152,
+    "vb_rate": 0.1389972471771903,
+    "pr_per_1k": 0.10611201625708265,
+    "pr_rate_pos": 0.030177243780184958
+   },
+   "p50c_nothink | ALL": {
+    "n": 800,
+    "n_elig": 288,
+    "pr_rate": 0.010618232510591234,
+    "frac_cycling": 0.0,
+    "vb_rate": 0.06318503555980841,
+    "pr_per_1k": 0.036825151617901716,
+    "pr_rate_pos": 0.007887795322892717
+   }
+  },
+  "P2_tests": {
+   "base_nothink | ALL": {
+    "diff_ci": [
+     0.13769843937467185,
+     0.28505515352678745
+    ],
+    "ratio": 7.024747148755578
+   },
+   "p50c_think | correct": {
+    "diff_ci": [
+     0.0952774840095267,
+     0.24384354524053822
+    ],
+    "ratio": 3.2005408259761783
+   },
+   "p50c_nothink | ALL": {
+    "diff_ci": [
+     0.16153162468282845,
+     0.3076366837349461
+    ],
+    "ratio": 22.67408815421048
+   },
+   "base_think_preloop | ALL": {
+    "diff_ci": [
+     0.05282071777891824,
+     0.19986652746564385
+    ],
+    "ratio": 2.0432284065400514
+   }
+  },
+  "P3": {
+   "ratio": 1.3411408377876513,
+   "diff_ci": [
+    0.018469025437818653,
+    0.06289526908303086
+   ]
+  }
+ },
+ "lex>=0.5 strict12": {
+  "table": {
+   "p50c_think | correct": {
+    "n": 214,
+    "n_elig": 197,
+    "pr_rate": 0.05281120363964997,
+    "frac_cycling": 0.030456852791878174,
+    "vb_rate": 0.11732442534690851,
+    "pr_per_1k": 0.5328903341305188,
+    "pr_rate_pos": 0.012943533284444161
+   },
+   "p50c_think | ALL": {
+    "n": 400,
+    "n_elig": 382,
+    "pr_rate": 0.11262212318494502,
+    "frac_cycling": 0.09947643979057591,
+    "vb_rate": 0.21658412836003532,
+    "pr_per_1k": 1.1566716212432233,
+    "pr_rate_pos": 0.024660943593298155
+   },
+   "p50c_think | finished: no \\boxed{}": {
+    "n": 55,
+    "n_elig": 54,
+    "pr_rate": 0.20270869112447845,
+    "frac_cycling": 0.2222222222222222,
+    "vb_rate": 0.4060757027614504,
+    "pr_per_1k": 2.189631164891785,
+    "pr_rate_pos": 0.052865961199294535
+   },
+   "p50c_think | finished: wrong answer": {
+    "n": 71,
+    "n_elig": 71,
+    "pr_rate": 0.1592407978101149,
+    "frac_cycling": 0.14084507042253522,
+    "vb_rate": 0.2568114476361879,
+    "pr_per_1k": 1.7614782121989507,
+    "pr_rate_pos": 0.027975545581179383
+   },
+   "p50c_think | cut: repetitive (paraphrase)": {
+    "n": 9,
+    "n_elig": 9,
+    "pr_rate": 0.22786847740605098,
+    "frac_cycling": 0.2222222222222222,
+    "vb_rate": 0.462998063702697,
+    "pr_per_1k": 2.319185175792583,
+    "pr_rate_pos": 0.060317460317460325
+   },
+   "p50c_think | cut: still reasoning": {
+    "n": 24,
+    "n_elig": 24,
+    "pr_rate": 0.22866979515595456,
+    "frac_cycling": 0.2916666666666667,
+    "vb_rate": 0.3898965320513095,
+    "pr_per_1k": 2.0502577754959135,
+    "pr_rate_pos": 0.02524038461538462
+   },
+   "p50c_think | cut: verbatim loop": {
+    "n": 7,
+    "n_elig": 7,
+    "pr_rate": 0.09801002200498565,
+    "frac_cycling": 0.0,
+    "vb_rate": 0.6278930781690509,
+    "pr_per_1k": 2.532839502523248,
+    "pr_rate_pos": 0.058503401360544216
+   },
+   "p50c_think | cut: degenerate whitespace": {
+    "n": 20,
+    "n_elig": 20,
+    "pr_rate": 0.10702582199828467,
+    "frac_cycling": 0.05,
+    "vb_rate": 0.0770386809582895,
+    "pr_per_1k": 0.7663360073243347,
+    "pr_rate_pos": 0.023571428571428573
+   },
+   "base_think_preloop | cut: verbatim loop": {
+    "n": 351,
+    "n_elig": 328,
+    "pr_rate": 0.09415472806802634,
+    "frac_cycling": 0.08536585365853659,
+    "vb_rate": 0.1683898292413476,
+    "pr_per_1k": 0.47143997943595795,
+    "pr_rate_pos": 0.058708253694756
+   },
+   "base_think_preloop | ALL": {
+    "n": 400,
+    "n_elig": 369,
+    "pr_rate": 0.08612626687606303,
+    "frac_cycling": 0.07588075880758807,
+    "vb_rate": 0.15784966852608692,
+    "pr_per_1k": 0.4299668744648562,
+    "pr_rate_pos": 0.05446732480763038
+   },
+   "base_think_preloop | cut: repetitive (paraphrase)": {
+    "n": 1,
+    "n_elig": 1,
+    "pr_rate": 0.21052631578947367,
+    "frac_cycling": 0.0,
+    "vb_rate": 0.3684210526315789,
+    "pr_per_1k": 1.263264274886306,
+    "pr_rate_pos": 0.2
+   },
+   "base_think_preloop | cut: still reasoning": {
+    "n": 9,
+    "n_elig": 9,
+    "pr_rate": 0.03886017364278234,
+    "frac_cycling": 0.0,
+    "vb_rate": 0.08942023238698432,
+    "pr_per_1k": 0.2627015505359149,
+    "pr_rate_pos": 0.04497354497354497
+   },
+   "base_think_preloop | correct": {
+    "n": 38,
+    "n_elig": 31,
+    "pr_rate": 0.01088947717355178,
+    "frac_cycling": 0.0,
+    "vb_rate": 0.05940195325321377,
+    "pr_per_1k": 0.07588786247925546,
+    "pr_rate_pos": 0.00765721733463669
+   },
+   "base_think_preloop | finished: wrong answer": {
+    "n": 1,
+    "n_elig": 0,
+    "pr_rate": null,
+    "frac_cycling": null,
+    "vb_rate": null,
+    "pr_per_1k": 0.0,
+    "pr_rate_pos": null
+   },
+   "base_nothink | ALL": {
+    "n": 800,
+    "n_elig": 264,
+    "pr_rate": 0.031002080088140687,
+    "frac_cycling": 0.015151515151515152,
+    "vb_rate": 0.1389972471771903,
+    "pr_per_1k": 0.08756388932944983,
+    "pr_rate_pos": 0.029110255213196386
+   },
+   "p50c_nothink | ALL": {
+    "n": 800,
+    "n_elig": 288,
+    "pr_rate": 0.009927774981017053,
+    "frac_cycling": 0.0,
+    "vb_rate": 0.06318503555980841,
+    "pr_per_1k": 0.03421189735324389,
+    "pr_rate_pos": 0.00687665368675108
+   }
+  },
+  "P2_tests": {
+   "base_nothink | ALL": {
+    "diff_ci": [
+     0.13017244566535438,
+     0.2749482620888884
+    ],
+    "ratio": 7.375950081602049
+   },
+   "p50c_think | correct": {
+    "diff_ci": [
+     0.10689553604922158,
+     0.2544817137055808
+    ],
+    "ratio": 4.329948560086827
+   },
+   "p50c_nothink | ALL": {
+    "diff_ci": [
+     0.15125119941359902,
+     0.29555427103972826
+    ],
+    "ratio": 23.033337841882517
+   },
+   "base_think_preloop | ALL": {
+    "diff_ci": [
+     0.07293207266305732,
+     0.21899601883103914
+    ],
+    "ratio": 2.65505290604333
+   }
+  },
+  "P3": {
+   "ratio": 1.3076396698699355,
+   "diff_ci": [
+    0.00845162662355226,
+    0.044958198545434265
+   ]
+  }
+ },
+ "lex>=0.6": {
+  "table": {
+   "p50c_think | correct": {
+    "n": 214,
+    "n_elig": 197,
+    "pr_rate": 0.02172681158461801,
+    "frac_cycling": 0.005076142131979695,
+    "vb_rate": 0.11732442534690851,
+    "pr_per_1k": 0.19386700238813548,
+    "pr_rate_pos": 0.0020596199597001093
+   },
+   "p50c_think | ALL": {
+    "n": 400,
+    "n_elig": 382,
+    "pr_rate": 0.05482315646378265,
+    "frac_cycling": 0.007853403141361256,
+    "vb_rate": 0.21658412836003532,
+    "pr_per_1k": 0.5719049249830904,
+    "pr_rate_pos": 0.0033640030402223844
+   },
+   "p50c_think | finished: no \\boxed{}": {
+    "n": 55,
+    "n_elig": 54,
+    "pr_rate": 0.10955043863289132,
+    "frac_cycling": 0.0,
+    "vb_rate": 0.4060757027614504,
+    "pr_per_1k": 1.2448173247257623,
+    "pr_rate_pos": 0.003571428571428571
+   },
+   "p50c_think | finished: wrong answer": {
+    "n": 71,
+    "n_elig": 71,
+    "pr_rate": 0.08146385314641587,
+    "frac_cycling": 0.0,
+    "vb_rate": 0.2568114476361879,
+    "pr_per_1k": 0.8739979128138688,
+    "pr_rate_pos": 0.0010060362173038228
+   },
+   "p50c_think | cut: repetitive (paraphrase)": {
+    "n": 9,
+    "n_elig": 9,
+    "pr_rate": 0.11160899687793908,
+    "frac_cycling": 0.0,
+    "vb_rate": 0.462998063702697,
+    "pr_per_1k": 1.2198825159368265,
+    "pr_rate_pos": 0.007407407407407408
+   },
+   "p50c_think | cut: still reasoning": {
+    "n": 24,
+    "n_elig": 24,
+    "pr_rate": 0.10279889943631042,
+    "frac_cycling": 0.041666666666666664,
+    "vb_rate": 0.3898965320513095,
+    "pr_per_1k": 1.007224070615283,
+    "pr_rate_pos": 0.00876068376068376
+   },
+   "p50c_think | cut: verbatim loop": {
+    "n": 7,
+    "n_elig": 7,
+    "pr_rate": 0.11988613184087607,
+    "frac_cycling": 0.14285714285714285,
+    "vb_rate": 0.6278930781690509,
+    "pr_per_1k": 2.430067745913579,
+    "pr_rate_pos": 0.04829931972789116
+   },
+   "p50c_think | cut: degenerate whitespace": {
+    "n": 20,
+    "n_elig": 20,
+    "pr_rate": 0.03258745730822667,
+    "frac_cycling": 0.0,
+    "vb_rate": 0.0770386809582895,
+    "pr_per_1k": 0.22964161264401356,
+    "pr_rate_pos": 0.0
+   },
+   "base_think_preloop | cut: verbatim loop": {
+    "n": 351,
+    "n_elig": 328,
+    "pr_rate": 0.02645945986053236,
+    "frac_cycling": 0.006097560975609756,
+    "vb_rate": 0.1683898292413476,
+    "pr_per_1k": 0.12919829522519247,
+    "pr_rate_pos": 0.010736659174159172
+   },
+   "base_think_preloop | ALL": {
+    "n": 400,
+    "n_elig": 369,
+    "pr_rate": 0.023904506288087726,
+    "frac_cycling": 0.005420054200542005,
+    "vb_rate": 0.15784966852608692,
+    "pr_per_1k": 0.11648123881390698,
+    "pr_rate_pos": 0.009913246193733998
+   },
+   "base_think_preloop | cut: repetitive (paraphrase)": {
+    "n": 1,
+    "n_elig": 1,
+    "pr_rate": 0.0,
+    "frac_cycling": 0.0,
+    "vb_rate": 0.3684210526315789,
+    "pr_per_1k": 0.0,
+    "pr_rate_pos": 0.0
+   },
+   "base_think_preloop | cut: still reasoning": {
+    "n": 9,
+    "n_elig": 9,
+    "pr_rate": 0.0024154589371980675,
+    "frac_cycling": 0.0,
+    "vb_rate": 0.08942023238698432,
+    "pr_per_1k": 0.05186436268645758,
+    "pr_rate_pos": 0.0
+   },
+   "base_think_preloop | correct": {
+    "n": 38,
+    "n_elig": 31,
+    "pr_rate": 0.0038813179230636537,
+    "frac_cycling": 0.0,
+    "vb_rate": 0.05940195325321377,
+    "pr_per_1k": 0.02045038519321366,
+    "pr_rate_pos": 0.00439882697947214
+   },
+   "base_think_preloop | finished: wrong answer": {
+    "n": 1,
+    "n_elig": 0,
+    "pr_rate": null,
+    "frac_cycling": null,
+    "vb_rate": null,
+    "pr_per_1k": 0.0,
+    "pr_rate_pos": null
+   },
+   "base_nothink | ALL": {
+    "n": 800,
+    "n_elig": 264,
+    "pr_rate": 0.008993381888224721,
+    "frac_cycling": 0.007575757575757576,
+    "vb_rate": 0.1389972471771903,
+    "pr_per_1k": 0.03903571233878681,
+    "pr_rate_pos": 0.007602177914677914
+   },
+   "p50c_nothink | ALL": {
+    "n": 800,
+    "n_elig": 288,
+    "pr_rate": 0.002370861415740622,
+    "frac_cycling": 0.0,
+    "vb_rate": 0.06318503555980841,
+    "pr_per_1k": 0.005364208120137132,
+    "pr_rate_pos": 0.001233639499570872
+   }
+  },
+  "P2_tests": {
+   "base_nothink | ALL": {
+    "diff_ci": [
+     0.042689351727711294,
+     0.16168228309447077
+    ],
+    "ratio": 11.430505310900653
+   },
+   "p50c_think | correct": {
+    "diff_ci": [
+     0.029204540992152552,
+     0.147594817811863
+    ],
+    "ratio": 4.73143052011779
+   },
+   "p50c_nothink | ALL": {
+    "diff_ci": [
+     0.05090747630204586,
+     0.1693095345049051
+    ],
+    "ratio": 43.35930339656633
+   },
+   "base_think_preloop | ALL": {
+    "diff_ci": [
+     0.026538539152252176,
+     0.14499329078405912
+    ],
+    "ratio": 4.300398351566789
+   }
+  },
+  "P3": {
+   "ratio": 2.293423499447154,
+   "diff_ci": [
+    0.0213929405636775,
+    0.040703777339176475
+   ]
+  }
+ },
+ "lex>=0.6 strict12": {
+  "table": {
+   "p50c_think | correct": {
+    "n": 214,
+    "n_elig": 197,
+    "pr_rate": 0.011005063838560538,
+    "frac_cycling": 0.0,
+    "vb_rate": 0.11732442534690851,
+    "pr_per_1k": 0.1090516654501282,
+    "pr_rate_pos": 0.001334456797988724
+   },
+   "p50c_think | ALL": {
+    "n": 400,
+    "n_elig": 382,
+    "pr_rate": 0.02872969714100001,
+    "frac_cycling": 0.002617801047120419,
+    "vb_rate": 0.21658412836003532,
+    "pr_per_1k": 0.3537940998757519,
+    "pr_rate_pos": 0.002092499674478181
+   },
+   "p50c_think | finished: no \\boxed{}": {
+    "n": 55,
+    "n_elig": 54,
+    "pr_rate": 0.048256181905549735,
+    "frac_cycling": 0.0,
+    "vb_rate": 0.4060757027614504,
+    "pr_per_1k": 0.6493267177346375,
+    "pr_rate_pos": 0.000925925925925926
+   },
+   "p50c_think | finished: wrong answer": {
+    "n": 71,
+    "n_elig": 71,
+    "pr_rate": 0.03491082052780113,
+    "frac_cycling": 0.0,
+    "vb_rate": 0.2568114476361879,
+    "pr_per_1k": 0.45785371017540283,
+    "pr_rate_pos": 0.0010060362173038228
+   },
+   "p50c_think | cut: repetitive (paraphrase)": {
+    "n": 9,
+    "n_elig": 9,
+    "pr_rate": 0.07352438214017404,
+    "frac_cycling": 0.0,
+    "vb_rate": 0.462998063702697,
+    "pr_per_1k": 0.9924397400341564,
+    "pr_rate_pos": 0.007407407407407408
+   },
+   "p50c_think | cut: still reasoning": {
+    "n": 24,
+    "n_elig": 24,
+    "pr_rate": 0.09516901296504243,
+    "frac_cycling": 0.041666666666666664,
+    "vb_rate": 0.3898965320513095,
+    "pr_per_1k": 0.9539397655827274,
+    "pr_rate_pos": 0.00876068376068376
+   },
+   "p50c_think | cut: verbatim loop": {
+    "n": 7,
+    "n_elig": 7,
+    "pr_rate": 0.038771550709665266,
+    "frac_cycling": 0.0,
+    "vb_rate": 0.6278930781690509,
+    "pr_per_1k": 2.0191789231809065,
+    "pr_rate_pos": 0.019727891156462587
+   },
+   "p50c_think | cut: degenerate whitespace": {
+    "n": 20,
+    "n_elig": 20,
+    "pr_rate": 0.025253402295088528,
+    "frac_cycling": 0.0,
+    "vb_rate": 0.0770386809582895,
+    "pr_per_1k": 0.19996180747777234,
+    "pr_rate_pos": 0.0
+   },
+   "base_think_preloop | cut: verbatim loop": {
+    "n": 351,
+    "n_elig": 328,
+    "pr_rate": 0.015979929985067285,
+    "frac_cycling": 0.006097560975609756,
+    "vb_rate": 0.1683898292413476,
+    "pr_per_1k": 0.0780267968179387,
+    "pr_rate_pos": 0.006301980539785418
+   },
+   "base_think_preloop | ALL": {
+    "n": 400,
+    "n_elig": 369,
+    "pr_rate": 0.014480205125280627,
+    "frac_cycling": 0.005420054200542005,
+    "vb_rate": 0.15784966852608692,
+    "pr_per_1k": 0.07002456159085454,
+    "pr_rate_pos": 0.0058481265798338965
+   },
+   "base_think_preloop | cut: repetitive (paraphrase)": {
+    "n": 1,
+    "n_elig": 1,
+    "pr_rate": 0.0,
+    "frac_cycling": 0.0,
+    "vb_rate": 0.3684210526315789,
+    "pr_per_1k": 0.0,
+    "pr_rate_pos": 0.0
+   },
+   "base_think_preloop | cut: still reasoning": {
+    "n": 9,
+    "n_elig": 9,
+    "pr_rate": 0.0012077294685990338,
+    "frac_cycling": 0.0,
+    "vb_rate": 0.08942023238698432,
+    "pr_per_1k": 0.028768308105251328,
+    "pr_rate_pos": 0.0
+   },
+   "base_think_preloop | correct": {
+    "n": 38,
+    "n_elig": 31,
+    "pr_rate": 0.002932551319648094,
+    "frac_cycling": 0.0,
+    "vb_rate": 0.05940195325321377,
+    "pr_per_1k": 0.009565899481528247,
+    "pr_rate_pos": 0.002932551319648094
+   },
+   "base_think_preloop | finished: wrong answer": {
+    "n": 1,
+    "n_elig": 0,
+    "pr_rate": null,
+    "frac_cycling": null,
+    "vb_rate": null,
+    "pr_per_1k": 0.0,
+    "pr_rate_pos": null
+   },
+   "base_nothink | ALL": {
+    "n": 800,
+    "n_elig": 264,
+    "pr_rate": 0.007701781483141769,
+    "frac_cycling": 0.003787878787878788,
+    "vb_rate": 0.1389972471771903,
+    "pr_per_1k": 0.03123940386217862,
+    "pr_rate_pos": 0.007602177914677914
+   },
+   "p50c_nothink | ALL": {
+    "n": 800,
+    "n_elig": 288,
+    "pr_rate": 0.002279061726127497,
+    "frac_cycling": 0.0,
+    "vb_rate": 0.06318503555980841,
+    "pr_per_1k": 0.00519815970632949,
+    "pr_rate_pos": 0.001233639499570872
+   }
+  },
+  "P2_tests": {
+   "base_nothink | ALL": {
+    "diff_ci": [
+     0.03958066659256618,
+     0.14897127473319158
+    ],
+    "ratio": 12.356753197082446
+   },
+   "p50c_think | correct": {
+    "diff_ci": [
+     0.03530019394377398,
+     0.14556493007792784
+    ],
+    "ratio": 8.647747469813
+   },
+   "p50c_nothink | ALL": {
+    "diff_ci": [
+     0.046313595400277574,
+     0.15539280810210201
+    ],
+    "ratio": 41.75797955536305
+   },
+   "base_think_preloop | ALL": {
+    "diff_ci": [
+     0.03185194548576023,
+     0.14129653816721552
+    ],
+    "ratio": 6.5723525420844515
+   }
+  },
+  "P3": {
+   "ratio": 1.9840669999102118,
+   "diff_ci": [
+    0.007447824493540091,
+    0.021411441516268667
+   ]
+  }
+ }
+}

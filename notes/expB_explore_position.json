@@ -1,0 +1,310 @@
+{
+ "cos>=0.7 words[0,2000)": {
+  "base_nothink | ALL": [
+   264,
+   0.69
+  ],
+  "base_think_preloop | correct": [
+   31,
+   0.811
+  ],
+  "base_think_preloop | cut: repetitive (paraphrase)": [
+   1,
+   0.933
+  ],
+  "base_think_preloop | cut: still reasoning": [
+   9,
+   0.871
+  ],
+  "base_think_preloop | cut: verbatim loop": [
+   328,
+   0.897
+  ],
+  "p50c_nothink | ALL": [
+   288,
+   0.643
+  ],
+  "p50c_think | correct": [
+   197,
+   0.856
+  ],
+  "p50c_think | cut: degenerate whitespace": [
+   20,
+   0.874
+  ],
+  "p50c_think | cut: repetitive (paraphrase)": [
+   9,
+   0.816
+  ],
+  "p50c_think | cut: still reasoning": [
+   24,
+   0.749
+  ],
+  "p50c_think | cut: verbatim loop": [
+   7,
+   0.723
+  ],
+  "p50c_think | finished: no \\boxed{}": [
+   54,
+   0.843
+  ],
+  "p50c_think | finished: wrong answer": [
+   71,
+   0.937
+  ]
+ },
+ "lex>=0.5 words[0,2000)": {
+  "base_nothink | ALL": [
+   264,
+   0.03
+  ],
+  "base_think_preloop | correct": [
+   31,
+   0.013
+  ],
+  "base_think_preloop | cut: repetitive (paraphrase)": [
+   1,
+   0.267
+  ],
+  "base_think_preloop | cut: still reasoning": [
+   9,
+   0.045
+  ],
+  "base_think_preloop | cut: verbatim loop": [
+   328,
+   0.082
+  ],
+  "p50c_nothink | ALL": [
+   288,
+   0.008
+  ],
+  "p50c_think | correct": [
+   197,
+   0.017
+  ],
+  "p50c_think | cut: degenerate whitespace": [
+   20,
+   0.034
+  ],
+  "p50c_think | cut: repetitive (paraphrase)": [
+   9,
+   0.06
+  ],
+  "p50c_think | cut: still reasoning": [
+   24,
+   0.028
+  ],
+  "p50c_think | cut: verbatim loop": [
+   7,
+   0.106
+  ],
+  "p50c_think | finished: no \\boxed{}": [
+   54,
+   0.063
+  ],
+  "p50c_think | finished: wrong answer": [
+   71,
+   0.03
+  ]
+ },
+ "cos>=0.7 words[2000,5000)": {
+  "base_nothink | ALL": [
+   198,
+   0.695
+  ],
+  "base_think_preloop | correct": [
+   20,
+   0.856
+  ],
+  "base_think_preloop | cut: repetitive (paraphrase)": [
+   1,
+   1.0
+  ],
+  "base_think_preloop | cut: still reasoning": [
+   8,
+   0.875
+  ],
+  "base_think_preloop | cut: verbatim loop": [
+   217,
+   0.916
+  ],
+  "p50c_nothink | ALL": [
+   197,
+   0.641
+  ],
+  "p50c_think | correct": [
+   169,
+   0.862
+  ],
+  "p50c_think | cut: degenerate whitespace": [
+   20,
+   0.889
+  ],
+  "p50c_think | cut: repetitive (paraphrase)": [
+   9,
+   0.858
+  ],
+  "p50c_think | cut: still reasoning": [
+   24,
+   0.818
+  ],
+  "p50c_think | cut: verbatim loop": [
+   7,
+   0.72
+  ],
+  "p50c_think | finished: no \\boxed{}": [
+   54,
+   0.883
+  ],
+  "p50c_think | finished: wrong answer": [
+   70,
+   0.918
+  ]
+ },
+ "lex>=0.5 words[2000,5000)": {
+  "base_nothink | ALL": [
+   198,
+   0.034
+  ],
+  "base_think_preloop | correct": [
+   20,
+   0.018
+  ],
+  "base_think_preloop | cut: repetitive (paraphrase)": [
+   1,
+   0.5
+  ],
+  "base_think_preloop | cut: still reasoning": [
+   8,
+   0.034
+  ],
+  "base_think_preloop | cut: verbatim loop": [
+   217,
+   0.22
+  ],
+  "p50c_nothink | ALL": [
+   197,
+   0.016
+  ],
+  "p50c_think | correct": [
+   169,
+   0.073
+  ],
+  "p50c_think | cut: degenerate whitespace": [
+   20,
+   0.138
+  ],
+  "p50c_think | cut: repetitive (paraphrase)": [
+   9,
+   0.171
+  ],
+  "p50c_think | cut: still reasoning": [
+   24,
+   0.168
+  ],
+  "p50c_think | cut: verbatim loop": [
+   7,
+   0.207
+  ],
+  "p50c_think | finished: no \\boxed{}": [
+   54,
+   0.263
+  ],
+  "p50c_think | finished: wrong answer": [
+   70,
+   0.236
+  ]
+ },
+ "cos>=0.7 words[5000,10000)": {
+  "base_nothink | ALL": [
+   99,
+   0.619
+  ],
+  "base_think_preloop | cut: still reasoning": [
+   6,
+   1.0
+  ],
+  "base_think_preloop | cut: verbatim loop": [
+   15,
+   0.873
+  ],
+  "p50c_nothink | ALL": [
+   99,
+   0.628
+  ],
+  "p50c_think | correct": [
+   89,
+   0.866
+  ],
+  "p50c_think | cut: degenerate whitespace": [
+   5,
+   0.888
+  ],
+  "p50c_think | cut: repetitive (paraphrase)": [
+   9,
+   0.791
+  ],
+  "p50c_think | cut: still reasoning": [
+   24,
+   0.854
+  ],
+  "p50c_think | cut: verbatim loop": [
+   7,
+   0.484
+  ],
+  "p50c_think | finished: no \\boxed{}": [
+   47,
+   0.84
+  ],
+  "p50c_think | finished: wrong answer": [
+   52,
+   0.897
+  ]
+ },
+ "lex>=0.5 words[5000,10000)": {
+  "base_nothink | ALL": [
+   99,
+   0.052
+  ],
+  "base_think_preloop | cut: still reasoning": [
+   6,
+   0.083
+  ],
+  "base_think_preloop | cut: verbatim loop": [
+   15,
+   0.359
+  ],
+  "p50c_nothink | ALL": [
+   99,
+   0.017
+  ],
+  "p50c_think | correct": [
+   89,
+   0.209
+  ],
+  "p50c_think | cut: degenerate whitespace": [
+   5,
+   0.396
+  ],
+  "p50c_think | cut: repetitive (paraphrase)": [
+   9,
+   0.319
+  ],
+  "p50c_think | cut: still reasoning": [
+   24,
+   0.282
+  ],
+  "p50c_think | cut: verbatim loop": [
+   7,
+   0.225
+  ],
+  "p50c_think | finished: no \\boxed{}": [
+   47,
+   0.429
+  ],
+  "p50c_think | finished: wrong answer": [
+   52,
+   0.398
+  ]
+ }
+}
