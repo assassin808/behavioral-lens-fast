@@ -109,7 +109,7 @@ td.v.ok{color:var(--ink)}
   <ul class="short">
     <li><b>The edit fixes finishing, not reasoning.</b>The model could already solve these problems. It could not stop thinking. Turning thinking off scores just as well.</li>
     <li><b>The model knows when it is right, and doubts anyway.</b>Its hidden state tells right answers from wrong ones, but in thinking mode it doubts both alike. Astra's edit silences the doubt hardest exactly where it was warranted.</li>
-    <li><b>An AI editing weights can be fooled by its own yardstick.</b>A quick score on old failures rated a worse edit as better. Only running the edited model shows the difference.</li>
+    <li><b>A cheap score can pick the worse edit.</b>A quick score on old failures, the kind an editing agent might use to judge its changes, rated a worse edit as better. Only running the edited model shows the difference.</li>
     <li><b>An AI-written edit is an answer key for interpretability.</b>Because we know the true change, we could grade the tools, and Astra's own explanation. Several standard tools, and Astra, got parts confidently wrong.</li>
   </ul>
 
@@ -118,7 +118,7 @@ td.v.ok{color:var(--ink)}
     <li><a href="#s2"><span>02</span>It can't stop</a></li>
     <li><a href="#s3"><span>03</span>Right, but in doubt</a></li>
     <li><a href="#s4"><span>04</span>Inside the edit</a></li>
-    <li><a href="#s5"><span>05</span>Fooled by its yardstick</a></li>
+    <li><a href="#s5"><span>05</span>Cheap scores mislead</a></li>
     <li><a href="#s6"><span>06</span>An answer key</a></li>
   </ol>
 
@@ -241,9 +241,9 @@ td.v.ok{color:var(--ink)}
 
   <section class="sec" id="s5">
     <div class="bignum" aria-hidden="true">5</div>
-    <h2>An AI editing weights can be fooled by its own yardstick</h2>
+    <h2>A cheap score can pick the worse edit</h2>
     <p>Astra's logs include earlier attempts. After 10 rounds of search instead of 50, it had already found nearly the same direction and the same dominant feature. But it applied that direction gently across every layer from 8 to 22, and the result scores 24% on GSM8K against the final edit's 57%. Move those same directions into the final edit's recipe, and accuracy jumps to 49%. Where and how hard a direction is applied matters as much as the direction.</p>
-    <p>The yardstick made this worse. A natural quick test, and the kind Astra relied on, is how much an edit raises the model's loss on existing looping text. By that score the 10-round edit looks almost twice as good as the final one. A stronger version of it looks nearly five times as good, and in practice it scores below the unedited model.</p>
+    <p>A cheap score would have picked the wrong one. A natural quick test for an editing agent, and one we used ourselves to screen edits, is how much an edit raises the model's loss on existing looping text. By that score the 10-round edit looks almost twice as good as the final one. A stronger version of it looks nearly five times as good, and in practice it scores below the unedited model.</p>
 
     <figure>
       <svg viewBox="0 0 560 186" role="img" aria-labelledby="f5t">
@@ -266,7 +266,7 @@ td.v.ok{color:var(--ink)}
       <figcaption><b>A score on old loops ranks edits backwards.</b> Loop-loss score: how much an edit raises the model's loss on 20 existing looping texts, relative to the final edit. Accuracy: GSM8K, 16,384-token budget, 400 samples.</figcaption>
     </figure>
 
-    <p>Scoring old loops tests whether a model escapes a loop it is already in. It cannot see whether the model falls into new ones. The 10-round edit shortens loops but enters them twice as often, and the stronger version creates new kinds of loops that the old texts never contain. As AI systems start to edit models and run experiments on their own, the signal they use to judge their changes matters as much as the changes. Here, only running the edited model gave the right answer.</p>
+    <p>Scoring old loops tests whether a model escapes a loop it is already in. It cannot see whether the model falls into new ones. The 10-round edit shortens loops but enters them twice as often, and the stronger version creates new kinds of loops that the old texts never contain. Astra itself judged its final edit the right way, by having the model answer 1,152 held-out practice problems. As AI systems start to edit models and run experiments on their own, the signal they use to judge their changes matters as much as the changes, and only running the edited model gave the right answer here.</p>
   </section>
 
   <section class="sec" id="s6">
@@ -299,7 +299,7 @@ td.v.ok{color:var(--ink)}
         <li><b>Inspect the change</b>Which tensors, what rank, which direction, how strong.</li>
         <li><b>Explain with several tools</b>Neurons, features, lenses, each with random controls. Their agreement is a hypothesis, not a vote.</li>
         <li><b>Test by intervention</b>Steering, ablation, patching. Keep weight swaps and activation swaps apart.</li>
-        <li class="key"><b>Validate in generation</b>New problems, same budget. Report gains and side effects together.</li>
+        <li class="key"><b>Validate in generation</b>New problems, same budget. Report gains and side effects together. Not a score on old failures.</li>
       </ol>
       <p class="flow-back">A failed test in step 4 or 5 sends you back to step 3.</p>
       <figcaption><b>A multi-tool pipeline for checking weight edits.</b> Each step guards against a mistake we saw: a stopping rule mistaken for new ability (1), plausible labels on random neurons (3), a visible difference mistaken for its cause (4), and cheap scores that prefer the worse edit (5).</figcaption>
