@@ -177,6 +177,7 @@ td.v.ok{color:var(--ink)}
     </figure>
 
     <p>Problem by problem, the edit rescues questions the model could already do. Of the problems the edited model solves, the unedited model with thinking off fails both of its tries on only about one in ten, the same rate you get from sampling noise alone. The original post is careful here too: it credits the gain to fixing loops, not to new mathematical ability.</p>
+    <p>Why has training not removed such an obvious bug? Pretraining rewards copying: in human text, a passage that repeated once tends to repeat again, and training scores the model only on human text, never on its own runaway output. By that score a loop looks like excellent prediction, and the unedited model does predict its own looped tokens almost perfectly. Long-thinking training then rewards re-checking, without teaching a small model when to stop. Loops like these are common in small reasoning models, and worse in models distilled from larger teachers (<a href="https://arxiv.org/abs/2512.12895" target="_blank" rel="noopener">Pipis et al.</a>).</p>
   </section>
 
   <section class="sec" id="s3">
